@@ -20,4 +20,5 @@ Why <html xmlns="http://www.w3.org/1999/xhtml"> is recommended? <http://www.html
 
 
 ##TODO##
-    
+Gallery
+Analytics   
