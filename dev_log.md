@@ -13,4 +13,11 @@ Why <html xmlns="http://www.w3.org/1999/xhtml"> is recommended? <http://www.html
 <meta> in <head>
     <https://developer.mozilla.org/en-US/docs/HTML/Element/meta>
     <http://docs.webplatform.org/wiki/guides/the_html_head>
+
+
+##Blog Design##
+100 nice design <http://www.hongkiat.com/blog/100-nice-and-beautiful-blog-design/>
+
+
+##TODO##
     
