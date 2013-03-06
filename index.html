@@ -3,4 +3,12 @@ layout: default
 title: Home todo
 ---
 
-<p> hello..</p>
+{% for post in site.posts %}
+<div>
+<p>title: {{ post.title }}</p>
+<p>date: {{ post.date }} </p>
+<p>tag: {{ post.tag }} </p>
+<p>pic: {{ post.image }}</p>
+<p>brief: {{ post.abstract }}</p>
+</div>
+{% endfor %}
