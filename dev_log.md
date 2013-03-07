@@ -27,3 +27,5 @@ Gallery
 Analytics   
 Search
 Words of the Day
+Updates from friends' Sina Weibo
+Comment

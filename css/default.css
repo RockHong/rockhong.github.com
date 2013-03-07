@@ -71,8 +71,9 @@ div.post-time {
 div.post-primary {
     float: right;
     width: 585px;
-    background: #FFC1C1;
-    /* padding: 3px 32px 28px 53px; */
+    background: #fff;
+    padding: 3px 32px 28px 53px;
+    /*padding: 3px 32px 28px 53px;*/
 }
 
 div.post-primary .title {
