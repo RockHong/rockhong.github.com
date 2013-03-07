@@ -16,9 +16,14 @@ Why <html xmlns="http://www.w3.org/1999/xhtml"> is recommended? <http://www.html
 
 
 ##Blog Design##
-100 nice design <http://www.hongkiat.com/blog/100-nice-and-beautiful-blog-design/>
+100 nice design 
+    <http://www.hongkiat.com/blog/100-nice-and-beautiful-blog-design/>
+163 lofter
+    <http://www.lofter.com/>
 
 
 ##TODO##
 Gallery
 Analytics   
+Search
+Words of the Day

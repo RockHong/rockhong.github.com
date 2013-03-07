@@ -1,0 +1,120 @@
+/* to know:
+zoom ?
+position
+overflow ?
+z-index
+*/
+
+
+.clearfix {
+    clear:both; /* affect float, and height calculation. comment it out to see its effect*/
+}
+
+body {
+    /*background-color: #ededef; */   /* --------*/
+    background: url(../images/body.png) repeat-x;
+    text-align: center;  /* it works to center content */
+    color: #444;
+}
+
+div#header {
+    height: 82px;
+    margin-bottom: 30px;
+    font-size: 12px;
+    /* color: #444;  /* font color, in 163, it seems it's body text color */
+    width: 928px;
+    margin: 0 auto;
+    background: #70DB93;
+}
+
+div#site-title {
+    float: left;
+    width: 240px;
+    height: 44px;
+    color: red;
+}
+
+div#nav-search {
+    float: right;
+    margin: 40px 0 0;
+}
+
+ul#nav {
+    /*display: inline;*/
+    /* color: rgb(68, 68, 68); */ /* same as #444*/
+}
+
+ul#nav li {
+    display: inline-block;
+}
+
+ul#nav a {
+    color: #dfdfdf;
+}
+
+div#main-content {
+    width: 928px;
+    text-align: left; /* make text left-aligned */
+    margin: 0 auto; /* make content central */
+}
+
+div#left-col {
+    float: left;
+    width: 674px;
+    background: #ADD8E6;
+}
+
+div.post-time {
+    float: left;
+}
+
+div.post-primary {
+    float: right;
+    width: 585px;
+    background: #FFC1C1;
+    /* padding: 3px 32px 28px 53px; */
+}
+
+div.post-primary .title {
+    line-height: 19px
+    font-size: 14px;
+    margin: 0 0 16px;
+}
+
+div.post-primary .title  a{
+    color: #888;
+    text-decoration: none;
+    
+}
+
+div.post-primary .content {
+    width: 100%;
+    line-height: normal;
+    font-size: 14px;
+    overflow: hidden;     /* ?????   why it important */
+}
+
+div.post-primary .content .image {
+    float: left;
+    width: 164px;
+    margin: 0 25px 5px 0;
+}
+
+div.bottom-bar {
+    height: 19px;
+    margin: 11px 0 0;
+    line-height: 19px;
+    color: #aaa;
+    /*float: left;*/
+    position: relative;
+}
+
+div#right-col {
+    float: right;
+    width: 230px;
+    background: #BFEFFF;
+}
+
+div#footer {
+    background: #76EEC6;
+}

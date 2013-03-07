@@ -4,23 +4,85 @@
     <title>title, todo</title>
     <meta name="description" content="a b c todo">
     <meta name="keywords" content="xxx yyy todo">
+    <link rel="stylesheet" href="../css/default.css" type="text/css" media="screen"> <!-- media ? need? lofter not use it -->
+    <link rel="stylesheet" href="../css/index.css" type="text/css" media="screen">
 </head>
 
 <body>
 <div id="header">
-    <h1> blog name todo</h1>
-    <p> sub title...todo</p>
-    <ul id="nav-bar">
+    <div id="site-title">
+    <p> blog name todo
+    <br>
+    sub title.aaaaaaaaaaaaaaaaaaaaaaa..todo</p>
+    </div> <!-- site-title -->
+    <div id="nav-search">
+    <ul id="nav">
         <li><a href="index.html">Blog</a></li>
         <li><a href="about.html">About</a></li>
     </ul>
+    <!-- TODO search box -->
+    </div> <!-- nav-search -->
 </div> <!-- header -->
 
+<!--
     {{ content }}
+    -->
+<div id="main-content">
+    
+<div id="left-col">
+
+<div class="post-preview" data-cmtcount="8"> <!-- data-cmtcount ????????-->
+
+<div class="post-time">
+<img src="../images/b.jpg" alt="little icon">
+<p>8am
+<br>
+03/07
+</p>
+</div> <!-- post-time -->
+
+<div class="post-primary">
+<div class="title">
+<a href="http://www.google.com">post title</a>  <!-- target ? -->
+</div> <!-- title -->
+<div class="content">
+<div class="image">
+<a href="http://www.google.com"> <!-- href = #, hidefocus, -->
+<img src="../images/a.jpg" alt="xxx"> <!-- data-ow, data-oh, data-origin, style -->
+</a>
+</div> <!-- image -->
+<!-- digest -->
+<p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbb  ccccccccccccccccccccccccccccc
+<br>
+dddddddddddddddd eeeeeeeeeeeee fffffffffffffffffffffffffffff gggggggggggggggggggggggggggggg
+</p>
+</div> <!-- content -->
+
+<div class="bottom-bar">
+<a title="xxx" href="http://www.google.com">tag1</a> <!-- title -->
+<a title="xxx" href="http://www.google.com">tag2</a>
+<a title="xxx" href="http://www.google.com">comment(8)</a> <!-- rel -->
+</div> <!-- bottom-bar -->
+</div> <!-- post-primary -->
+
+
+</div> <!-- post-preview -->
+
+
+</div> <!-- left-col -->
+
+
+<div id="right-col">
+<p> aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa</p>
+</div> <!-- right-col -->
+
+<div class="clearfix"> </div>
 
 <div id="footer">
     <p> this is footer... todo </p>
 </div> <!-- footer -->
+
+</div> <!-- main-content -->
 </body>
 
 </html>
