@@ -1,6 +1,8 @@
 ##HTML##
-DOCTYPE <http://docs.webplatform.org/wiki/guides/doctypes_and_markup_styles>
-Why <html xmlns="http://www.w3.org/1999/xhtml"> is recommended? <http://www.html-5.com/tags/html-tag/index.html>
+DOCTYPE 
+    <http://docs.webplatform.org/wiki/guides/doctypes_and_markup_styles>
+Why <html xmlns="http://www.w3.org/1999/xhtml"> is recommended?
+    <http://www.html-5.com/tags/html-tag/index.html>
     It's always better to add namespace to avoid potential conflicts ;-)
 "lang" attribute
     <http://reference.sitepoint.com/html/core-attributes/lang>
@@ -14,6 +16,10 @@ Why <html xmlns="http://www.w3.org/1999/xhtml"> is recommended? <http://www.html
     <https://developer.mozilla.org/en-US/docs/HTML/Element/meta>
     <http://docs.webplatform.org/wiki/guides/the_html_head>
 
+
+##CSS##
+background
+    A very detailed introduction. <http://www.qianduan.net/everthing-about-css-background.html>
 
 ##Blog Design##
 100 nice design 
@@ -29,3 +35,4 @@ Search
 Words of the Day
 Updates from friends' Sina Weibo
 Comment
+back to top, example: <http://www.freelancer.com/>

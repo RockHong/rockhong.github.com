@@ -5,6 +5,9 @@ overflow ?
 z-index
 */
 
+/*  todo
+1 tile tag  have different color from content
+*/
 
 .clearfix {
     clear:both; /* affect float, and height calculation. comment it out to see its effect*/
@@ -64,50 +67,92 @@ div#left-col {
     background: #ADD8E6;
 }
 
-div.post-time {
+div.post-preview {
+    margin: 0 0 16px;
+    overflow: hidden;     /* ?????   why it important */  /* like clear */
+}
+
+div.pp-timedate {
     float: left;
 }
 
-div.post-primary {
-    float: right;
-    width: 585px;
-    background: #fff;
-    padding: 3px 32px 28px 53px;
-    /*padding: 3px 32px 28px 53px;*/
+div.pp-timedate img {
+    width: 45px;
 }
 
-div.post-primary .title {
+div.pp-main {
+    float: right;
+    width: 618px;
+    background: #fff;
+
+
+}
+
+div.pp-main-wrapper {
+    padding: 8px 28px 28px 16px;
+}
+
+div.pp-main .pp-title {
     line-height: 19px
     font-size: 14px;
     margin: 0 0 16px;
 }
 
-div.post-primary .title  a{
+div.pp-main .pp-title  a{
     color: #888;
     text-decoration: none;
     
 }
 
-div.post-primary .content {
+div.pp-main .pp-content {
     width: 100%;
     line-height: normal;
     font-size: 14px;
     overflow: hidden;     /* ?????   why it important */
+    background: #FF8C00;
 }
 
-div.post-primary .content .image {
+div.pp-main .pp-content .pp-image {
     float: left;
     width: 164px;
     margin: 0 25px 5px 0;
 }
 
-div.bottom-bar {
-    height: 19px;
+div.pp-main .pp-content .pp-image img {
+    width: 164px;
+}
+
+div.pp-bottom-bar {
+    height: 19px;      
     margin: 11px 0 0;
-    line-height: 19px;
+    line-height: 19px;   /* ??? */
     color: #aaa;
-    /*float: left;*/
     position: relative;
+    background: #FFB6C1;
+    
+}
+
+div.pp-tags {
+    float: left;
+    height: 19px;
+    background: url(../images/icons.png) no-repeat 0 -103px;
+}
+
+div.pp-tags a{
+    color: #aaa; /* todo put same color together */
+    cursor: pointer;  /* ??? */
+    text-decoration: none;
+    margin-left: 18px;   
+}
+
+div.pp-comments {
+    float:right;
+}
+
+div.pp-comments a{
+    text-decoration: none; /* put same value together */
+    color: #aaa;
+    margin-right: 18px;
 }
 
 div#right-col {
