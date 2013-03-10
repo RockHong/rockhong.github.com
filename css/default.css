@@ -1,13 +1,10 @@
-/* to know:
-zoom ?
-position
-overflow ?
-z-index
+/* To Learn
+    zoom
+    z-index
+    line-height
+    cursor: pointer; 
 */
 
-/*  todo
-1 tile tag  have different color from content
-*/
 
 .clearfix {
     clear:both; /* affect float, and height calculation. comment it out to see its effect*/
@@ -17,56 +14,42 @@ html {
 }
 
 body {
-    /*background-color: #ededef; */   /* --------*/
     background: url(../images/body.png) repeat-x;
-    text-align: center;  /* it works to center content */
+    background-color: #ededef;
+    text-align: center;
     color: #444;
 }
 
 div#header {
     position: relative;
     height: 82px;
-    margin-bottom: 30px;
-    font-size: 12px;
-    /* color: #444;  /* font color, in 163, it seems it's body text color */
     width: 928px;
+    margin-bottom: 30px;
     margin: 0 auto;
-    /*background: #70DB93;*/
 }
 
 p#site-title {
-    /*float: left;*/
-    /*width: 240px;*/
-    /*height: 44px;*/
     position: absolute;
     margin: 0;
     padding: 0;
-    color: red;
     font-size: 18px;
     font-weight: 800;
-    /*background: white;*/
     color: #dfdfdf;
 }
 
 p#site-subtitle {
-    /*float: left;*/
-    /*width: 240px;*/
-    /*height: 44px;*/
     position: absolute;
     top: 26px;
     left: 18px;
     margin: 0;
     padding: 0;
-    color: red;
     font-size: 9px;
     font-weight: 300;
     font-style: italic;
-    /*background: white;*/
     color: #dfdfdf;
 }
 
 div#nav-search {
-    /*background: red;*/
     position: absolute;
     bottom: 10px;
     right: 0px;
@@ -75,8 +58,6 @@ div#nav-search {
 }
 
 ul#nav {
-    /*display: inline;*/
-    /* color: rgb(68, 68, 68); */ /* same as #444*/
     margin-right: 266px;
 }
 
@@ -93,31 +74,28 @@ ul#nav a {
 
 div#main-content {
     width: 928px;
-    text-align: left; /* make text left-aligned */
-    margin: 0 auto; /* make content central */
+    text-align: left;
+    margin: 0 auto;
 }
 
 div#left-col {
     float: left;
     width: 674px;
-    /*background: #ADD8E6;*/
 }
 
 div.post-preview {
     margin: 0 0 16px;
-    overflow: hidden;     /* ?????   why it important */  /* like clear */
+    overflow: hidden;     /* works like clear */
 }
 
 p.pp-timedate {
     float: left;
-    background: #FCFCFC;
     width: 45px;
-    /*height: 45px;*/
     margin:0;
-    text-align: center;
     padding-top: 3px;
-    /*display: table-cell;
-    vertical-align: 50%;*/
+    font-size:10px;
+    text-align: center;
+    background: #FCFCFC;
 }
 
 /*div.pp-timedate img {
@@ -128,8 +106,6 @@ div.pp-main {
     float: right;
     width: 618px;
     background: #fff;
-
-
 }
 
 div.pp-main-wrapper {
@@ -145,15 +121,13 @@ div.pp-main .pp-title {
 div.pp-main .pp-title  a{
     color: #888;
     text-decoration: none;
-    
 }
 
 div.pp-main .pp-content {
     width: 100%;
     line-height: normal;
     font-size: 14px;
-    overflow: hidden;     /* ?????   why it important */
-    background: #FF8C00;
+    overflow: hidden;     /* works like clear */
 }
 
 div.pp-main .pp-content .pp-image {
@@ -169,11 +143,8 @@ div.pp-main .pp-content .pp-image img {
 div.pp-bottom-bar {
     height: 19px;      
     margin: 11px 0 0;
-    line-height: 19px;   /* ??? */
+    line-height: 19px;
     color: #aaa;
-    position: relative;
-    background: #FFB6C1;
-    
 }
 
 div.pp-tags {
@@ -183,8 +154,7 @@ div.pp-tags {
 }
 
 div.pp-tags a{
-    color: #aaa; /* todo put same color together */
-    cursor: pointer;  /* ??? */
+    color: #aaa;
     text-decoration: none;
     margin-left: 18px;   
 }
@@ -194,7 +164,7 @@ div.pp-comments {
 }
 
 div.pp-comments a{
-    text-decoration: none; /* put same value together */
+    text-decoration: none;
     color: #aaa;
     margin-right: 18px;
 }
@@ -204,6 +174,7 @@ div#right-col {
     width: 230px;
     background: rgb(241, 241, 241);
     color: rgb(68, 68, 68);
+    font-style: italic;
 }
 
 div#footer {
@@ -211,4 +182,5 @@ div#footer {
     border-top: 1px solid #838B83;
     color: #aaa;
     font-size: 8px;
+    font-style: italic;
 }
