@@ -36,3 +36,4 @@ Words of the Day
 Updates from friends' Sina Weibo
 Comment
 back to top, example: <http://www.freelancer.com/>
+find an icon for post-datetime, google "便签 图标"

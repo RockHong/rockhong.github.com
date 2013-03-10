@@ -13,6 +13,9 @@ z-index
     clear:both; /* affect float, and height calculation. comment it out to see its effect*/
 }
 
+html {
+}
+
 body {
     /*background-color: #ededef; */   /* --------*/
     background: url(../images/body.png) repeat-x;
@@ -21,23 +24,52 @@ body {
 }
 
 div#header {
+    position: relative;
     height: 82px;
     margin-bottom: 30px;
     font-size: 12px;
     /* color: #444;  /* font color, in 163, it seems it's body text color */
     width: 928px;
     margin: 0 auto;
-    background: #70DB93;
+    /*background: #70DB93;*/
 }
 
-div#site-title {
-    float: left;
-    width: 240px;
-    height: 44px;
+p#site-title {
+    /*float: left;*/
+    /*width: 240px;*/
+    /*height: 44px;*/
+    position: absolute;
+    margin: 0;
+    padding: 0;
     color: red;
+    font-size: 18px;
+    font-weight: 800;
+    /*background: white;*/
+    color: #dfdfdf;
+}
+
+p#site-subtitle {
+    /*float: left;*/
+    /*width: 240px;*/
+    /*height: 44px;*/
+    position: absolute;
+    top: 26px;
+    left: 18px;
+    margin: 0;
+    padding: 0;
+    color: red;
+    font-size: 9px;
+    font-weight: 300;
+    font-style: italic;
+    /*background: white;*/
+    color: #dfdfdf;
 }
 
 div#nav-search {
+    /*background: red;*/
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
     float: right;
     margin: 40px 0 0;
 }
@@ -45,14 +77,18 @@ div#nav-search {
 ul#nav {
     /*display: inline;*/
     /* color: rgb(68, 68, 68); */ /* same as #444*/
+    margin-right: 266px;
 }
 
 ul#nav li {
     display: inline-block;
+    margin-left: 25px;
 }
 
 ul#nav a {
     color: #dfdfdf;
+    text-decoration: none;
+    font-size: 14px;
 }
 
 div#main-content {
@@ -64,7 +100,7 @@ div#main-content {
 div#left-col {
     float: left;
     width: 674px;
-    background: #ADD8E6;
+    /*background: #ADD8E6;*/
 }
 
 div.post-preview {
@@ -72,13 +108,21 @@ div.post-preview {
     overflow: hidden;     /* ?????   why it important */  /* like clear */
 }
 
-div.pp-timedate {
+p.pp-timedate {
     float: left;
+    background: #FCFCFC;
+    width: 45px;
+    /*height: 45px;*/
+    margin:0;
+    text-align: center;
+    padding-top: 3px;
+    /*display: table-cell;
+    vertical-align: 50%;*/
 }
 
-div.pp-timedate img {
+/*div.pp-timedate img {
     width: 45px;
-}
+}*/
 
 div.pp-main {
     float: right;
@@ -158,9 +202,13 @@ div.pp-comments a{
 div#right-col {
     float: right;
     width: 230px;
-    background: #BFEFFF;
+    background: rgb(241, 241, 241);
+    color: rgb(68, 68, 68);
 }
 
 div#footer {
-    background: #76EEC6;
+    margin-top: 18px;
+    border-top: 1px solid #838B83;
+    color: #aaa;
+    font-size: 8px;
 }
