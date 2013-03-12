@@ -1,14 +1,56 @@
 ---
 layout: default
-title: Home todo
+title: Hong's Blog
 ---
 
+<div id="main-content">
+    <div id="left-col">
+
 {% for post in site.posts %}
-<div>
-<p>title: {{ post.title }}</p>
-<p>date: {{ post.date }} </p>
-<p>tag: {{ post.tag }} </p>
-<p>pic: {{ post.image }}</p>
-<p>brief: {{ post.abstract }}</p>
-</div>
+
+<!-- *** BEGIN of "post-preview" div box *** -->
+    <div class="post-preview" data-cmtcount="8"> <!-- data-cmtcount ????????-->
+        <p  class="pp-timedate">{{ post.date | date: '%H %p' }}<br>{{ post.date | date: '%d' }}/{{ post.date | date: '%b' }}</p>
+        <div class="pp-main">
+        <div class="pp-main-wrapper">
+            <div class="pp-title">
+                <a href="{{ post.permalink }}">{{ post.title }}</a>  <!-- target ? -->
+            </div>
+            <div class="pp-content">
+                <div class="pp-image">
+                    <a href="http://www.google.com"> <!-- href = #, hidefocus, -->
+                        <img src="../images/a.jpg" alt="xxx"> <!-- data-ow, data-oh, data-origin, style -->
+                    </a>
+                </div> <!-- pp-image -->
+                <!-- digest -->
+                <p> {{ post.content | strip_html | truncatewords: 22 }}</p>
+            </div> <!-- pp-content -->
+
+            <div class="pp-bottom-bar">
+                <div class="pp-tags">
+                    {% for tag in post.tags %}
+                    <a title="{{ tag }}" href="http://www.google.com">{{ tag }}</a> <!-- title ??-->  <!-- TODO href -->
+                    {% endfor %}
+                </div> <!-- pp-tags -->
+                <div class="pp-comments">
+                    <!--a title="xxx" href="http://www.google.com">comment(8)</a--> <!-- TODO --> <!-- rel -->
+                </div> <!-- pp-comments -->
+            </div> <!-- pp-bottom-bar -->
+        </div> <!-- pp-main-wrapper -->
+        </div> <!-- pp-main -->
+    </div> <!-- post-preview -->
+<!-- *** END of "post-preview" div box *** -->
+
 {% endfor %}
+
+
+    <!-- TODO: Next-Page Btn -->
+
+    </div> <!-- left-col -->
+
+    <div id="right-col">
+        <p> Working in process;-) </p>
+    </div> <!-- right-col -->
+
+
+</div> <!-- main-content -->

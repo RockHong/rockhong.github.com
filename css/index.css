@@ -1,0 +1,105 @@
+
+div#main-content {
+    width: 928px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+div#left-col {
+    float: left;
+    width: 674px;
+}
+
+div.post-preview {
+    margin: 0 0 16px;
+    overflow: hidden;     /* works like clear */
+}
+
+p.pp-timedate {
+    float: left;
+    width: 45px;
+    margin:0;
+    padding-top: 3px;
+    font-size:10px;
+    text-align: center;
+    background: #FCFCFC;
+}
+
+/*div.pp-timedate img {
+    width: 45px;
+}*/
+
+div.pp-main {
+    float: right;
+    width: 618px;
+    background: #fff;
+}
+
+div.pp-main-wrapper {
+    padding: 8px 28px 28px 16px;
+}
+
+div.pp-main .pp-title {
+    line-height: 19px
+    font-size: 14px;
+    margin: 0 0 16px;
+}
+
+div.pp-main .pp-title  a{
+    color: #888;
+    text-decoration: none;
+}
+
+div.pp-main .pp-content {
+    width: 100%;
+    line-height: normal;
+    font-size: 14px;
+    overflow: hidden;     /* works like clear */
+}
+
+div.pp-main .pp-content .pp-image {
+    float: left;
+    width: 164px;
+    margin: 0 25px 5px 0;
+}
+
+div.pp-main .pp-content .pp-image img {
+    width: 164px;
+}
+
+div.pp-bottom-bar {
+    height: 19px;      
+    margin: 11px 0 0;
+    line-height: 19px;
+    color: #aaa;
+}
+
+div.pp-tags {
+    float: left;
+    height: 19px;
+    background: url(../images/icons.png) no-repeat 0 -103px;
+}
+
+div.pp-tags a{
+    color: #aaa;
+    text-decoration: none;
+    margin-left: 18px;   
+}
+
+div.pp-comments {
+    float:right;
+}
+
+div.pp-comments a{
+    text-decoration: none;
+    color: #aaa;
+    margin-right: 18px;
+}
+
+div#right-col {
+    float: right;
+    width: 230px;
+    background: rgb(241, 241, 241);
+    color: rgb(68, 68, 68);
+    font-style: italic;
+}
