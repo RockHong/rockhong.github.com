@@ -29,12 +29,14 @@ Jekyll和Github有用到下面所列的技术：
 
 * [*Liquid*](https://github.com/Shopify/liquid/wiki)， 一个模版引擎（Ruby库），可用于生成HTML内容。比如，
 
+        {% raw %}
         <ul class="posts">
           {% for post in site.posts %}
             <li>{{ post.title }}</li>
           {% endfor %}
         </ul>
- 可以将站点中所有文章的标题以HTML的列表方式呈现出来。  
+        {% endraw %}
+  可以将站点中所有文章的标题以HTML的列表方式呈现出来。  
 * [*Markdown*](http://zh.wikipedia.org/wiki/Markdown)， 一种轻量级标记语言，它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的XHTML(或者HTML)文档”。在建立好博客站点后，我们不必以HTML格式来书写我们的文章，以更简洁直观的Markdown格式来轻松地写作就可以了。Github会自动地帮你把Markdown格式的文章转化成HTML格式。一个Markdown的[中文教程](http://wowubuntu.com/markdown/)；在Mac OSX下可以使用免费*Mou*软件作为编辑器。  
 注：Github也支持另一种轻量级标记语言，Textile。
 
@@ -57,7 +59,7 @@ Jekyll和Github有用到下面所列的技术：
         |-- css
         |-- images
         `-- index.html
-_layouts目录下放置着HTML模版，_posts目录是我们的文章，index.html是博客站点的主页；其他目录，比如css，images可以用来放置样式表和图片，这些目录不是必需的。
+  \_layouts目录下放置着HTML模版，\_posts目录是我们的文章，index.html是博客站点的主页；其他目录，比如css，images可以用来放置样式表和图片，这些目录不是必需的。
 - 在本地建立并且测试好站点后，将本地的内容库推送（push）到Github上后，我们的博客站点就发布/更新成功了。
 - 通过http://my-github-username.github.com/就可以访问我们的博客站点了。
 
