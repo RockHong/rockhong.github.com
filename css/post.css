@@ -1,0 +1,47 @@
+div#css-namespace-post {
+    text-align: left;
+    width: 928px;
+    margin: 0 auto;
+    font-size:13px;
+}
+
+div#dummy-left-col {
+    float: left;
+    width: 674px;
+}
+
+div#dummy-left-col-placeholder {
+    float: left;
+    width: 45px;
+}
+
+div#post-wrapper {
+    float: right;
+    width: 618px;
+    background: #fff;
+    /*padding: 3px;*/
+}
+
+div#post {
+    padding: 12px;
+}
+
+div#post #title{
+    margin-bottom: 38px;
+}
+
+div#post h1 {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+div#post h2 {
+    text-align: right;
+    font-size: 1.1em;
+    font-style: italic;
+    font-weight: 800;
+}
+
+div#post #content p{
+    margin-bottom: 24px;
+}
