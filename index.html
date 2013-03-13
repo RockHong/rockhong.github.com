@@ -14,7 +14,7 @@ title: Hong's Blog
         <div class="pp-main">
         <div class="pp-main-wrapper">
             <div class="pp-title">
-                <a href="{{ post.permalink }}">{{ post.title }}</a>  <!-- target ? -->
+                <a href="{{ post.url }}">{{ post.title }}</a>  <!-- target ? -->
             </div>
             <div class="pp-content">
                 <div class="pp-image">
@@ -23,7 +23,7 @@ title: Hong's Blog
                     </a>
                 </div> <!-- pp-image -->
                 <!-- digest -->
-                <p> {{ post.content | strip_html | truncatewords: 22 }}</p>
+                <p> {{ post.content | strip_html | truncatewords: 18 }}</p>
             </div> <!-- pp-content -->
 
             <div class="pp-bottom-bar">
