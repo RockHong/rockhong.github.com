@@ -15,15 +15,20 @@ div#dummy-left-col-placeholder {
     width: 45px;
 }
 
-div#post-wrapper {
+div#post-comment-wrapper {
     float: right;
     width: 618px;
-    background: #fff;
-    /*padding: 3px;*/
 }
 
 div#post {
     padding: 12px;
+    background: #fff;
+}
+
+div#disqus_thread {
+    padding: 12px;
+    background: #fff;
+    margin-top: 24px;
 }
 
 div#post #title{
@@ -45,3 +50,4 @@ div#post h2 {
 div#post #content p{
     margin-bottom: 24px;
 }
+
