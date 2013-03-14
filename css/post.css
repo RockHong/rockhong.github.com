@@ -23,12 +23,18 @@ div#post-comment-wrapper {
 div#post {
     padding: 12px;
     background: #fff;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px; 
 }
 
 div#disqus_thread {
     padding: 12px;
     background: #fff;
     margin-top: 24px;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px; 
 }
 
 div#post #title{
@@ -50,4 +56,5 @@ div#post h2 {
 div#post #content p{
     margin-bottom: 24px;
 }
+
 
