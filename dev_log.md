@@ -46,3 +46,6 @@ find an icon for post-datetime, google "便签 图标"
 网页乱码问题相关
 https://developer.mozilla.org/en-US/docs/HTML/Element/meta#attr-charset
 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+
+make background picture shorter ...  todo ...
