@@ -10,6 +10,8 @@ tags:
 - Jekyll
 - Github Pages
 date: 2012-03-13 00:46:00
+image: baracktocat.jpg
+image_desc: github artwork
 ---
 
 搭建博客站点有很多种方式，比如WordPress框架、Django框架。只是WordPress需要懂PHP语言，Django需要知晓Python语言；之外，应该还需要了解一些数据库的知识。相比而言，使用[*Jekyll*](https://github.com/mojombo/jekyll)和[*Github*](https://github.com/)搭建博客站点会显得简单一点。Jekyll是一个静态站点生成器（static site generator），换言之，不使用数据库；Github则是互联网上代码/内容托管服务器。Github公司利用Jekyll将我们站点的“原始（raw）内容”成一个标准的静态站点，放在Github的主机上让我们的读者访问。Github将这种服务称为[*Github Pages*](http://pages.github.com/)。
