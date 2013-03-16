@@ -1,21 +1,15 @@
-/* To Learn
-    zoom
-    z-index
-    line-height
-    cursor: pointer; 
-*/
-
 
 .clearfix {
-    clear:both; /* affect float, and height calculation. comment it out to see its effect*/
+    clear:both;  /* affect float, and height calculation. comment it out to see its effect*/
 }
 
 html {
+
 }
 
 body {
-    background: url(../images/body.png) repeat-x;
-    background-color: #ededef;
+    background: url(../images/bg.png) repeat-x;
+    background-color: #dedddf;
     text-align: center;
     color: #444;
 }
@@ -24,8 +18,8 @@ div#header {
     position: relative;
     height: 82px;
     width: 928px;
-    margin-bottom: 30px;
     margin: 0 auto;
+    margin-bottom: 30px;
 }
 
 p#site-title {

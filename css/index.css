@@ -1,13 +1,13 @@
 
 div#main-content {
-    width: 928px;
+    width: 938px;
     text-align: left;
     margin: 0 auto;
 }
 
 div#left-col {
     float: left;
-    width: 674px;
+    width: 684px;
 }
 
 div.post-preview {
@@ -15,24 +15,32 @@ div.post-preview {
     overflow: hidden;     /* works like clear */
 }
 
-p.pp-timedate {
+div.pp-timedate {
+    position: relative;
     float: left;
-    width: 45px;
+    width: 55px;
+    height: 55px;
     margin:0;
-    padding-top: 3px;
-    font-size:10px;
-    text-align: center;
-    background: #FCFCFC;
+    background: url(../images/date-icon.png);
+    background-size: 55px 55px;
 }
 
-/*div.pp-timedate img {
-    width: 45px;
-}*/
+div.pp-timedate p {
+    color: #888;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size:9px;
+    text-align: center;
+} /* TODO: test in firefox, safari, chrome */
 
 div.pp-main {
     float: right;
     width: 618px;
     background: #fff;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px; 
 }
 
 div.pp-main-wrapper {
@@ -71,36 +79,67 @@ div.pp-bottom-bar {
     height: 19px;      
     margin: 11px 0 0;
     line-height: 19px;
-    color: #aaa;
-    font-size: 8px;
+    font-size: 11px;
 }
 
 div.pp-tags {
     float: left;
     height: 19px;
-    background: url(../images/icons.png) no-repeat 0 -103px;
+    background: url(../images/tag-icon.png) no-repeat;
+    background-size: auto 19px;
 }
 
 div.pp-tags a{
     color: #aaa;
     text-decoration: none;
-    margin-left: 18px;   
-}
+    margin-left: 28px;   
+}   
 
 div.pp-comments {
-    float:right;
+    float:right;        
 }
 
 div.pp-comments a{
+    display: block;  /* if not display as block, setting height doesn't work. */
+    height: 19px;
+    width: 38px;
     text-decoration: none;
+    text-align: right;
     color: #aaa;
-    margin-right: 18px;
+    margin-right: 24px;
+    background: url(../images/comment-icon.png) no-repeat;
+    background-size: auto 19px;
 }
 
 div#right-col {
     float: right;
     width: 230px;
+}
+
+div#self-intro {
     background: rgb(241, 241, 241);
+    padding: 8px 8px 8px 8px;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px;
+}
+
+div#self-intro img{
+    float: left;
+    width: 68px;
+}
+
+div#self-intro p {
     color: rgb(68, 68, 68);
+    text-align: center;
+}
+
+div#self-intro p#words {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+div#self-intro p#mail {
+    font-size: 11px;
     font-style: italic;
 }
