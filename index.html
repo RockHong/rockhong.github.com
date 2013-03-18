@@ -17,11 +17,13 @@ title: Hong's Blog
                 <a href="{{ post.url }}">{{ post.title }}</a>
             </div>
             <div class="pp-content">
+                {% if post.image %}
                 <div class="pp-image">
                     <a href="/"> <!--TODO lofter image click effect -->
                         <img src="../images/blog/{{ post.image }}" alt="{{ post.image-desc}}">
                     </a>
                 </div>
+                {% endif %}
                 <p> {{ post.content | strip_html | truncatewords: 18 }}</p>
             </div> 
 
