@@ -17,6 +17,7 @@ image_desc: github artwork
 
 
 帮助见  https://help.github.com/articles/fork-a-repo
+https://help.github.com/articles/using-pull-requests
 
 
 我的实践。。
