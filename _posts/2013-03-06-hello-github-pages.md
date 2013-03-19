@@ -71,6 +71,8 @@ Jekyll和Github有用到下面所列的技术：
 
 Github的创始人兼Jekyll的作者有一篇介绍Jekyll的博客，[“Blogging Like a Hacker”](http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html)，可以参考阅读。另外Jekyll的工程页面上也列出了很多以Jekyll为引擎的博客站点，以及[这些站点的源代码链接](https://github.com/mojombo/jekyll/wiki/sites)，可以提供很好的参考。当然，也可以参考[*我的站点*](https://github.com/RockHong/rockhong.github.com);-)
 
+![Github logo](../images/blog/{{ page.image }} "Github logo, yes we can")
+
 *DON'T BE PANIC*.
 
 
