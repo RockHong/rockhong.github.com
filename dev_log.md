@@ -24,6 +24,9 @@
 ##CSS##
 - background   
     A very detailed introduction. <http://www.qianduan.net/everthing-about-css-background.html>
+- centering things
+    center image, vertically center text. <http://www.certifiedchinesetranslation.com/openaccess/CSS/center.html>, <http://webdesign.about.com/od/beginningcss/a/aa012207.htm>    
+    center image. <http://stackoverflow.com/questions/7055393/css-center-image-using-text-align-center>   
 
 ##Blog Design##
 - 100 nice design   
