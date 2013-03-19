@@ -5,6 +5,11 @@ div#css-namespace-post {
     font-size:13px;
 }
 
+div#css-namespace-post img{
+    width: 450px;
+    text-align: center;
+}
+
 div#dummy-left-col {
     float: left;
     width: 674px;
