@@ -4,4 +4,7 @@ My personal blog site powered by Jekyll and Github. [Click Me](http://rockhong.g
 
 ##References:##
 [Jekyll Project](https://github.com/mojombo/jekyll)
+[Markdown Syntax](http://daringfireball.net/projects/markdown/syntax)
+[Github Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
+[Chinese Markdown Tutorial](http://wowubuntu.com/markdown/)
 
