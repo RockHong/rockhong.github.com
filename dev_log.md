@@ -59,7 +59,8 @@ To test
 - style links and other elements in post.html
 - add published date and update date in end of post in a post page
 - tag archive system  
-  example: <https://github.com/Bilalh/bilalh.github.com>
+  example: <https://github.com/Bilalh/bilalh.github.com>   
+- make image size smaller.. to make index loading faster
 
 
 ##Others##
