@@ -61,6 +61,12 @@ To test
 - tag archive system  
   example: <https://github.com/Bilalh/bilalh.github.com>   
 - make image size smaller.. to make index loading faster
+- line number for code  
+something may be helpful   
+http://stackoverflow.com/questions/9850707/how-to-show-line-numbers-for-a-code-block-using-javascript  
+http://stackoverflow.com/questions/2128578/formatting-for-displaying-source-code-on-a-web-page  
+see how gist implement this feature   
+make some change to jekyll? 
 
 
 ##Others##
