@@ -115,3 +115,87 @@ __backtrace (array, size)
 
 ========
 
+
+
+
+#include <execinfo.h>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class MyException {
+public:
+   MyException();
+   virtual ~MyException();
+   virtual string show_backtrace() const;
+protected:
+   static const int LIMIT=64;
+   void * bt_info[LIMIT];
+   int bt_size;
+};
+
+MyException::MyException():bt_size(0) {
+   bt_size = backtrace(bt_info, LIMIT);
+}
+
+MyException::~MyException() {}
+
+string MyException::show_backtrace() const {
+   string bt_string;
+   ostringstream oss;
+   for (int i = 0; i < bt_size; ++i) {
+    oss << bt_info[i] <<" ";
+   }
+   bt_string = oss.str();
+   return bt_string;
+}
+
+void f1();
+void f2();
+void f3();
+
+void f1() { f2();}
+
+void f2() { f3();}
+
+void f3() { throw MyException(); }
+
+int main(int argc, char * argv[])
+{
+   try {
+    f1();
+   }
+   catch (const MyException &e) {
+    cout << e.show_backtrace() <<endl;
+   }
+
+   return 0;
+}
+
+
+
+
+
+g++ -o p show_bt.cpp -g
+
+
+addr2line -f -C -e p   0x40109a 0x4010c8 0x401103 0x40110f 0x401127 0x2b9f62db0994 0x400d89
+
+
+
+objcopy --strip-all 
+xxx /x/web/KKANG/web/paypal.com/cgi-bin/xxx
+
+
+
+
+# Default options
+C_FLAGS += -g -Wall -Wcast-qual -I/x/home/kkang/work-141-cvs/sys 
+-D__LINUX__ -D_GNU_SOURCE $(CUSTOM_C_FLAGS) ;
+
+STRIP = ;
+
+LINKEXTRAS += -lnsl  ;
+

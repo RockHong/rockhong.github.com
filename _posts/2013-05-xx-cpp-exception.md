@@ -27,68 +27,36 @@ RAII
 异常的实现。
 
 
+search   “c++ exception implement gcc”
 
-有些时候（比如debug或者抛异常的时候），你希望得到当前函数的调用栈。使用backtrace函数和addr2line程序可以达到这一目的。backtrace是GNU提供的C标准库中的一个函数；addr2line则是GNU提供的二进制工具集Binutils中的一个程序。  
+好文， http://static.usenix.org/events/osdi2000/wiess2000/full_papers/dinechin/dinechin_html/
 
-int backtrace (void **buffer, int size)   
-The backtrace function obtains a backtrace for the current thread, as a list of pointers, and places the information into buffer. 
+http://gcc.gnu.org/wiki/WindowsGCCImprovements     讲了一点简单的
 
-addr2line translates addresses into file names and line numbers.
+http://www.airs.com/blog/archives/166   可以一看
 
-一张图
+http://gnu.wildebeest.org/blog/mjw/2007/08/23/stack-unwinding/ 可以一看
 
+http://mentorembedded.github.io/cxx-abi/   可以一看
 
-int
-__backtrace (array, size)
-     void **array;
-     int size;
-{
-  struct layout *current;
-  void *top_frame;
-  void *top_stack;
-  int cnt = 0;
+http://www.hexblog.com/wp-content/uploads/2012/06/Recon-2012-Skochinsky-Compiler-Internals.pdf  可以一看
 
-  top_frame = FIRST_FRAME_POINTER;
-  top_stack = CURRENT_STACK_FRAME;
+http://www.codeproject.com/Articles/69270/Better-exception-handling-for-C  很长的文章，可以一看
 
-  /* We skip the call to this function, it makes no sense to record it.  */
-  current = ((struct layout *) top_frame);
-  while (cnt < size)
-    {
-      if ((void *) current INNER_THAN top_stack
-	  || !((void *) current INNER_THAN __libc_stack_end))
-       /* This means the address is out of range.  Note that for the
-	  toplevel we see a frame pointer with value NULL which clearly is
-	  out of range.  */
-	break;
+http://www.codeproject.com/Articles/2126/How-a-C-compiler-implements-exception-handling  可以一看
 
-      array[cnt++] = current->return_address;
+http://www.open-std.org/jtc1/sc22/wg21/docs/TR18015.pdf   technical  report
 
-      current = ADVANCE_STACK_FRAME (current->next);
-    }
-
-  return cnt;
-}
-
-
-一个异常的示例程序
+http://gcc.gnu.org/onlinedocs/libstdc++/manual/using_exceptions.html  讲了怎么使用exception  guide line
 
 
 
-+++++++
-我的XCode版本是4.6.2。
-
-新建一个C++工程的步骤如下，  
-第一步，打开“File”->“New”->“Project…”，在弹出的选择模版的对话框中选择“OS X”->“Application”->“Command Line Tool”，如图   
-![xcode c++ step1](../images/blog/xcode-cpp-step1.png "xcode c++ step1")
-
-第二部，填好工程名字（Product Name）；在“Type”下拉列表中选择“C++”；取消选择“Use Automatic Reference Counting”（Apple应该没有为C++提供ARC的吧），如图    
-
-完成，新的C++工程就建好了。
-
-待做——向XCode中导入已经存在的C++工程。  
-[http://stackoverflow.com/questions/5034286/import-existing-c-project-into-xcode-ide](), Do more search.
-
-
-========
-
+一些stackoverflow的答案，
+http://stackoverflow.com/questions/307610/how-do-exceptions-work-behind-the-scenes-in-c    有汇编级别的代码
+其他
+http://stackoverflow.com/questions/490773/how-is-the-c-exception-handling-runtime-implemented
+http://stackoverflow.com/questions/106586/what-are-the-principles-guiding-your-exception-handling-policy
+http://stackoverflow.com/questions/1331220/c-try-throw-catch-machine-code
+http://stackoverflow.com/questions/87220/how-does-gcc-implement-stack-unrolling-for-c-exceptions-on-linux
+http://stackoverflow.com/questions/4975504/zero-cost-exception-handling-vs-setjmp-longjmp
+http://stackoverflow.com/questions/691168/how-much-footprint-does-c-exception-handling-add
