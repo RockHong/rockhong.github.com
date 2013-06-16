@@ -25,6 +25,10 @@ Translates addresses into file names and line numbers.
 
 ###backtrace的实现
 backtrace函数的定义在[glibc库](http://zh.wikipedia.org/zh-cn/GNU_C_%E5%87%BD%E5%BC%8F%E5%BA%AB)中backtrace.c文件中，是一个非常小巧的函数。   
+```c
+int i = 0; /* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*/
+```
+
 
 	# define CURRENT_STACK_FRAME  ({ char __csf; &__csf; })
 	//找到当前栈顶；这个宏仅用于下面的越界检查
@@ -94,6 +98,7 @@ backtrace函数的定义在[glibc库](http://zh.wikipedia.org/zh-cn/GNU_C_%E5%87
 	
 	  return cnt;
 	}
+
 
 ###简单的应用
 一个简单的示例程序，实现一个异常类，这个异常类被抛出时记录了当时的调用栈信息。
