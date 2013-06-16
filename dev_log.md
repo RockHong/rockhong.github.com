@@ -67,6 +67,10 @@ http://stackoverflow.com/questions/9850707/how-to-show-line-numbers-for-a-code-b
 http://stackoverflow.com/questions/2128578/formatting-for-displaying-source-code-on-a-web-page  
 see how gist implement this feature   
 make some change to jekyll? 
+- github markdown and its css style    
+https://help.github.com/articles/github-flavored-markdown    
+http://github.github.com/github-flavored-markdown/sample_content.html    
+https://github.com/mojombo/github-flavored-markdown/issues/1
 
 
 ##Others##
