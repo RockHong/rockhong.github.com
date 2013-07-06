@@ -8,3 +8,5 @@ My personal blog site powered by Jekyll and Github. [Click Me](http://rockhong.g
 [Github Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)   
 [Chinese Markdown Tutorial](http://wowubuntu.com/markdown/)    
 
+##Quick Links:##
+[Github Status](https://status.github.com/messages)
