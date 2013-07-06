@@ -12,7 +12,6 @@ date: 2013-07-07 00:30:00
 image:
 image_desc:
 ---
-
 《The Standard C Library》（《C标准库》）中有一道习题，0.2 编写一个包含下面这行代码的（正确的）程序：    
 `x: ((struct x*)x)->x = x(8);`    
 描述x的5个不同的用途。
