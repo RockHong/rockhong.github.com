@@ -90,7 +90,7 @@ image_desc:
 换成    
 `int x(a) { return a*a;}`    
 那么编译会出错。    
-因为在“行THE LINE”所在的scope中，指针“x”会令函数名“x”变得不可见。编译器会认为你把一个void *指针当成了函数，于是报错：    
+因为在“行THE LINE”所在的scope中，指针“x”会令函数名“x”变得不可见。编译器会认为你把一个void \*指针当成了函数，于是报错：    
 `error: called object ‘x’ is not a function`
 
 C标准里说：
