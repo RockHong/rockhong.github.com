@@ -1,54 +1,123 @@
 ---
-published: false
 # MUST HAVE BEG
 layout: post
-disqus_identifier: 20130707-github-pages-fails-to-update # DON'T CHANGE THE VALUE ONCE SET
-title: github pages不能自动更新
+disqus_identifier: 20130730-a-interview-question-search-on-shifted-array # DON'T CHANGE THE VALUE ONCE SET
+title: 一道面试题：平移后的数组的搜索问题
 # MUST HAVE END
 
 subtitle:
 tags: 
-- jekyll
-date: 2013-07-07 11:51:00
+- interview
+date: 2013-07-30 13:16:00
 image:
 image_desc:
 ---
-昨天往github pages的repository里提交了一篇文章后，却发现github pages的页面一直没有更新——看不到新提交的文章。网上搜了一些资料，最后解决了这个问题。
+最近在面试的时候被问到一个算法题：
+>有一个升序排列的数组，经过一系列的“平移”操作，然后在平移后的数组中查找某个值；请给出一个算法。
+>平移的定义如下：
+>假设有数组`{1, 2, 3, 4, 5}`， 平移最后两位，那么数组变为`{4, 5, 1, 2, 3}`。
 
-一般来说，如果你的github pages repository有新的提交，github的服务器就会运行jekyll编译你的repository（延时很小）。如果编译出错，那么你的github pages页面是不会更新的；同时，github也会给你发一封提醒邮件，大致内容如下，
->The page build failed with the following error:     
->page build failed
+首先，一系列平移操作可以看成是一次平移。比如，
+先平移最后两位到左边，得到`{4, 5, 1, 2, 3}`，
+再平移最开始的三位到右边，得到`{2, 3, 4, 5, 1}`。
+上述两次平移操作的结果和一次平移第一位到右边的效果是相同的。
 
-给出的错误信息很有限，仅仅通知你编译出错。
+注意到数组最初是升序排列的，可以想到用二分搜索查找。经过一系列平移后，虽然整个数组不再是升序排列了，但是可以看到数组被分成了两个部分（子数组），各自都是升序的。
+比如，`{4, 5}和`{1, 2, 3}`。如果可以找到数组在什么位置被截开，那么就可以对两个升序子数组进行二分查找。
 
-要找到出错的原因，首先确认下github pages服务没有down掉；查看这个网址，[https://status.github.com/]()，可以了解服务器的运行状态。如果服务器运行良好，那么极有可能是因为提交的内容导致jekyll编译错误。    
+###如何确定数组被截开的位置
+实际上，也可以使用二分的思想找到这个位置。比如，
+`{4, 5, 1, 2, 3}`在中点分开，得到`{4, 5, 1}`和`{1, 2, 3}`。可以看到截开位置在`{4, 5, 1}`；判定的条件是数组首元素大于数组尾元素（`4 > 1`）。
 
-如果服务器一切正常，那么在本地用jekyll编译一下repository，看看是否有错误。首先，更新一下本地的jekyll。github可能使用了较新版本的jekyll，所以即使你使用以前的本地jekyll编译没有问题，远端的jekyll编译时也可能出错。（当然，最好是保证本地和远端的jekyll版本一样。但是，还没有发现查看远端jekyll版本的方法。）
-   
-	$ sudo gem install jekyll
-	$ jekyll --version
-然后，在本地编译你的repository。
+###源代码
+[github地址](https://github.com/RockHong/sample-code/blob/master/alg/shiftedArraySearch.cpp)
 
-	$ jekyll build --safe
-jekyll给出的出错信息还是很详细的，能看出在什么位置发生了错误。比如，
+    #include <iostream>
+    #include <string>
+    #include <gtest/gtest.h>
 
-    | Maruku tells you:
-    +---------------------------------------------------------------------------
-    | Invalid char for url
-    | ---------------------------------------------------------------------------
-    | 结构如下所示，  N![ELF layout]("../images/blog/217px-elf-layout.png"
-    | --------------------------------------|-------------------------------------
-    |                                       +--- Byte 206
-    | Shown bytes [168 to 75] of 257:
+    using namespace std;
 
-“Maruku“应该是Markdown语法相关的错误。根据错误信息，修正相关的错误。
+    int shiftedPosition(int *array, int low, int high)
+    {
+        static string level;
+        level.push_back(' ');
+        cout << __FUNCTION__ <<level <<"run for array(" <<array <<"): low=" <<low <<", high=" <<high <<endl;
+        int pos = 0;
 
-本地编译要没有任何错误。（有时候即使本地有错误，也可以在本地server上看到新的改动；但是远端的服务器会要求更严格。）重新提交，马上你就可以在你的github pages上看到新的提交了。
+        if (high - low <= 1) {
+            pos = array[low] > array[high] ? high : low;
+            level.erase(level.size() - 1);
+            return pos;
+        }
 
-所以，在提交改动前，最好保证在本地能编译无错。同时，也要时常更新本地的jekyll版本。
+        int mid = (low + high)/2;
+        if (array[low] > array[mid]) {
+            pos = shiftedPosition(array, low, mid);
+        }
+        else if (array[mid] > array[high]) {
+            pos = shiftedPosition(array, mid, high);
+        }
+        else {
+            pos = low;
+        }
 
-参考链接：    
-[https://help.github.com/articles/pages-don-t-build-unable-to-run-jekyll]()     
-[http://youngsterxyf.github.io/2013/01/08/fix-github-pages-builds-failed/]()     
-[http://python-china.org/topic/481]()
+        level.erase(level.size() - 1);
+        return pos;
+    }
+
+    int shiftedArraySearch(int *array, int size, int key)
+    {
+        int pos = shiftedPosition(array, 0, size-1);
+
+        int low;
+        int high;
+
+        if (array[0] <= key && key <= array[pos-1]) {
+            low = 0;
+            high = pos -1;
+        }
+        else if (array[pos] <= key && key <= array[size -1]) {
+            low = pos;
+            high = size -1;
+        }
+        else {
+            return -1;
+        }
+
+        while(low <= high) {
+            int mid = (low + high)/2;
+            if (array[mid] == key) return mid;
+            if (array[mid] > key) high = mid - 1;
+            else if (array[mid] < key) low = mid + 1;
+        }
+
+        return -1;
+    }
+
+    TEST(ShiftedArraySearchTest, xxx) {
+        int array1[1] = {1};
+        int arrayOdd[9] = {2, 5, 8, 9, 11, 15, 19, 21, 24};
+        int arrayOddLargeLeft[9] = {9, 11, 15, 19, 21, 24, 2, 5, 8 };
+        int arrayOddLargeRight[9] = {19, 21, 24, 2, 5, 8, 9, 11, 15};
+        int arrayEven[8] = {2, 5, 8, 9, 11, 15, 19, 21};
+        int arrayEvenLargeLeft[8] = {8, 9, 11, 15, 19, 21, 2, 5};
+        int arrayEvenLargeRight[8] = {21, 2, 5, 8, 9, 11, 15, 19};
+
+        EXPECT_EQ(0, shiftedPosition(array1, 0, 0));
+        EXPECT_EQ(0, shiftedPosition(arrayOdd, 0, 8));
+        EXPECT_EQ(6, shiftedPosition(arrayOddLargeLeft, 0, 8));
+        EXPECT_EQ(3, shiftedPosition(arrayOddLargeRight, 0, 8));
+        EXPECT_EQ(0, shiftedPosition(arrayEven, 0, 7));
+        EXPECT_EQ(6, shiftedPosition(arrayEvenLargeLeft, 0, 7));
+        EXPECT_EQ(1, shiftedPosition(arrayEvenLargeRight, 0, 7));
+
+        EXPECT_EQ(-1, shiftedArraySearch(array1, 1, 999));
+        EXPECT_EQ(0, shiftedArraySearch(array1, 1, 1));
+        EXPECT_EQ(8, shiftedArraySearch(arrayOdd, 9, 24));
+        EXPECT_EQ(-1, shiftedArraySearch(arrayEven, 8, 999));
+        EXPECT_EQ(7, shiftedArraySearch(arrayOddLargeLeft, 9, 5));
+        EXPECT_EQ(0, shiftedArraySearch(arrayEvenLargeRight, 8, 21));
+    }
+
 
