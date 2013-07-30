@@ -120,5 +120,7 @@ image_desc:
         EXPECT_EQ(0, shiftedArraySearch(arrayEvenLargeRight, 8, 21));
     }
 
-    
+编译，
 
+    g++ shiftedArraySearch.cpp -lgtest -lgtest_main     
+运行结果显示，通过了代码中的测试。
