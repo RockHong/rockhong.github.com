@@ -6,7 +6,7 @@ title: Hong's Blog
 <div id="main-content">
 <div id="left-col">
 
-{% for post in site.posts limit: 8 %}
+{% for post in paginator.posts %}
 
 <!-- *** BEGIN of "post-preview" div box *** -->
     <div class="post-preview">
@@ -44,7 +44,23 @@ title: Hong's Blog
 
 {% endfor %}
 
-<!-- TODO: More-Posts Btn -->
+<!-- refer:http://jekyllrb.com/docs/pagination/ -->
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+{% if paginator.previous_page %}
+    <a class="previous" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+  {% else %}
+    <span class="previous">&laquo; Prev</span>
+  {% endif %}
+  
+  {% if paginator.next_page %}
+    <a class="next" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+  {% else %}
+    <span class="next">Next &raquo;</span>
+  {% endif %}
+</div>
+{% endif %}  
+
 
 </div> <!-- left-col -->
 
