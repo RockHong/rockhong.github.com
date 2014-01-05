@@ -1,0 +1,34 @@
+<html xmlns:wb="http://open.weibo.com/wb">
+
+<head>
+<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1839396222" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+
+<p> hello </p>
+
+<script>
+//WB2._config.debug = true;
+
+WB2.anyWhere(function(W){
+W.parseCMD("/statuses/user_timeline.json", function(sResult, bStatus){
+alert('hello');
+    if(bStatus == true) {
+alert('yes');
+    }
+    else {
+    alert('bad...');
+    }
+},{
+	access_token : '2.00bwCY4CAzuTAC9faee2ad7d6qy2tD',
+	screen_name: 'WordPressHong'
+},{
+    method: 'GET'
+});
+});
+</script>
+
+</body>
+
+</html>
