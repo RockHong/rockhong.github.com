@@ -9,7 +9,7 @@ subtitle:
 tags: 
 - cygwin
 date: 2014-03-20 21:10:00
-image: mintty_logo
+image: mintty_logo.png
 image_desc: mintty logo
 ---
 
