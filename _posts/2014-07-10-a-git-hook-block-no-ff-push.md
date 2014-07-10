@@ -39,7 +39,7 @@ image_desc:
 
     check_fast_forward
 
-With simple test, the above hook works well. It DOES block a client pushing any merge commit (no-fast-forward commit) to remote, meanwhile allow fast-forward push, which ensures a clean history in remote.
+Name the above script as "update", and put it into remote repo's "hooks" directory. If necessary, make it executable. With simple test, this hook works well. It DOES block a client pushing any merge commit (no-fast-forward commit) to remote, meanwhile allow fast-forward push, which ensures a clean history in remote.
 
 My first try was using a example scirpt from [this link](http://git-scm.com/book/en/Customizing-Git-An-Example-Git-Enforced-Policy). However, it didn't work.
 
