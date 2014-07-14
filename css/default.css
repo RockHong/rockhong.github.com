@@ -12,6 +12,7 @@ body {
     background-color: #dedddf;
     text-align: center;
     color: #444;
+    font-family: Helvetica, arial, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 div#header {
