@@ -107,7 +107,8 @@ pre {
   
 pre code, pre tt {
     background-color: transparent;
-    border: none; }
+    border: none; 
+    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;}
     
 /*
  * END
