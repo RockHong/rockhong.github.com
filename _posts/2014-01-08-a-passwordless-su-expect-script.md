@@ -17,7 +17,7 @@ expect是Unix/Linux上一个用于自动化（automating）*交互程序*的操�
 
 自然地，expect可以很轻松地完成一些自动输入密码的任务，省去每次人工输入的烦恼。expect程序也有它自己的脚本语言。下面给出免密码运行su（准确地说是免去手动输入密码而执行su命令）的expect脚本。
 
-<pre><code class="language-bash">spawn su
+<pre class="line-numbers"><code class="language-bash">spawn su
 expect "Password:"
 send "123456\r"    #记得加上\r来模拟人类的回车动作
 

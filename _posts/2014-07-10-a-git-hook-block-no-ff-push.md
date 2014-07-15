@@ -13,7 +13,7 @@ image:
 image_desc:
 ---
 
-<pre><code class="language-bash">#!/bin/sh
+<pre class="line-numbers"><code class="language-bash">#!/bin/sh
 
 # for details see here, http://git-scm.com/book/en/Customizing-Git-An-Example-Git-Enforced-Policy
 # it seems that git on Windows doesn't support ruby, so use bash instead
