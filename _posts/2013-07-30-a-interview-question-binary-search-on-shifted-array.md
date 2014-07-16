@@ -32,9 +32,9 @@ image_desc:
 ###源代码
 [源码地址](https://github.com/RockHong/sample-code/blob/master/alg/shiftedArraySearch.cpp)
 
-<pre class="line-numbers"><code class="language-cpp">"#include <iostream>
-#include <string>
-#include <gtest/gtest.h>
+<pre class="line-numbers"><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;gtest/gtest.h&gt;
 
 using namespace std;
 
@@ -119,7 +119,6 @@ TEST(ShiftedArraySearchTest, xxx) {
     EXPECT_EQ(7, shiftedArraySearch(arrayOddLargeLeft, 9, 5));
     EXPECT_EQ(0, shiftedArraySearch(arrayEvenLargeRight, 8, 21));
 }
-"
 </code></pre>
 
 编译，
