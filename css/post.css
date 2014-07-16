@@ -79,7 +79,8 @@ code, tt {
   white-space: nowrap;
   border: 1px solid #eaeaea;
   background-color: #f8f8f8;
-  border-radius: 3px; }
+  border-radius: 3px; 
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;}
  
 pre code {
   margin: 0;
@@ -108,8 +109,7 @@ pre {
   
 pre code, pre tt {
     background-color: transparent;
-    border: none; 
-    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;}
+    border: none; }
     
 /*
  * END
