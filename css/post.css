@@ -55,9 +55,9 @@ div#post h1 {
 }
 
 div#post h2 {
-    text-align: right;
-    font-size: 1.1em;
-    font-style: italic;
+    text-align: left;
+    font-size: 1.2em;
+    /*font-style: italic;*/
     font-weight: 800;
 }
 
