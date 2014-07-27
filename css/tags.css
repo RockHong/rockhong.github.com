@@ -1,0 +1,26 @@
+div#all-tags {
+    margin: 0 0 16px;
+    overflow: hidden;     /* works like clear */
+    background: #fff;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px; 
+}
+
+div#all-tags-content {
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+div#all-tags-content h2{
+    font-size: 1.1em;
+}
+
+div#all-tags-content h3{
+    font-size: 0.9em;
+    margin-left: 11px;
+}
+
+div#all-tags-content ul{
+    font-size: 0.7em;
+}
