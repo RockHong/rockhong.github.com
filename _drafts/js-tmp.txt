@@ -1,0 +1,457 @@
+##javascript basic
+
+ 
+
+from [1]
+
+js是面向对象的语言；它是基于原型的（prototype），并没有实现传统的类型系统（class system）；所以js只有对象，没有类；如果非要说有类的话，也是通过对象和原型模拟出来的
+
+js对象可以当成是一个关联数组，它的属性可以这么访问，obj.propName 或者 obj['propName']
+
+每个对象还都有一个属性，叫prototype； 它指向一个对象；这个对象当然也有一个prototype属性，它也指向下一个对象；……这就形成了一个链（chain）；
+
+这个链直到Object，它的prototype的值是null
+
+当访问对象的某个属性时，先看看这个对象自己有没有这个属性；如果没有那么就会一直沿着这个链找下去
+
+可以用这个特性，在js中模拟出“类”和继承的概念
+
+ 
+
+function Animal(name) {
+
+    // Instance properties can be set on each instance of the class
+
+    this.name = name; 
+
+}
+
+一般会这么构造对象：var animal = new Animal('Monty');  关键字new会构造一个空对象[2]，上面的“this.name = name;”语句会给新构造出来的对象加上一个name属性；
+
+所以在Animal()里通过this增加的属性是每个对象都有的，不是共享的； 如果对象有一些属性类似于c++类里的数据成员，我们可以用这种方式加
+
+根据[2]和[1]中的图，当var animal = new Animal('Monty');语句被执行时，js做了下面几个工作，
+
+- 构造一个空对象，就是{}
+
+- 把这个对象的prototype属性设置成Animal对象（函数也是js对象）
+
+- 把这个对象的prototype（也就是Animal对象）的constructor属性设置成Animal函数
+
+- 调用Animal函数来做构造工作
+
+ 
+
+ 
+
+// Prototype properties are shared across all instances of the class. However, they can still be overwritten on a per-instance basis with the `this` keyword.
+
+Animal.prototype.speak = function() {
+
+    console.log("My name is " + this.name);
+
+};
+
+ 
+
+var animal = new Animal('Monty');
+
+animal.speak(); // My name is Monty
+
+上面的"Animal.prototype.speak = ..."语句给Animal对象的prototype属性增加了一个属性； 因为animal对象的prototype是Animal对象；Animal的prototype有一个speak属性；所以“animal.speak();”语句
+
+会沿着这个链一步一步找到这个speak属性
+
+疑问：疑似错误：看上下文，Animal.prototype应该指向Object，所以"Animal.prototype.speak = ..."语句相当于给Object对象加了一个speak属性？验证一下；正确的方式应该是：？？
+
+var animal = new Animal('Monty');
+
+animal.prototype.speak = function() {
+
+    console.log("My name is " + this.name);
+
+};
+
+animal.speak();
+
+ 
+
+通过prototype加的属性是所有“同类”对象共享的；因为这些“同类”对象的prototype都指向同一个对象；比如
+
+var xxx = new Animal('Monty');
+
+var yyy = new Animal('Monty');
+
+xxx和yyy的prototype都是Animal对象；
+
+如果有一些属性类似于c++类的方法，可以通过这个方式加；这样只会有一个方法实例；当然方法也可以用
+
+this.zzz = function() {}; 来加；只不过这样的话每个对象都会有一个示例
+
+ 
+
+所谓覆盖（overwrite）就是通过 this.zzz = ...; 给对象加上一些属性；这些属性会“覆盖”原型链里的同名属性
+
+ 
+
+ 
+
+“继承”
+
+function Cat(name) {
+
+    Animal.call(this, name); cat“类”的“构造函数”和Animal“类”一样……call is a special function which lets us call a function and specify the value of this within that function. （像文章上说的，这里也可以认为“是调用了基类的构造函数”）
+
+}
+
+ 
+
+Cat.prototype = new Animal();   表达式new Animal()返回一个对象（注意：不是Animal对象）；把Cat的原型设为这个对象；这样我们构造了原型链，继承了一些东西
+
+ 
+
+var cat = new Cat('Monty');   疑问：这里的“new Cat('Monty');”为什么没有把cat对象的原型设为Cat对象（也就是Cat函数对应的那个对象）？？？
+
+cat.speak(); // My name is Monty
+
+看一下[1]中对于的图，可以看到cat的对象的原型是“Animal”（就是new出来的那个Animal）；而这个Animal的prototype是Animal（那个Animal函数对象） 
+
+ 
+
+From [4]
+
+
+The __proto__ property of Object.prototype is an accessor property (a getter function and a setter function) that exposes the internal [[Prototype]] (either an object or null) of the object through which it is accessed.
+__proto__是Object.prototype的accessor属性；有getter和setter；通过__proto__可以访问对象内部的[[Prototype]]；
+
+__proto__已经deprecated了；不要通过__proto__来访问对象的[[Prototype]];应该用Object.getPrototypeOf 来访问；不鼓励修改对象的[[Prototype]]，因为修改它很慢，而且会使得后续的代码执行得很慢；
+
+访问语法
+var proto = obj.__proto__;
+
+__proto__的getter，也就是obj.__proto__，返回对象的[[Prototype]]
+如果对象是通过object literal创建的，那么__proto__的值是 Object.prototype
+For objects created using array literals, this value is Array.prototype.  
+For functions, this value is Function.prototype. 
+如果对象是通过new fun来创建的，而且fun is one of the built-in constructor functions provided by JavaScript (Array, Boolean, Date, Number, Object, String, and so on -- including new constructors added as JavaScript evolves), this value is fun.prototype.  比如说new Array；那么__proto__的值就是Array.prototype;如果是String或者Number呢？验证看一看
+For objects created using new fun, where fun is a function defined in a script, this value is the value of fun.prototype at the time new fun is evaluated.  (That is, if a new value is assigned to fun.prototype, previously-created fun instances will continue to have the previous value as their [[Prototype]], and subsequent new fun calls will use the newly-assigned value as their [[Prototype]].)
+如果是new myFun();那么新建对象的__proto__是当时的myFun.prototype; 去控制台里，看看myFun()的prototype；
+
+The Object.getPrototypeOf function is the preferred way to access the [[Prototype]] of an object.  __proto__ and the __proto__ getter function are deprecated and should not be used.
+
+The __proto__ setter allows the [[Prototype]] of an object to be mutated.  The object must be extensible according to Object.isExtensible: if it is not, a TypeError is thrown.  The value provided must be an object or null.  Providing any other value will do nothing.
+
+Mutating the [[Prototype]] of an object is, by the nature of how modern JavaScript engines optimize property accesses, a very slow operation.  If you care at all about performance, you should never mutate the [[Prototype]] of an object, either using this method or using Object.setPrototypeOf.  Instead, create the object with the desired [[Prototype]] using Object.create.  Furthermore, __proto__ and the __proto__ setter function are deprecated and should not be used.
+不要修改[[Prototype]] ；  可以通过Object.create指定创建对象的[[Prototype]] 
+
+There is nothing special about the __proto__ property.  It is simply an accessor property -- a property consisting of a getter function and a setter function -- on Object.prototype.  
+__proto__就是Object.prototype的一个accessor property而已
+
+A property access for "__proto__" that eventually consults Object.prototype will find this property, but an access that does not consult Object.prototype will not find it.  If some other "__proto__" property is found before Object.prototype is consulted, that property will hide the one found on Object.prototype.
+？？？
+
+var noProto = Object.create(null);
+
+print(typeof noProto.__proto__); // undefined
+print(Object.getPrototypeOf(noProto)); // null  为什么一个是undefined，一个是null
+
+noProto.__proto__ = 17;
+
+print(noProto.__proto__); // 17
+print(Object.getPrototypeOf(noProto)); // null   ？？？
+
+var protoHidden = {};
+Object.defineProperty(protoHidden, "__proto__",
+                      { value: 42, writable: true, configurable: true, enumerable: true });
+
+print(protoHidden.__proto__); // 42
+print(Object.getPrototypeOf(protoHidden) === Object.prototype); // true
+
+---
+
+// Declare a function to be used as a constructor
+function Employee() {
+  /* initialise instance */
+}
+
+// Create a new instance of Employee
+var fred = new Employee();
+
+// Test equivalence
+fred.__proto__ === Employee.prototype; // true
+
+---
+// Assign a new object to __proto__
+fred.__proto__ = Object.prototype;
+Now fred no longer inherits from Employee.prototype, but directly from Object.prototype, and loses the properties it originally inherited from Employee.prototype.
+---
+var obj = {};
+Object.preventExtensions(obj);
+
+obj.__proto__ = {}; // throws a TypeError
+---
+var b = {};
+
+Object.prototype.__proto__ = {
+    hi: function () {alert('hi');},
+    __proto__: null
+};
+
+b.hi();
+---
+
+From [5]
+the keyword class is a reserved keyword and cannot be used as a variable name
+
+Each object has an internal link to another object called its prototype. That prototype object has a prototype of its own, and so on until an object is reached with null as its prototype. null, by definition, has no prototype, and acts as the final link in this prototype chain.
+
+Inheriting properties
+JavaScript objects are dynamic "bags" of properties (referred to as own properties) and each one has a link to a prototype object. 
+
+// Let's assume we have an object o with its prototype chain looking like:
+// {a:1, b:2} ---> {b:3, c:4} ---> null
+// 'a' and 'b' are o own properties.
+
+// In this example, someObject.[[Prototype]] will designate the prototype of someObject.
+// This is a pure notation (based on the one used in the ECMAScript standard) and cannot be used in scripts.
+// The equivalent property to use in scripts is called "__proto__" as in someObject.__proto__
+
+console.log(o.a); // 1
+// Is there an 'a' own property on o? Yes and its value is 1
+
+console.log(o.b); // 2
+// Is there a 'b' own property on o? Yes and its value is 2
+// The prototype also has a 'b' property, but it's not visited. This is called "property shadowing"
+
+console.log(o.c); // 4
+// Is there a 'c' own property on o? No, check its prototype
+// Is there a 'c' own property on o.[[Prototype]]? Yes, its value is 4
+
+console.log(o.d); // undefined
+// Is there a 'd' own property on o? No, check its prototype
+// Is there a 'd' own property on o.[[Prototype]]? No, check its prototype
+// o.[[Prototype]].[[Prototype]] is null, stop searching, no property found, return undefined
+
+Setting a property to an object creates an own property. The only exception to the getting and setting behavior rules is when there is an inherited property with a getter or a setter.
+
+
+Inheriting "methods"
+JavaScript does not have "methods" in the form that class-based languages define them. In JavaScript, any function can be added to an object in the form of a property. An inherited function acts just as any other property, including property shadowing as shown above (in this case, a form of method overriding).
+
+
+------上面的描述可能有些不准-----
+ 
+
+[1] http://wildlyinaccurate.com/understanding-javascript-inheritance-and-the-prototype-chain
+
+[2] http://pivotallabs.com/javascript-constructors-prototypes-and-the-new-keyword/
+
+[3] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype   有代码
+[4] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto
+[5] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain
+[6] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects#Defining_getters_and_setters
+[7] http://stackoverflow.com/questions/9959727/proto-vs-prototype-in-javascript
+[8] https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Values,_variables,_and_literals#Boolean_literals
+http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+http://javascriptissexy.com/javascript-prototype-in-plain-detailed-language/  可能不错
+http://ejohn.org/apps/learn/#64
+[9] 看看这个 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create  里面有一些代码
+ 
+
+
+
+什么是 prototype
+什么样的对象有prototype？ 函数？ {} ？
+给函数等加一个属性，会给它的prototype也增加属性么？
+见[7]
+
+ 
+
+prototype chain
+
+ 
+
+new关键字
+new的时候发生了什么
+constructor的赋值
+
+ 
+
+this关键字
+
+ 
+
+图解
+
+hasOwnProperty
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
+
+
+[[Prototype]]
+[[Prototype]]表示某个对象的“原型”（prototype）；这纯粹是一个表示方法（pure notation）（based on ECMAScript标准）
+在实际的js实现里，用对象的__proto__属性来表示“原型”；[5]
+
+__proto__
+
+数字literals是对象么？
+数组literals是对象
+
+constructor
+
+
+怎么使用 __proto__， prototype 等东西？
+
+Object.create
+--代码
+var o = {
+  a: 2,
+  m: function(b){
+    return this.a + 1;
+  }
+};
+
+console.log(o.m()); // 3
+// When calling o.m in this case, 'this' refers to o
+
+var p = Object.create(o);
+// p is an object that inherits from o
+--end
+
+##----- [5]
+class是被保留的关键字；
+js没有“类”的概念
+
+每个对象有一个内部的链接指向另一个对象（这个对象叫“原型”）；然后“原型”也有一个内部链接指向它自己的“原型”；直到null...这就是“原型链”
+
+##用原型链来实现继承
+###“继承”属性
+js对象有它自己的属性（own properties）和一个指向原型的link；找属性时，先找自己的；找不到再通过”原型链“去找；
+设置一个对象的属性（Setting a property to an object）就创建了一个自有属性（own property）（自有属性会覆盖继承来的属性）；xxx.ppp = ... ; 就增加了一个ppp自有属性；如果“原型链”上也有ppp，那么那个ppp会被覆盖掉；
+唯一的例外是当“原型链”上的ppp有getter和setter时；__proto__就是这种情况，so  xxx.__proto__不会增加一个叫__proto__的自有属性？  代码验证todo
+###继承“方法”
+js没有什么“方法”； js中函数也是属性
+当继承来的函数被执行时，this指向的当前的对象（inheriting object）
+
+##创建对象的不同方式以及对应的原型链
+###方式1
+var o = {a: 1};
+
+// The newly created object o has Object.prototype as its [[Prototype]]
+// o has no own property named 'hasOwnProperty'
+// hasOwnProperty is an own property of Object.prototype. So o inherits hasOwnProperty from Object.prototype
+// Object.prototype has null as its prototype.
+// o ---> Object.prototype ---> null
+
+
+var a = ["yo", "whadup", "?"];
+
+// Arrays inherit from Array.prototype (which has methods like indexOf, forEach, etc.)
+// The prototype chain looks like:
+// a ---> Array.prototype ---> Object.prototype ---> null
+
+function f(){
+  return 2;
+}
+
+// Functions inherit from Function.prototype (which has methods like call, bind, etc.)
+// f ---> Function.prototype ---> Object.prototype ---> null
+
+##通过new和constructor
+function Graph() {
+  this.vertexes = [];
+  this.edges = [];
+}
+
+Graph.prototype = {
+  addVertex: function(v){
+    this.vertexes.push(v);
+  }
+};
+
+var g = new Graph();
+// g is an object with own properties 'vertexes' and 'edges'.
+// g.[[Prototype]] is the value of Graph.prototype when new Graph() is executed.
+
+##通过Object.create
+create第一个参数就是“原型”；
+var a = {a: 1}; 
+// a ---> Object.prototype ---> null
+
+var b = Object.create(a);
+// b ---> a ---> Object.prototype ---> null
+console.log(b.a); // 1 (inherited)
+
+var c = Object.create(b);
+// c ---> b ---> a ---> Object.prototype ---> null
+
+var d = Object.create(null);
+// d ---> null
+console.log(d.hasOwnProperty); // undefined, because d doesn't inherit from Object.prototype
+
+##性能考虑
+在原型链上找属性会产生负面影响；特别是找不存在的属性时，会走遍整个原型链
+另外，当iterating over the properties of an object时，原型链上的每个属性也会都be enumerated
+如果紧紧是想看自有属性，可以用 hasOwnProperty 检查一个属性是不是自有属性；
+ hasOwnProperty 是唯一的一个 在找属性时 不traverse 原型链的
+ 
+ ##坏的实践
+ 不要extend Object.prototype or one of the other built-in prototypes
+
+
+##-----[3]
+All objects in JavaScript are descended from Object;    descended翻译成“继承”？注意js的“继承”和其他语言的区别
+
+##----[4]
+__proto__ 是一个accessor property（一对getter和setter）；用来访问对象内部的[[Prototype]]
+
+__proto__ 的值从哪里来；这要看对象是怎么创建的：
+用object literal创建的对象，它的__proto__ 的值就是Object.prototype
+用array literals创建的对象，它的__proto__ 的值就是 Array.prototype
+对于创建的函数对象，它的__proto__是Function.prototype； Function.prototype有很多特有的方法，比如apply，call等，见https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/prototype
+对于通过 built-in constructor functions创建的对象，比如var x = new BUILTIN_XXX();FUN是Array, Boolean, Date, Number, Object, String, and so on, 那么它的__proto__是BUILTIN_XXX.prototype
+通过new XXX（）来创建的对象，XXX是用户定义的函数，那么新建对象的__proto__的值是*当时*的XXX.prototype; 如果把一个新的值赋给XXX.prototype，那么后续创建的对象会用这个新的值做它的__proto__的值；已经创建的对象的__proto__还是原先的；当然，如果只是修改
+XXX.prototype，比如XXX.prototype.some_new = xxx, 那么新建的对象和老的对象都会发觉这个变化； 代码验证 todo
+
+zzz.prototype是什么？一个对象的prototype属性是什么？似乎有些对象没有这个属性
+
+
+从图片js001中可以看到由 __proto__ 指向 形成的  原型链
+可以看到 var xx = {} ; xx的 __proto__ 的值是Object.prototype， 可以认为“指向Object”
+Banana是一个函数对象； 它的 __proto__ 的值是 Function.prototype， chrome里显示是 function Empty()..
+banana2是通过Banana new出来的对象； 它的 __proto__ 的值是 Banana.prototype
+
+用Object.create可以用想要的[[Prototype]]来创建一个对象
+
+文章上有一段“there is nothing special .." 讲的很绕； 要点是，我们可以 xxx.__proto__ = 1; 但是这样会覆盖原来的__proto__(Object.prototype上的那个)； todo，再看看文章上的代码例子
+看看图片js002， 很怪；回去再验证一下；
+
+不推荐使用__proto__, 因为“过时了” __proto__ and the __proto__ setter function are deprecated and should not be used.
+推荐使用Object.getPrototypeOf 等函数
+ 
+ var fred = new Employee(); 这时候fred.__proto__ === Employee.prototype
+ fred.__proto__ = Object.prototype  可以改变__proto__的值；这个时候可以认为fred换了“继承”对象；
+
+ Object.preventExtensions(obj); 可以防止obj对象的原型被改变
+
+
+-------[7]
+__proto__ is the actual object that is used in the lookup chain to resolve methods, etc.  
+prototype is the object that is used to build __proto__ when you create an object with new:
+__proto__用来构成原型链  //a
+当创建一个对象时,用“某个其他”对象的prototype属性来构造新对象的__proto__   //b
+
+( new Foo ).__proto__ === Foo.prototype     证明了//b
+( new Foo ).prototype === undefined      为什么新对象的prototype是undefined？？new Foo返回的新对象，并没有prototype属性
+
+var xx = new Foo
+var yy = Object.create(xx)    这个yy的__proto__是以哪个对象的prototype来构建的？？这个问题不对； Object.create(xx)的意思是把xx当做yy的__proto__
+
+另一个回答看看
+
+
+
+
+
+
+ 
+

@@ -17,6 +17,10 @@ layout: default
             <div id="content">
             {{ content }}
             </div>
+            <div id="pub-date">
+            <span>{{ page.date | date: "%F" }}</span>
+            <span>{{ page.date | date: "%R" }}</span>
+            </div>
         </div>
                 
         <!-- Comment BEG -->
