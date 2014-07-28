@@ -48,6 +48,7 @@ image_desc:
 
 在根目录下，增加一个HTML文件，tags.html。在其中，将所有文章按照标签归类。
 
+    {% raw %}
     {% for t in site.tags %}
       <h3>{{ t[0] }}  </h3> <!-- 输出标签 -->
         <ul>
@@ -59,12 +60,14 @@ image_desc:
           {% endfor %}
         </ul>
     {% endfor %}
+    {% endraw %}
 
 Jekyll解析文章的YAML头后会把标签信息放在一个[Jekyll变量][4]中，`site.tags`。Jekyll支持Liquid模板
 语言。利用Liquid的[Tag markup][5]处理`site.tags`，生成按标签分类的文章列表。
 
 另外，也可以按年月输出文章列表。
 
+    {% raw %}
     {% assign prev_ym = '' %}
     {% for post in site.posts %} <!-- Jekyll文档上说site.posts变量是一个按时间逆序排列的列表 -->
       {% assign ym = post.date | date: "%Y %m" %}
@@ -81,6 +84,7 @@ Jekyll解析文章的YAML头后会把标签信息放在一个[Jekyll变量][4]�
       <li><span>{{post.date | date: "%F %R"}}  </span><a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
     </ul>                        <!-- 关闭最后一个ul-->
+    {% endraw %}
 
 
 [1]: https://pages.github.com/ "Github Pages"     
