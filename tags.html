@@ -11,7 +11,7 @@ title: Hong's Blog Tags
     <h2>归类.Tags</h2>
 
       {% for t in site.tags %}
-        <h3>{{ t[0] }}  </h3>
+        <h3><a name="{{ t[0] }}"></a>{{ t[0] }}  </h3>
         <ul>
           {% assign tag = t[0] %}
           {% for post in site.tags[tag] %}
