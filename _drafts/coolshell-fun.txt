@@ -1,0 +1,85 @@
+http://fun.coolshell.cn
+
+What is the meaning of life, the universe and everything
+http://en.wikipedia.org/wiki/42_(number)
+
+2 http://fun.coolshell.cn/81648.html
+http://www.di-mgt.com.au/src/korn_ioccc.txt
+
+3 http://fun.coolshell.cn/unix.html
+echo "Wxgcg txgcg ui p ixgff, txgcg ui p epm. I gyhgwt mrl lig txg ixgff wrsspnd tr irfkg txui hcrvfgs, nre, hfgpig tcm liunz txg crt13 ra 'ixgff' tr gntgc ngyt fgkgf." | tr  "[pvwdgazxubqfsnrhocitlkeymj.,']" "[abcdefghijklmnopqrstuvwxyz.,']"
+
+4 http://fun.coolshell.cn/furyy.html
+grep -E -o -n "([0-9])([A-Z])[a-z]\2\1" tmp.html 
+grep -E -o -n "([A-Z])([0-9])[a-z]\2\1" tmp.html
+\2 \1的使用
+用正则可以检测回文么？
+http://stackoverflow.com/questions/233243/how-to-check-that-a-string-is-a-palindrome-using-regular-expressions
+怎么把上面的两个grep变成一个？？
+
+5 http://fun.coolshell.cn/variables.html
+使用脚本
+res=`curl http://fun.coolshell.cn/n/21854`
+
+echo "getting $res"
+
+
+while [ $? -eq 0 ]; do
+    res=`curl http://fun.coolshell.cn/n/$res`
+        if [ $? -ne 0 ]; then
+                exit 
+                    fi
+                        echo "getting $res"
+                        done
+
+
+6 http://fun.coolshell.cn/tree.html
+in-order   T, b, H, V, h, 3, o, g, P, W, F, L, u, A, f, G, r, m, 1, x, J, 7, w, e, 0, i, Q, Y, n, Z, 8, K, v, q, k, 9, y, 5, C, N, B, D, 2, 4, U, l, c, p, I, E, M, a, j, 6, S, R, O, X, s, d, z, t
+post-order T, V, H, o, 3, h, P, g, b, F, f, A, u, m, r, 7, J, x, e, w, 1, Y, Q, i, 0, Z, n, G, L, K, y, 9, k, q, v, N, D, B, C, 5, 4, c, l, U, 2, 8, E, I, R, S, 6, j, d, s, X, O, a, M, p, W, t, z
+可以用写个程序，找到最深的路径么
+
+解密
+echo U2FsdGVkX1+gxunKbemS2193vhGGQ1Y8pc5gPegMAcg= | openssl enc -aes-128-cbc -a -d -pass pass:zWp8LGn01wxJ7
+加密
+echo U2 | openssl enc -aes-128-cbc -a -e -pass pass:zWp825vqk9y
+这是用什么方法加密的？有什么用途？
+
+7 http://fun.coolshell.cn/nqueens.html
+http://rosettacode.org/wiki/N-queens_problem#Simple_Backtracking_Solution
+各种语言的答案；好好看看；比如c和python的
+
+python 有sha1 的模块
+https://docs.python.org/2/library/hashlib.html#module-hashlib
+
+from itertools import permutations
+import hashlib
+
+ 
+ n = 9
+ cols = range(n)
+ for vec in permutations(cols):
+     if n == len(set(vec[i]+i for i in cols)) \
+              == len(set(vec[i]-i for i in cols)):
+                      #print ( vec )
+                              s = 0
+                                      for v in vec:
+                                                  s = s*10 + v+1
+                                                          print s
+                                                                  
+                                                                          xxx = "zWp8LGn01wxJ7"
+                                                                                  m = hashlib.sha1(xxx + str(s) + "\n")
+                                                                                          print (m.hexdigest())
+                                                                                                  if ("e48d316ed573d3273931e19f9ac9f9e6039a4242" == m.hexdigest() ):
+                                                                                                              print '---------'
+                                                                                                                          print s
+
+
+
+sha1 有什么作用？？？
+
+
+8 http://fun.coolshell.cn/953172864.html
+
+其他
+http://en.wikipedia.org/wiki/ROT13
+
