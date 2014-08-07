@@ -1,0 +1,64 @@
+http://www.drdobbs.com/lock-free-data-structures/184401865 
+http://erdani.com/publications/cuj-2004-10.pdf
+http://stackoverflow.com/questions/92455/how-can-i-write-a-lock-free-structure
+http://www.drdobbs.com/cpp/lock-free-code-a-false-sense-of-security/210600279
+http://stackoverflow.com/questions/1585818/when-are-lock-free-data-structures-less-performant-than-mutual-exclusion-mutexe
+http://www.cl.cam.ac.uk/research/srg/netos/lock-free/
+http://kukuruku.co/hub/cpp/lock-free-data-structures-introduction
+http://preshing.com/20120612/an-introduction-to-lock-free-programming/
+    非常好；里面还有很多相关的文章
+http://en.wikipedia.org/wiki/Non-blocking_algorithm
+http://concurrencykit.org/presentations/lockfree_introduction/#/
+http://stackoverflow.com/questions/2528969/lock-free-multi-threading-is-for-real-threading-experts
+
+
+##ppt
+p3
+Eliminating shared data
+Protect shared data
+
+p6
+Don’t use TLS
+TLS: Thread Local Storage
+Since one thread may serve different session
+
+p7
+Global variables
+Normal Global variables
+File scope static variables
+Class static data members
+
+Function scope static variables
+Heap Data
+
+*Sharing means across sessions.
+
+p8
+DO NOT Share among sessions
+Read Only
+Use no-lock structure and non-lock algorithm
+Use locks to protect shared data 
+
+
+
+p10 
+Protect Shared Data
+
+Singleton
+Double-Check-Lock
+
+Use locks    xxx 
+xxxLock
+xxxCondVar
+xxxRecursiveLock
+xxxThreadWorm
+
+Use scope guard to unlock automatically
+xxxCriticalSection
+xxxThreadWormReadGuard
+xxxThreadWormWriteGuard
+
+## doc   ， todo ： finish reading
+Read-only shared data is safer, but there is still chances it could be changed to writable along with the future development.
+No-lock structure is a kind of saver of shared data, but it still has the shortage of complexity and lower performance.
+

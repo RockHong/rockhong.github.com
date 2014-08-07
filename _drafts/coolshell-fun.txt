@@ -83,3 +83,99 @@ sha1 有什么作用？？？
 其他
 http://en.wikipedia.org/wiki/ROT13
 
+
+
+
+## openssl
+openssl有很多命令
+$ openssl help     随便打一个不存在的命令，就可以得到一些帮助信息；   openssl很多命令； 比如 enc用来加密； dgst用来  message digests
+openssl:Error: 'help' is an invalid command.
+
+Standard commands
+asn1parse         ca                ciphers           cms
+crl               crl2pkcs7         dgst              dh
+dhparam           dsa               dsaparam          ec
+ecparam           enc               engine            errstr
+gendh             gendsa            genpkey           genrsa
+nseq              ocsp              passwd            pkcs12
+pkcs7             pkcs8             pkey              pkeyparam
+pkeyutl           prime             rand              req
+rsa               rsautl            s_client          s_server
+s_time            sess_id           smime             speed
+spkac             srp               ts                verify
+version           x509
+
+Message Digest commands (see the `dgst' command for more details)
+md2               md4               md5               mdc2
+rmd160            sha               sha1
+
+Cipher commands (see the `enc' command for more details)
+aes-128-cbc       aes-128-ecb       aes-192-cbc       aes-192-ecb
+aes-256-cbc       aes-256-ecb       base64            bf
+bf-cbc            bf-cfb            bf-ecb            bf-ofb
+camellia-128-cbc  camellia-128-ecb  camellia-192-cbc  camellia-192-ecb
+camellia-256-cbc  camellia-256-ecb  cast              cast-cbc
+cast5-cbc         cast5-cfb         cast5-ecb         cast5-ofb
+des               des-cbc           des-cfb           des-ecb
+des-ede           des-ede-cbc       des-ede-cfb       des-ede-ofb
+des-ede3          des-ede3-cbc      des-ede3-cfb      des-ede3-ofb
+des-ofb           des3              desx              rc2
+rc2-40-cbc        rc2-64-cbc        rc2-cbc           rc2-cfb
+rc2-ecb           rc2-ofb           rc4               rc4-40
+seed              seed-cbc          seed-cfb          seed-ecb
+seed-ofb          zlib
+
+
+帮助文档
+man openssl
+最下面列了其它帮助文档
+SEE ALSO
+       asn1parse(1), ca(1), config(5), crl(1), crl2pkcs7(1), dgst(1), dhparam(1), dsa(1), dsaparam(1), enc(1),
+       gendsa(1), genpkey(1), genrsa(1), nseq(1), openssl(1), passwd(1), pkcs12(1), pkcs7(1), pkcs8(1), rand(1),
+       req(1), rsa(1), rsautl(1), s_client(1), s_server(1), s_time(1), smime(1), spkac(1), verify(1), version(1),
+       x509(1), crypto(3), ssl(3), x509v3_config(5)
+
+继续寻找帮助
+$ man enc
+-e  encrypt the input data: this is the default.
+-d  decrypt the input data.
+-a  base64 process the data.
+
+
+I305760@PVGD50856145A ~
+$ echo hello world | openssl enc -aes-128-cbc -a -e -pass pass:zWp825vqk9y
+U2FsdGVkX19H1GllSd0v0ApKsLDOfATWJlYjfJESZts=
+
+I305760@PVGD50856145A ~
+$ echo U2FsdGVkX19H1GllSd0v0ApKsLDOfATWJlYjfJESZts= | openssl enc -aes-128-cbc -a -d -pass pass:zWp825vqk9y
+hello world
+
+
+aes
+Advanced Encryption Standard (AES)  高级加密标准已然成为对称密钥加密中最流行的算法之一。
+http://en.wikipedia.org/wiki/Advanced_Encryption_Standard
+http://zh.wikipedia.org/wiki/%E9%AB%98%E7%BA%A7%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86
+截至2006年，针对AES唯一的成功攻击是旁道攻击。美国国家安全局审核了所有的参与竞选AES的最终入围者（包括Rijndael），认为他们均能够满足美国政府传递非机密文件的安全需要。2003年6月，美国政府宣布AES可以用于加密机密文件：
+
+
+对称密钥加密（英语：Symmetric-key algorithm）又称为对称加密、私钥加密、共享密钥加密，是密码学中的一类加密算法。这类算法在加密和解密时使用相同的密钥，或是使用两个可以简单地相互推算的密钥。实务上，这组密钥成为在两个或多个成员间的共同秘密，以便维持专属的通讯联系[1]。与公开密钥加密相比，要求双方取得相同的密钥是对称密钥加密的主要缺点之一[2]。
+常见的对称加密算法有DES、3DES、AES、Blowfish、IDEA、RC5、RC6。
+对称加密的速度比公钥加密快很多，在很多场合都需要对称加密。[3]
+
+
+
+Message Digest
+http://en.wikipedia.org/wiki/Cryptographic_hash_function
+The input data is often called the message, and the hash value is often called the message digest or simply the digest.
+MD5, SHA1, or SHA2
+
+
+http://en.wikipedia.org/wiki/SHA1
+http://en.wikipedia.org/wiki/SHA-2    
+SHA-2 is a set of cryptographic hash functions (SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, SHA-512/256)
+
+$ man dgst    #   message digests 的帮助文档
+
+
+python的库
+https://docs.python.org/2/library/hashlib.html
