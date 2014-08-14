@@ -1,0 +1,91 @@
+What's the "static initialization order fiasco"?  问题
+    http://www.parashift.com/c++-faq/static-init-order.html
+"have two static objects x and y which exist in separate source files, say x.cpp and y.cpp"
+"initialization for the y object (typically the y object's constructor) calls some method on the x object."
+然后就有50%可能出问题；“have a 50%-50% chance of dying.”； 
+在下面的情况下，会出问题，“if the compilation unit for y.cpp get initialized first, then y's initialization will get run before x's initialization, and you're toast. E.g., y's constructor could call a method on the x object, yet the x object hasn't yet been constructed.”
+
+
+How do I prevent the "static initialization order fiasco"?  怎么解决
+http://www.parashift.com/c++-faq/static-init-order-on-first-use.html
+用 "construct on first use"来把静态对象包在函数里
+危险代码：
+// File x.cpp
+#include "Fred.h"
+Fred x;     x.cpp里定一个全局变量x
+
+// File y.cpp
+#include "Barney.h"
+Barney y;   另一个文件y.cpp定义一个全局变量y
+
+// File Barney.cpp
+#include "Barney.h"
+
+Barney::Barney()
+{
+  ...
+  x.goBowling();  在Barney的构造函数里用到x对象；就是说y的构造会用到x
+  ...
+}
+
+不同的源文件里的静态全局对象的初始化顺序是未定的；“the disaster occurs if y is constructed before x, which happens 50% of the time since they're in different source files.”
+
+有很多解决方法，一个a very simple and completely portable solution方法是：
+用a global function, x()来替换全局变量x
+// File x.cpp
+
+#include "Fred.h"
+
+Fred& x() 返回类型为引用；这样就可以x().xxx来调用了，和原来的x.xxx区别不大；把原来代码的x变成x()
+{
+  static Fred* ans = new Fred();  静态的变量，初始化一次；且c++ 11会保证线程不会竞争
+  return *ans;
+}
+
+这个叫Construct On First Use Idiom， because it does just that: the global Fred object is constructed on its first use.
+
+
+
+http://www.parashift.com/c++-faq/construct-on-first-use-v2.html
+
+
+
+http://stackoverflow.com/questions/17783210/when-are-static-and-global-variables-initialized
+
+
+
+http://en.cppreference.com/w/cpp/language/storage_duration
+
+
+
+http://www.cplusplus.com/forum/general/21732/
+
+
+http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Runtime_Static_Initialization_Order_Idioms
+
+
+http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Construct_On_First_Use
+
+
+http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Nifty_Counter
+
+
+http://zeuxcg.org/2010/10/10/death-by-static-initialization/
+
+
+http://stackoverflow.com/questions/211237/static-variables-initialisation-order
+
+
+http://stackoverflow.com/questions/12302057/c11-safe-double-checked-locking-for-lazy-initialization-possible/12302355#12302355
+
+
+http://stackoverflow.com/questions/13251083/the-initialization-of-static-variables-in-c
+
+
+
+c的全局变量是怎么初始化的
+int a1 = 0;
+int a2;
+
+
+
