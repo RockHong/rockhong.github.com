@@ -47,34 +47,233 @@ Fred& x() 返回类型为引用；这样就可以x().xxx来调用了，和原来
 
 
 http://www.parashift.com/c++-faq/construct-on-first-use-v2.html
+Why doesn't the construct-on-first-use idiom use a static object instead of a static pointer?
+在上面的代码中为什么用指针，而不是静态对象
+Short answer: it's possible to use a static object rather than a static pointer, but doing so opens up another (equally subtle, equally nasty) problem.
+    可以，但是会有其他的问题
+Long answer: sometimes people worry about the fact that the previous solution "leaks." In many cases, this is not a problem, but it is a problem in some cases. Note: even though the object pointed to by ans in the previous FAQ is never deleted, the memory doesn't actually "leak" when the program exits since the operating system automatically reclaims all the memory in a program's heap when that program exits. In other words, the only time you'd need to worry about this is when the destructor for the Fred object performs some important action (such as writing something to a file) that must occur sometime while the program is exiting.
+    使用指针，有人担心内存泄漏，实际上不必；因为当程序退出后系统会回收这个程序的所有内存；唯一一个要考虑的情况是，在Fred对象的析构函数
+里执行某些重要的动作，比如在程序退出前写文件等；
 
+使用静态对象的代码片段
+// File x.cpp
+
+#include "Fred.h"
+
+Fred& x()
+{
+  static Fred ans;  // was static Fred* ans = new Fred();
+  return ans;       // was return *ans;
+}
+
+However there is (or rather, may be) a rather subtle problem with this change. To understand this potential problem, let's remember why we're doing all this in the first place: we need to make 100% sure our static object (a) gets constructed prior to its first use and (b) doesn't get destructed until after its last use. Obviously it would be a disaster if any static object got used either before construction or after destruction. The message here is that you need to worry about two situations (static initialization and static deinitialization), not just one.
+    要保证static init和static deinitialization都正确；
+By changing the declaration from static Fred* ans = new Fred(); to static Fred ans;, we still correctly handle the initialization situation but we no longer handle the deinitialization situation. For example, if there are 3 static objects, say a, b and c, that use ans during their destructors, the only way to avoid a static deinitialization disaster is if ans is destructed after all three.
+    换成静态对象，static init还是正确的；但是析构的时候可能有问题；如果有对象，比如a，b，c，用到了ans，但是如果ans在该对象析构之前就析构了，那么就会
+有麻烦；
+
+The point is simple: if there are any other static objects whose destructors might use ans after ans is destructed, bang, you're dead. If the constructors of a, b and c use ans, you should normally be okay since the runtime system will, during static deinitialization, destruct ans after the last of those three objects is destructed. However if a and/or b and/or c fail to use ans in their constructors and/or if any code anywhere gets the address of ans and hands it to some other static object, all bets are off and you have to be very, very careful.
+如果a，b，c在它们的构造函数里使用ans，那么是ok；因为runtime会安装init顺序反向的析构对象（应该是这样。。）
+但是如果a，b，c没有在它们的构造函数里使用ans，但是在析构里用到了ans，那么就有可能会出问题。
+
+
+
+http://stackoverflow.com/questions/5945897/what-is-dynamic-intialization-of-object-in-c
+一个回答
+Dynamic initialization is that in which initialization value isn't known at compile-time. It's computed at runtime to initialize the variable.
+    初始化的值在编译期间不知道的叫做dynamic init
+
+Example,
+
+int factorial(int n)
+{
+     if ( n < 0 )       return -1; //indicates input error
+     else if ( n == 0 ) return 1;
+     else               return n * factorial(n-1);
+}
+
+int a = 10 ; //static initialization    
+             //10 is known at compile time. Its 10!
+
+int b = factorial(8); //dynamic initialization   这是dynamic init------------- 
+                      //factorial(8) isn't known at compile time,
+                      //rather it's computed at runtime.
+That is, static-initialization usually involves constant-expression (which is known at compile-time), while dynamic-initialization involves non-constant expression.
+static init常常和常量表达式一起； c++ 11里的constexpr应该可以用来static init
+
+static int c;//this is also static initialization (with zero)!
+§3.6.2/1 from the C++ Standard (2003) says,
+
+Objects with static storage duration (3.7.1) shall be zero-initialized (8.5) before any other initialization takes place. Zero-initialization and initialization with a constant expression are collectively called static initialization; all other initialization is dynamic initialization.
+所有的static storage duration的对象都会先被初始化0；然后才会有其他的init动作；
+zero-init和用常量表达式来init 这两个合起来叫做 static init
+所有其它的叫做dynamic init
+
+So there are two kind of initializations:
+
+Static initialization : Its either zero-initialization or initialization with a constant expression
+Any other initialization is dynamic initialization.
+Also note that the same variable can be dynamically-initialized after it has been statically-initialized. For example, see this code:
+
+int d = factorial(8);
+int main()
+{
+}
+Since d is a global variable, it has static storage. That means, according to §3.6.2.1 it's initialized to 0 at the static-initialization phase which occurs before any other initialization takes place. Then later, at runtime, it's dynamically-initialized with the value returned from the function factorial().
+
+That means, global objects can be initialized twice: once by static initialization (which is zero-initialization) and later, at runtime, they can be dynamically-initialized.
+全局变量有可能会被init两次，一次是init为0；一次是在runtime时dynamic init
 
 
 http://stackoverflow.com/questions/17783210/when-are-static-and-global-variables-initialized
+一个回答
+Paraphrased from the standard:
+
+All variables which do not have dynamic storage duration, do not have thread local storage duration, and are not local, have static storage duration. In other words, all globals have static storage duration.
+解释了什么叫做static storage duration。
+
+Static objects with dynamic initialization are not necessarily created before the first statement in the main function. It is implementation defined as to whether these objects are created before the first statement in main, or before the first use of any function or variable defined in the same translation unit as the static variable to be initialized.
+dynamic init的static 对象不一定要在main函数执行前被创建（这里的创建是指初始化？）；它们可以在main函数执行前被创建；也可以在这个static 变量所在翻译单元的任意函数或者变量执行前被init
+
+So, in your code, global_int1 and static_int1 are definitely initialized before the first statement in main because they are statically initialized. However, global_int2 and static_int2 are dynamically initialized, so their initialization is implementation defined according to the rule I mentioned above.
+一个问题：
+在 xx.cpp里有
+SomeClass obj;
+....
+那么obj的构造不一定会在main函数执行前调用？因为obj没有和常量表达式合在一起，属于dynamic init，所以按照上一段的说法，obj不一定在main函数执行前初始化？？ 写个程序测试一下
+
+As for your second point, I'm not sure I understand what you mean. Could you clarify?
+
+
+另一个回答
+Preface: The word "static" has a vast number of different meanings in C++. Don't get confused.
+
+All your objects have static storage duration. That is because they are neither automatic nor dynamic. (Nor thread-local, though thread-local is a bit like static.)
+解释了一下什么叫static storage duration对象
+
+In C++, Static objects are initialized in two phases: static initialization, and dynamic initialization.
+这个对么？static对象是分两阶段init（和上面的一个回答矛盾）？还是有两种init？？ 
+
+Dynamic initialization requires actual code to execute, so this happens for objects that start with a constructor call, or where the initializer is an expression that can only be evaluated at runtime.
+一个类的对象如果是static storage duration，那么它是dynamic init的？因为它有构造函数？
+
+Static initialization is when the initializer is known statically and no constructor needs to run. (Static initialization is either zero-initialization or constant-initialization.) This is the case for your int variables with constant initializer, and you are guaranteed that those are indeed initialized in the static phase.
+
+
+(Static-storage variables with dynamic initialization are also zero-initialzed statically before anything else happens.)
+
+The crucial point is that the static initialization phase doens't "run" at all. The data is there right from the start. That means that there is no "ordering" or any other such dynamic property that concerns static initialization. The initial values are hard-coded into your program binary, if you will.
+体会下这个
+
+两一个回答
+By static and global objects, I presume you mean objects with static lifetime defined at namespace scope. When such objects are defined with local scope, the rules are slightly different.
+
+Formally, C++ initializes such variables in three phases: 1. Zero initialization 2. Static initialization 3. Dynamic initialization The language also distinguishes between variables which require dynamic initialization, and those which require static initialization: all static objects (objects with static lifetime) are first zero initialized, then objects with static initialization are initialized, and then dynamic initialization occurs.
+
+As a simple first approximation, dynamic initialization means that some code must be executed; typically, static initialization doesn't. Thus:
+
+extern int f();
+
+int g1 = 42;    //  static initialization
+int g2 = f();   //  dynamic initialization
+Another approximization would be that static initialization is what C supports (for variables with static lifetime), dynamic everything else.
+
+How the compiler does this depends, of course, on the initialization, but on disk based systems, where the executable is loaded into memory from disk, the values for static initialization are part of the image on disk, and loaded directly by the system from the disk. On a classical Unix system, global variables would be divided into three "segments":
+
+text:
+The code, loaded into a write protected area. Static variables with `const` types would also be placed here.
+data:
+Static variables with static initializers.
+bss:
+Static variables with no-initializer (C and C++) or with dynamic initialization (C++). The executable contains no image for this segment, and the system simply sets it all to `0` before starting your code.
+c++的dynamic init的static variable也放在bss里？？ 验证一下？
+I suspect that a lot of modern systems still use something similar.
+
+EDIT:
+
+One additional remark: the above refers to C++03. For existing programs, C++11 probably doesn't change anything, but it does add constexpr (which means that some user defined functions can still be static initialization) and thread local variables, which opens up a whole new can of worms.
+
+
 
 
 
 http://en.cppreference.com/w/cpp/language/storage_duration
+这个文章很好看一看
 
 
 
 http://www.cplusplus.com/forum/general/21732/
+有人提问：
+Hi,
 
+I'm reading Scott Myers 'Effective C++' at the moment and using Herbert Schildt's 'C++ The Complete Reference (3rd Edition)' as a backup reference.
+
+In Effective C++ Myers discusses in Item 4 the "order of intialization of non-local static objects defined in different translation units". This seems to be the same problem called by the C++ Faq Lite the "static order intialization fiasco": 
+
+http://www.parashift.com/c++-faq-lite/ctors.html#faq-10.12
+
+The solution suggested in both cases is to move each non-local static object into its own function, where it's declared static and have the function return a reference to its enclosed local static object.
+这个fiasco的一个解决方案是把non-local static obj放到函数里。
+
+Scott Myers says: "This approach is founded on C++'s guarantee that local static objects are intiialized when the object's definition is first encountered during a call to that function." ... "As a bonus, if you never call a function emulating a non-local static object, you never incur the cost of constructing and destructing the object."
+为什么这个方法管用：因为c++保证在函数调用时local static obj会在它的定义语句被遇到前被初始化；
+这样方法的一个好处是只要不调用这个方法，这个obj就不会被调用
+
+C++ Faq Lite calls the solution the Construct On First Use idiom and says "Since static local objects are constructed the first time control flows over their declaration (only) ..."
+这个idiom叫 Construct On First Use
+
+In Herbert Schildt's C++ The Complete Reference (3rd Edition) Chapter 2 (Pg. 31) on Variable Initializations he says: "Global and static local variables are initialized only at the start of the programs".
+
+Is there a discrepancy between when static local built in types get initialised versus when static local user defined types get initialised or how can Herb Schildt's statement above be reconciled with those quoted from Scott Myers and the C++ Faq Lite?
+
+一个回答：
+Meyers says that:
+
+std::string foo() {
+    static std::string s1( "Hello" );
+    return s1;
+}
+
+std::string bar() {
+    static std::string s2( "World" );
+    return s2;
+}
+
+
+the order in which s1 and s2 are constructed depends upon the order in which foo() and bar() are called.
+这里哪个函数先被调用，哪个obj就会先被初始化
+
+Schildt says that
+
+static std::string s1( "Hello" );
+static std::string s2( "World" );
+
+
+the order in which s1 and s2 are constructed, if s1 and s2 are in the same .cpp file (translation unit), is
+the order in which they are declared in the file. if s1 and s2 are in different translation units, then the
+order in which they are constructed is undefined by the standard.
+在同一个翻译单元里，是按照顺序初始化的；如果没在同一个翻译单元里，那么顺序是不定的
+
+You can regain control over construction order by placing the static globals inside functions and then
+calling the functions in the order you want them initialized.
+
+另一个回答里还有一个msdn链接，可以看一看
 
 http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Runtime_Static_Initialization_Order_Idioms
 
 
 http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Construct_On_First_Use
+看看这里的代码
 
 
 http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Nifty_Counter
-
+看看这里的代码
 
 http://zeuxcg.org/2010/10/10/death-by-static-initialization/
-
+看看这个文章
 
 http://stackoverflow.com/questions/211237/static-variables-initialisation-order
-
+看看
 
 http://stackoverflow.com/questions/12302057/c11-safe-double-checked-locking-for-lazy-initialization-possible/12302355#12302355
 
@@ -88,4 +287,5 @@ int a1 = 0;
 int a2;
 
 
-
+什么是编译单元？compilation unit？翻译单元？translation unit？
+在不同编译单元里，定义同名的全局变量会怎么样？

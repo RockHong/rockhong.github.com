@@ -1,3 +1,7 @@
+### good style for reference
+http://robertmuth.blogspot.jp/2012/08/better-bash-scripting-in-15-minutes.html
+    "all white" style
+
 ### post plan
 
 * mutex, semaphore, implementation
