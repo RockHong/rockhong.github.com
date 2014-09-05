@@ -1,0 +1,4 @@
+学习一下
+
+有哪些应用：
+比如ios的Event Handling Guide for iOS文档里讲了，手势的识别是基于有限状态机的

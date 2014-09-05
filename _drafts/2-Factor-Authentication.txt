@@ -1,0 +1,10 @@
+https://help.github.com/articles/about-two-factor-authentication
+
+Tip: GitHub Enterprise cannot send authentication codes as SMS messages—it only supports TOTP smartphone clients, such as Google Authenticator.
+
+Google Authenticator
+
+
+http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm
+
+http://en.wikipedia.org/wiki/Hash-based_message_authentication_code

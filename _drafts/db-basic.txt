@@ -1,0 +1,54 @@
+TODO：test below concepts in sqlite
+
+
+## lock
+
+http://en.wikipedia.org/wiki/Lock_(database)
+    提到了：read lock， write lock；
+     two mechanisms for locking data in a database: pessimistic locking, and optimistic locking
+    The degree of locking can be controlled by isolation level
+    Transactional isolation is usually implemented by locking whatever is accessed in a transaction.
+
+http://technet.microsoft.com/en-us/library/aa213039(v=sql.80).aspx
+    提到了更多的锁：shared lock，update lock，exclusive lock，intent lock，schema lock，bulk update lock
+
+
+悲观锁，乐观锁
+http://blog.couchbase.com/optimistic-or-pessimistic-locking-which-one-should-you-pick
+http://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking
+
+## deadlock
+http://www.programmerinterview.com/index.php/database-sql/database-deadlock/  
+    两个transaction互相等待
+http://technet.microsoft.com/en-us/library/ms178104(v=sql.105).aspx
+    更全面
+
+## isolation level
+
+http://technet.microsoft.com/en-us/library/ms189122(v=sql.105).aspx
+
+http://www.oracle.com/technetwork/issue-archive/2005/05-nov/o65asktom-082389.html
+
+## transaction
+
+http://technet.microsoft.com/en-us/library/ms190612(v=sql.105).aspx
+
+http://msdn.microsoft.com/en-us/library/ms188929.aspx
+
+
+
+## rollback
+
+http://stackoverflow.com/questions/12472318/can-i-rollback-a-transaction-ive-already-committed-data-loss
+
+## ddl，dml，dcl，tcl
+http://www.orafaq.com/faq/what_are_the_difference_between_ddl_dml_and_dcl_commands
+
+
+## transaction in java/c++
+
+## 隔离级别和读到的数据的正确性
+
+
+## session
+http://hsqldb.org/doc/guide/sessions-chapt.html
