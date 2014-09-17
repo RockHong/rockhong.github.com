@@ -1,0 +1,53 @@
+## 内存相关, memory , memory leak
+
+[2] 火焰图的介绍
+火焰图对profile的结果做可视化；使得the most frequent code-paths to be identified quickly and accurately
+可以通过工具生成火焰图；会创建interactive SVG
+
+有四种类型的火焰图：cpu，memory，off-cpu，hot/cold
+
+The x-axis shows the stack profile population, sorted alphabetically (it is not the passage of time), 
+x轴表示的stack的population（应该是"大小" ，size的意思）；同一个高度上frame是沿x轴按字母排列的
+and the y-axis shows stack depth. 
+y轴是栈的深度
+Each rectangle represents a stack frame. 
+每个方块是个frame；
+The wider a frame is is, the more often it was present in the stacks. 
+frame越宽，表示它越有可能出现在栈中；也就是这个frame背后的函数会经常被调用的意思？
+The top edge shows what is on-CPU, and beneath it is its ancestry. 
+最上面是on cpu的；下面是是ancestry；
+The colors are usually not significant, picked randomly to differentiate frames.
+颜色没什么意义；
+
+介绍了各个系统下的profile工具
+Linux: perf, SystemTap, and ktap
+Solaris, illumos, FreeBSD: DTrace
+Mac OS X: DTrace and Instruments
+Windows: Xperf.exe
+
+后面还介绍了别人基于火焰图做的一些工作
+
+[1]主要讲了火焰图在memory leak上的应用
+一个程序内存用的太多，那么会导致paging（swapping）；或者这个程序会被linux上的OOM killer给kill掉
+简单介绍了debug内存问题的几个方式
+    使用core dump，然后用mdb（modular debugger），::findleaks 来分析； （这两个工具貌似是sun的系统上的，不知道有没有移植到其他的平台）；   需要程序中止
+    在malloc（）里面插上一些指令，然后去跑程序；valgrind的memcheck是这种方式；memcheck同时也模拟了cpu，可以记录所有的内存访问；   慢
+
+作者介绍在不中止程序（通过DTrace或者SystemTap）的情况下，检查内存的增长；
+1 Allocator Tracing: malloc(), free(), ...
+一些通过这种方式做过的一些工作：
+    Sanjeev Bagewadi wrote memleak.d using DTrace in 2005
+    Yichun Zhang (agentzh) has recently written leaks.stp using SystemTap
+remember to trace all allocator functions: malloc(), realloc(), calloc(), etc.
+这种方式不足的地方，因为malloc，free等函数调用会很频繁，所以会使得程序变得慢
+
+2. brk() syscall
+3. mmap() syscall
+4. Page Faults
+
+
+
+
+[1] http://www.brendangregg.com/FlameGraphs/memoryflamegraphs.html
+[2] http://www.brendangregg.com/flamegraphs.html    火焰图
+
