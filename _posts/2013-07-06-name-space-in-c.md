@@ -94,6 +94,7 @@ image_desc:
 `error: called object ‘x’ is not a function`
 
 C标准里说：
+
 >Different entities designated by the same identifier either have different scopes, or are in different name spaces.     
 >同一个标识符可以指定不同的实体，只要它们在不同的scope里，或者它们在不同的名字空间里。
 所以定义两个都叫“x”的结构体，或者一个叫“x”的结构体和一个叫“x”的联合是错误的。同样的，在file scope里定义,
@@ -103,10 +104,11 @@ C标准里说：
 也是错误的。
 
 其它相关的C标准：
+
 >There are four kinds of scopes: function, file, block, and function prototype.
-
+>
 >An identifier can denote an object; a function; a tag or a member of a structure, union, or enumeration; a typedef name; a label name; a macro name; or a macro parameter.
-
+>
 >Each subsequent instance of the function-like macro name followed by a ( as the next preprocessing token introduces the sequence of preprocessing tokens that is replaced by the replacement list in the definition (an invocation of the macro).    
 
 上面的程序里定义的宏是一个“类函数”的宏，在预处理时当编译器看到`x(8)`形式的代码会进行展开；仅仅看到x不会展开。
