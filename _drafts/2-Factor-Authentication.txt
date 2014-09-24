@@ -5,6 +5,9 @@ Tip: GitHub Enterprise cannot send authentication codes as SMS messages—it onl
 Google Authenticator
 
 
-http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm
+[1] http://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm
 
-http://en.wikipedia.org/wiki/Hash-based_message_authentication_code
+[2] http://en.wikipedia.org/wiki/Hash-based_message_authentication_code
+
+[3] http://www.reddit.com/r/programming/comments/2ggaje/how_google_authenticator_works/ 
+[4] http://garbagecollected.org/2014/09/14/how-google-authenticator-works/    讲了google Authenticator 的原理

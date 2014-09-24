@@ -1,1 +1,100 @@
-  
+  7 http://fun.coolshell.cn/nqueens.html
+http://rosettacode.org/wiki/N-queens_problem#Simple_Backtracking_Solution
+各种语言的答案；好好看看；比如c和python的
+
+
+
+## Backtracking
+http://en.wikipedia.org/wiki/Backtracking
+归纳总结就是：递归和深度优先
+
+incrementally builds candidates to the solutions, and abandons each partial candidate c ("backtracks") as soon as it determines that c cannot possibly be completed to a valid solution.
+"增量地"构造候选者；如果候选者不适合，立即抛弃
+
+回溯比暴力枚举好；因为通过test，它跳过了很多候选者
+
+用的地方：
+    Backtracking is an important tool for solving constraint satisfaction problems, such as crosswords, verbal arithmetic, Sudoku, and many other puzzles.
+解决 constraint satisfaction 问题；就是那些"需要满足一点条件限制"的问题；比如  crosswords, verbal arithmetic, Sudoku, and many other puzzles
+    for parsing, for the knapsack problem and other combinatorial optimization problems， 回溯也是一个方便的工具（虽然不是最有效率的）
+    是某些语言的基础； basis of the so-called logic programming languages such as Icon, Planner and Prolog.
+    Backtracking is also utilized in the (diff) difference engine for the MediaWiki software.
+
+
+Backtracking depends on user-given "black box procedures" that define the problem to be solved, the nature of the partial candidates, and how they are extended into complete candidates. It is therefore a metaheuristic rather than a specific algorithm – although, unlike many other meta-heuristics, it is guaranteed to find all solutions to a finite problem in a bounded amount of time.
+回溯依赖于：1）。。2）candidate的特性3）一个candidate怎么扩展到"完整的"candidate；
+回溯更像是一种启发式的方法；而不仅仅是一个算法；
+
+
+名词
+partial candidates：可以complete；增量地complete；
+candidate extension：
+
+概念上可以想象成树：
+Conceptually, the partial candidates are represented as the nodes of a tree structure, the potential search tree.
+    候选者是树结构里的节点；
+Each partial candidate is the parent of the candidates that differ from it by a single extension step; 
+    每个候选者是另外一些候选者的父亲；孩子和父亲的区别是通过single extension step产生的；
+the leaves of the tree are the partial candidates that cannot be extended any further.
+    叶子是不能在扩展的候选者
+
+回溯算法  递归地，深度优先地  traverse 这个树；
+在每个节点，test （test 1）一下这个节点是不是能够 complate成一个valid solution；
+    如果test没有pass，这个节点的所有孩子都会被跳过；
+    如果pass了，那么检查这个节点是不是有效的解（test 2）；如果是，报告用户；如果不是，递归地枚举这个节点的孩子；
+
+
+伪代码
+用户提供数据P表示要解决的问题；和6个操作：root, reject, accept, first, next, and output
+procedure bt(c)
+  if reject(P,c) then return    # test 1；没pass，就直接返回，跳过所有的孩子；
+  if accept(P,c) then output(P,c)  # test 2； 如果是有效解，就输出；  （貌似如果是有效解，输出后应该返回，不要继续执行下面的代码）  xxx
+  s = first(P,c)             # 得到 first extension of candidate c
+  while s 不是 null do    # 这个循环迭代节点c的所有孩子
+    bt(s)                # 对c的孩子s，做递归
+    s = next(P,s)        # c的下一个孩子
+
+reject（）返回true表示c的孩子中没有有效解；如果不能肯定，就返回false；要不可能错过一些有效解；当然，reject（）最早返回true（越靠近根部），算法效率越高
+accept（）假设一个节点的祖先都通过了reject（）的测试
+Note that the general pseudo-code above does not assume that the valid solutions are always leaves of the potential search tree. In other words, it admits the possibility that a valid solution for P can be further extended to yield other valid solutions. 
+    这解释了xxx行为什么没有直接返回。。
+
+
+给出了一个例子，用回溯来解决constraint satisfaction problem 
+问题描述：
+找到n个大小在1和m之间的整数，x = (x[1],x[2], ..., x[n])，它们满足某些约束F
+对于这个问题：
+数据P是n，m和F
+partial candidate是c = (c[1],c[2], ... c[k])，k为0到n之间；这个部分候选解是一个解的前k个元素，x[1],x[2], ..., x[k])；
+最"根"的候选者可以认为是个空列表；
+
+对应的first和next实现
+function first(P,c)
+  k = length(c)
+  if k = n
+    then return 空
+    else return (c[1], c[2], ..., c[k], 1)    #第一个孩子，就是之前的partial candidate， 再加个1
+             
+function next(P,s)
+  k = length(s)
+  if s[k] = m
+    then return 空
+    else return (s[1], s[2], ..., s[k-1], 1 + s[k])      #后面的孩子，最后的元素 ++
+
+对于reject（）
+The call reject(P,c) should return true if the constraint F cannot be satisfied by any list of n integers that begins with the k elements of c. 
+    节点c有k个元素；如果以节点c的元素为前缀的列表都不满足F，那么reject（）返回true；说明不用检查节点c的孩子了；   
+文章举了一个例子，说明F满足某些特点后，reject（）可以像上面描述的那样；
+F 是一些 F[1] ， F[2] ... F[p]条件的"并"；如果F[i]作用在x[1]...x[k]上，那么reject（）可以检查F[i],如果F[i]不满足，那么reject就返回true；
+
+Assuming that reject is implemented as above, then accept(P,c) needs only check whether c is complete, that is, whether it has n elements.
+
+关于variable trail
+In addition to retaining minimal recovery values used in backing up, backtracking implementations commonly keep a variable trail, to record value change history. An efficient implementation will avoid creating a variable trail entry between two successive changes when there is no choice point, as the backtracking will erase all of the changes as a single operation.
+
+
+
+
+练习
+用来解决8-queen问题
+

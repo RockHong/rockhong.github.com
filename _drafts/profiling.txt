@@ -1,6 +1,6 @@
 ## 内存相关, memory , memory leak
 
-[2] 火焰图的介绍
+###[2] 火焰图的介绍
 火焰图对profile的结果做可视化；使得the most frequent code-paths to be identified quickly and accurately
 可以通过工具生成火焰图；会创建interactive SVG
 
@@ -27,7 +27,7 @@ Windows: Xperf.exe
 
 后面还介绍了别人基于火焰图做的一些工作
 
-[1]主要讲了火焰图在memory leak上的应用
+###[1]主要讲了火焰图在memory leak上的应用
 一个程序内存用的太多，那么会导致paging（swapping）；或者这个程序会被linux上的OOM killer给kill掉
 简单介绍了debug内存问题的几个方式
     使用core dump，然后用mdb（modular debugger），::findleaks 来分析； （这两个工具貌似是sun的系统上的，不知道有没有移植到其他的平台）；   需要程序中止
@@ -47,7 +47,9 @@ remember to trace all allocator functions: malloc(), realloc(), calloc(), etc.
 
 
 
+### [3] linux performance tools
+
 
 [1] http://www.brendangregg.com/FlameGraphs/memoryflamegraphs.html
 [2] http://www.brendangregg.com/flamegraphs.html    火焰图
-
+[3] http://www.slideshare.net/brendangregg/linux-performance-tools   一个很好的linux下面performance tools的介绍
