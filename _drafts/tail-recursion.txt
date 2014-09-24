@@ -1,0 +1,20 @@
+算法导论中
+7.1 给出了快速排序的递归版本
+快速排序也是基于分治模式；
+分解占了大部分工作
+合并不占什么工作
+todo：伪代码 贴一下，分析一下
+
+习题7-4 提到了 7.1 给出版本的第二个递归调用（尾部那个）可以变成循环
+要证明是对的，todo
+
+“用迭代控制来代替它，。。。叫尾递归”  很多编译器都加以了采用
+todo：编译是怎么侦测，怎么优化的
+
+贪心算法，16.1 最后一个小节“迭代贪心算法” 使用了为递归； todo 看看
+
+http://www.cnblogs.com/JeffreyZhao/archive/2009/04/01/tail-recursion-explanation.html
+http://www.cnblogs.com/JeffreyZhao/archive/2009/03/26/tail-recursion-and-continuation.html
+
+看看
+
