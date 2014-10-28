@@ -1,0 +1,158 @@
+一个人写的关于java gc的四篇文章
+
+http://javapapers.com/java/java-garbage-collection-introduction/
+    第一篇
+
+名词解释
+Java Development Kit (JDK) 是一系列工具to compile, run, package, distribute and monitor Java applications.
+Java Runtime Environment (JRE) – JRE comprises the JVM implementation and the Java API. 
+
+有很多不同的jvm实现
+甲骨文的JRockit JVM， 甲骨文从sun里得到的HotSpot JVM； 未来两者可能合并。。
+
+对象存在'heap memory area'
+
+heap memory主要分为3个area
+1 Young Generation
+    Eden Space (any instance enters the runtime memory area through eden) eden，伊甸园
+    S0 Survivor Space (older instances moved from eden to S0)
+    S1 Survivor Space (older instances moved from S0 to S1)
+2 Old Generation (instances promoted from S1 to tenured) tenured，终身职位的
+3 Permanent Generation (contains meta information like class, method detail)
+
+Permanent Generation (Permgen) space is removed from Java SE 8 features.
+
+
+http://javapapers.com/java/how-java-garbage-collection-works/
+垃圾回收是自动的
+
+System.gc() and Runtime.gc() are hooks to request the JVM to initiate the garbage collection process.
+Though this request mechanism provides an opportunity for the programmer to initiate the process but the onus is on the JVM.
+程序员可以请求jvm回收垃圾；但是最终是jvm来决定，jvm可以不理程序员的请求
+
+This decision is taken by the JVM based on the eden space availability in heap memory.
+jvm根据eden space的可用空间来决定要不要垃圾回收；具体细节是jvm实现相关的
+
+Eden Space:
+新的instance被创建时，先放在这里
+
+Survivor Space (S0 and S1):
+在part of minor garbage collection cycle里幸存下来的对象会从eden里移到s0里
+s1同理
+没有幸存下来的对象会被垃圾回收，不同实现回收的策略不一样，可能在同一个线程，也可能在不同的线程回收
+
+Old Generation: 
+ minor GC cycle 完了之后，s1还幸存者的对象会放到这里
+
+Major GC: 
+Major GC is the garbage collection process that scans the old generation part of the heap memory. 
+
+Memory Fragmentation: 
+碎片，
+Based on the choice of the garbage collector, the reclaimed memory area will either be compacted on the go or will be done in a separate pass of the GC.
+
+
+关于finalize（）
+在回收对象的空间前对象的这个方法会被调用
+但是finalize（）被调用的次序没有什么保证；所以程序员不要对不同对象的finalize（）的调用顺序做什么假设
+finalize（）有异常发生的话，这个异常会被忽略，and the finalization of that instance is cancelled.
+
+Garbage collection is done by a daemon thread.
+
+什么时候对象可以被垃圾回收
+    Any instances that cannot be reached by a live thread.
+    不被任何线程引用
+    Circularly referenced instances that cannot be reached by any other instances.
+    只有相互的循环引用，没有被其它对象引用
+
+Instances eligibility for garbage collection depends on the type of reference it has.
+Strong Reference    Not eligible for garbage collection
+Soft Reference  Garbage collection possible but will be done as a last option
+Weak Reference  Eligible for Garbage Collection
+Phantom Reference   Eligible for Garbage Collection
+
+
+http://javapapers.com/java/types-of-java-garbage-collectors/
+java有四类垃圾回收器
+    Serial Garbage Collector
+    Parallel Garbage Collector
+    CMS Garbage Collector
+    G1 Garbage Collector
+各有优缺点；我们可以通过传递参数去选择某一个种类的回收器
+
+1. Serial Garbage Collector
+会停住所有线程，用一个线程来回收垃圾；适合单线程环境，比如简单的命令行程序；可能不适合server；
+用-XX:+UseSerialGC  来打开
+
+2. Parallel Garbage Collector
+是默认的回收器；
+用多个线程回收垃圾；
+也会停住所有线程
+
+3. CMS Garbage Collector
+Concurrent Mark Sweep (CMS) garbage collector
+用多个线程来scan内存；然后sweap marked的instance
+cms在以下情形会停住所有线程
+    在marking  tenured generation space时
+    if there is a change in heap memory in parallel while doing the garbage collection.
+cms比parallel garbage collector用更多cpu资源来保证吞吐量；
+如果可以用很多cpu资源，那么cms比parallel garbage collector好
+用XX:+USeParNewGC来打开
+
+4. G1 Garbage Collector
+G1 garbage collector is used for large heap memory areas. It separates the heap memory into regions and does collection within them in parallel.
+把内存分成一个个区域
+XX:+UseG1GC
+
+java8有个优化，-XX:+UseStringDeduplication， 可以减少一些内存使用
+
+jvm的一些相关选项
+选哪个回收器
+-XX:+UseSerialGC                Serial Garbage Collector
+-XX:+UseParallelGC              Parallel Garbage Collector
+-XX:+UseConcMarkSweepGC CMS     Garbage Collector
+-XX:ParallelCMSThreads= CMS     Collector – number of threads to use
+-XX:+UseG1GC                    G1 Gargbage Collector
+一些gc优化相关的选项
+-Xms                Initial heap memory size
+-Xmx                Maximum heap memory size
+-Xmn                Size of Young Generation
+-XX:PermSize        Initial Permanent Generation size
+-XX:MaxPermSize     Maximum Permanent Generation size
+一个例子
+java -Xmx12m -Xms3m -Xmn1m -XX:PermSize=20m -XX:MaxPermSize=20m -XX:+UseSerialGC -jar java-application.jar
+
+
+http://javapapers.com/java/java-garbage-collection-monitoring-and-analysis/
+对垃圾回收进行监测和分析
+
+下面的tool可以用
+Java VisualVM    这篇文章讲的这个
+Naarad
+GCViewer
+IBM Pattern Modeling and Analysis Tool for Java Garbage Collector
+HPjmeter
+IBM Monitoring and Diagnostic Tools for Java – Garbage Collection and Memory
+Visualizer
+Verbose GC Analyzer
+
+
+Java VisualVM在java的sdk中就有，  \Java\jdk1.8.0\bin  ，叫jvisualvm 
+Tools like JConsole, jstat, jinfo, jstack, and jmap are now part of Java VisualVM.
+
+可以用来
+generate and analyze heap memory dumps
+view and operate on MBeans
+monitor garbage collection
+memory and CPU profiling
+
+可以装visual GC plugin插件，可以更好地展现信息
+有很多的profile信息；可以看看文章中的图
+
+
+
+
+
+
+
+

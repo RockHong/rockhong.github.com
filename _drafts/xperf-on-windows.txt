@@ -1,0 +1,68 @@
+### 名词解释
+ETW；Event Tracing for Windows (ETW)
+
+
+
+
+xperf 在windows performance toolkit  （wpt）里
+wpt现在在 Windows Assessment and Deployment Kit (ADK) for Windows® 8 里 （见【1】）
+
+下载页面
+
+
+wpt的一些文档  【3】
+xperf的一些文档  【5】【6】【8】
+博客【9】【11】【12】
+
+
+
+### 博客摘要
+【13】
+xperf, as a whole-system profiler,   xperf是个全局的profiler？
+
+I always have xperf running in the background, recording profile data to a circular memory buffer, so at the end of one of the hangs I asked xperf to flush the buffers to disk and then I took a look to see what was going on.
+作者一直都开着xperf；profile数据记录到circular memory buffer里；所以他发现性能问题后，可以把buffer刷到文件里，然后去分析
+
+Xperf shows me all of the processes on my system, but Visual Studio was the only one that was significantly active. 
+xperf记录下系统里所有进程
+
+Thanks to Microsoft’s publishing of symbols on their public symbol server I can use the xperf CPU Sampling summary table to find out where the time is being spent
+微软有个 公共的symbol server；  http://support.microsoft.com/kb/311503
+
+作者得到了哪些调用栈占时间比较多；
+通过调用栈和栈上的函数名，作者推出了栈上大概在执行什么逻辑
+
+A sampling profiler can tell you that a lot of time was spent along these call stacks, but it can’t tell you whether this is because the functions are extremely slow, or because they are called extremely frequently. 
+sampling profiler可以告诉哪些调用栈占时间比较多，但是不能告诉是这个函数比较慢，还是因为这个函数被调用的频率高 才导致占时间多。
+
+因为在这个例子里，栈的最后一个函数和io相关，所以作者决定去看看io。
+
+The File I/O graph was looking pretty busy so I pulled up a summary table. 
+file i/o graph在哪里看？？ visual studio里面？？ xperf里面？？
+
+作者看了io的create，close，read等操作的统计情况
+
+The sampling profiler pointed to the problem being related to breakpoints, so I took a look at my breakpoint window. 
+做调用栈的逻辑看，性能问题和断点有关系；所以作者看了看vs的断点；
+
+作者删除了一些断点；然后问题消失了；
+
+作者说的问题对应的bug记录：
+http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/2278949-fix-perf-bugs-with-multiple-breakpoints
+
+
+
+
+
+
+
+【1】http://blogs.technet.com/b/yongrhee/archive/2012/11/23/installing-the-windows-performance-toolkit-v5-0-wprui-wpr-xperf.aspx
+【2】http://www.microsoft.com/en-us/download/details.aspx?id=30652
+【3】http://msdn.microsoft.com/en-us/library/windows/hardware/hh162945.aspx
+【5】http://msdn.microsoft.com/en-us/library/windows/hardware/hh162920.aspx
+【6】http://msdn.microsoft.com/en-us/library/windows/hardware/hh448088.aspx
+【8】http://msdn.microsoft.com/en-us/library/windows/hardware/hh448081.aspx
+【9】https://developer.mozilla.org/en-US/docs/Mozilla/Performance/Profiling_with_Xperf
+【11】https://randomascii.wordpress.com/category/xperf/
+【12】http://randomascii.wordpress.com/2013/03/26/summarizing-xperf-cpu-usage-with-flame-graphs/
+【13】https://randomascii.wordpress.com/2011/07/02/xperf-and-visual-studio-the-case-of-the-breakpoint-hangs/

@@ -1,0 +1,119 @@
+https://anturis.com/blog/java-virtual-machine-the-essential-guide/
+
+ JVM is an abstract computing machine defined by a specification,
+ which is designed to interpret bytecode that is compiled from Java source code.
+
+ 主要的实现是HotSpot
+
+It can be implemented as a process, a standalone Java OS, or a processor chip that executes bytecode directly.
+    jvm可以被实现成一个进程，或者一个独立的java os，或者是一个专门执行bytecode的处理器
+Most commonly known JVMs are software implementations that run as processes on popular platforms
+    一般jvm被实现成一个进程
+
+在沙盒里运行，java程序不能直接访问文件系统、进程、网络等
+
+most software implementations of the JVM include a just-in-time (JIT) compiler that generates machine code for frequently used methods. 
+    jvm可能包括了jit
+
+JVM specification定义了一些subsystem和他们的行为，主要有两个subsystem
+    class loader， Responsible for reading Java source code and loading classes into the data areas.
+    Execution Engine. Responsible for executing instructions from the data areas.
+
+
+The JVM uses different class loaders organized into the following hierarchy， 这些loader组成一个层次结构
+    The bootstrap class loader is the parent for other class loaders. It loads the core Java libraries and is the only one written in native code.
+        这个所有其它loader的父亲；它会load核心库；它是用native code写的
+    The extension class loader is a child of the bootstrap class loader. It loads the extension libraries.
+        
+    The system class loader is a child of the extension class loader. It loads the application class files that are found in the classpath.
+        
+    A user-defined class loader is a child of the system class loader or another user-defined class loader.
+
+loader在load一个类时会先去查cache，如果没有被load过，那么delegate给它的父亲，看看父亲（的cache）有没有load过，如果父亲（们）都没有load过
+那么去load；
+a child class loader should not be allowed to load classes that are already loaded by its parent.
+
+
+The execution engine executes commands from the bytecode loaded into the data areas one by one.
+执行引擎去执行data area的bytecode
+
+有两种方式去执行，
+1 Interpretation，解释 ， The execution engine changes each command to machine language as it is encountered.
+2 Just-in-time (JIT) compilation. If a method is used frequently, the execution engine compiles it to native code and stores it in the cache.
+    这样就不用每次都解释了
+
+jit在第一次时会耗时一点
+
+jit不是JVM specification的要求，
+The specification defines only which bytecode commands relate to which native code; 
+it is up to the implementation to define how the execution engine actually performs this conversion.
+
+
+内存模型
+The Java memory model is built on the concept of automatic memory management.
+
+jvm从操作系统上分配内存，分成3个区域
+    Heap Space. This is a shared memory area used to hold the objects that a garbage collector scans.
+    Method Area. This area was previously known as the permanent generation where loaded classes were stored. 
+        It has recently been removed from the JVM, and classes are now loaded as metadata to native memory of the underlying OS.
+    Native Area. This area holds references and variables of primitive types.
+
+为什么分generation
+Breaking the heap up into generations ensures efficient memory management because the garbage collector does not need to scan the whole heap. 
+Most objects live for a very short time, and those that survive longer will likely not need to be discarded at all until the application terminates.
+
+新创建的对象现在eden pool；eden pool满了之后触发一个minor的垃圾回收；找到dead的对象，把依然live的对象增加age（age就是经历过的gc的次数）
+回收dead的对象；把live的移到survivor pool；这样eden pool又空了
+如果活着的对象到了一定的age，就把他们移到tenured pool；等到tenured pool满了之后，就触发一次major的gc
+minor的gc比较frequent；
+
+The heap size is dynamic.   heap可以增长的
+When the heap fills up, the JVM reallocates more memory, until the maximum is reached.    有最大值
+Memory reallocation also causes the application to stop briefly.
+
+
+
+线程
+jvm在一个进程里运行
+它可以执行多个线程
+线程可以在一个处理器上执行，也可以在多个处理器执行；受thread scheduler控制
+
+
+性能优化
+如果gc比你想要的频繁，可以增加heap的最大size；减少触发gc的次数；
+用-Xmx 选项
+默认是1GB和1/4物理内存的中的较小者
+
+如果问题是内存的重分配，那么you can set the initial heap size to be the same as the maximum. 
+This means that the JVM will never need to allocate more memory to the heap. 
+However, you will also lose the adaptive memory optimization gained from dynamic heap sizing.    这么做的损失
+用-Xms 选项
+默认是物理内存的1/64，或者各平台相关的某个值
+
+If you know which garbage collections (minor or major) are causing performance degradation, 
+you can set the ratio between the young and old generations without changing the overall heap size. 
+可以改变各个generation的内存空间的比例
+比如，如果short live的对象多，那么可以增加相应的内存size
+选项：Specify the ratio between the young and old generation using the '-XX:NewRatio' option when you start the JVM. 
+     -XX:NewRatio=5 表示old是young的5倍
+     默认是2；the old generation occupies 2/3 of the heap, and the young generation occupies 1/3).
+选项：Specify the initial and maximum size of the young generation using the '-Xmn' option when you start the JVM. 
+    old generation占用剩下的内存
+选项：Specify the initial and maximum size of the young generation separately, using the -XX:NewSize and -XX:MaxNewSize options 
+    when you start the JVM. The old generation size will be set to whatever memory remains on the heap.
+
+
+对于多线程，可以考虑控制线程栈的大小；
+用-Xss 选项
+默认是320 KB or 1024 KB, depending on the platform.
+
+
+
+性能监控
+一个工具Anturis Console
+Using the Anturis Console, you can set up monitoring of the JVM for any hardware component (such as a computer running a Tomcat web server) 
+in your infrastructure by adding the JVM monitor to the component.
+
+
+
+
