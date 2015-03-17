@@ -34,7 +34,7 @@ div.pp-timedate p {
     text-align: center;
 } /* TODO: test in firefox, safari, chrome */
 
-div.pp-main {
+div.pp-main, div.pp-main-short {
     float: right;
     width: 618px;
     background: #fff;
@@ -43,35 +43,40 @@ div.pp-main {
     border-radius: 9px 9px 9px 9px; 
 }
 
+div.pp-main-short {
+    border-bottom: 2px solid #FFD2BF;
+    border-right: 3px solid #FFD2BF;
+}
+
 div.pp-main-wrapper {
     padding: 8px 28px 28px 16px;
 }
 
-div.pp-main .pp-title {
+.pp-title {
     line-height: 19px
     font-size: 14px;
     margin: 0 0 16px;
 }
 
-div.pp-main .pp-title  a{
+.pp-title  a{
     color: #888;
     text-decoration: none;
 }
 
-div.pp-main .pp-content {
+.pp-content, .pp-content-short  {
     width: 100%;
     line-height: normal;
     font-size: 13px;
     overflow: hidden;     /* works like clear */
 }
 
-div.pp-main .pp-content .pp-image {
+.pp-content .pp-image {
     float: left;
     width: 164px;
     margin: 0 25px 5px 0;
 }
 
-div.pp-main .pp-content .pp-image img {
+.pp-content .pp-image img {
     width: 164px;
 }
 
@@ -89,11 +94,15 @@ div.pp-tags {
     background-size: auto 19px;
 }
 
-div.pp-tags a{
+div.pp-tags a, .short-blog-tag {
     color: #aaa;
     text-decoration: none;
     margin-left: 28px;   
 }   
+
+.short-blog-tag {
+    background: #FFD2BF;
+}
 
 div.pp-comments {
     float:right;        
