@@ -1,51 +1,68 @@
 ---
 # MUST HAVE BEG
 layout: post
-disqus_identifier: 20140922-pentax-trap-focus # DON'T CHANGE THE VALUE ONCE SET
-title: short...宾得单反的对焦陷阱
+disqus_identifier: 20150317-jit-in-simple # DO NOT CHANGE THE VALUE ONCE SET
+title: JIT是怎么实现的
 # MUST HAVE END
 
 is_short: true
 subtitle:
 tags: 
-- Pentax
-date: 2015-09-22 21:32:00
+- JIT
+date: 2015-03-17 21:32:00
 image:
 image_desc:
 ---
 
-摘自宾得K-7使用手册：
+JIT，Just In Time的缩写，就是在运行时把代码（字节码）编译成机器指令，然后直接执行机器指令来
+提高运行效率。比如，如果一个函数在运行时被反复执行，那么可以把这个函数（对应的字节码）编译成
+机器指令后直接执行对应的机器指令。
 
->###在陷阱对焦模式下拍摄
+如何实现JIT？
 
->在[C 自定义 5]菜单（第87页）中讲[35. 陷阱对焦]设置为[开启]
->时，如果对焦模式设置为**AF.S**并安装有以下镜头类型中的一种，则
->可使用陷阱对焦拍摄功能，并且当主体对准时快门会自动释放。
->
->* 手动对焦镜头
->* 具有**AF/MF**切换功能的DA或FA镜头（镜头上的该设定在拍摄
->之前必须设定为**MF**）
->
->####如何拍摄照片
->1. 将使用的镜头装在相机上。
->1. 将对焦模式杆转动至**AF.S**位置。
->1. 在主体将经过的位置处设置焦点。
->1. 完全按下快门释放按钮。
->
->当主体进入设定焦点位置时，相机会自动释放快门。
-    
-    
-     
-     
-在[这篇文章][1]也做了相应的介绍。具体的步骤如下：  
-   
-1. 相机设置在AF-S模式
-2. 相机设置在连拍模式
-3. 曝光模式设置成AV，这样可以用大光圈，得到浅的景深和很快的快门速度（作者估计是用来拍鸟的）
-4. 调整好焦点
-5. 盖上取景款，防止曝光错误
-6. Plug in the cable release, push the release button and block it.（估计就是用快门线来按下快门）
+一个可执行程序对应的机器指令是放在代码段（.text section）里的，运行时会被加载到内存里。CPU从
+内存里取得机器指令，然后去执行。类似地，JIT就是把字节码转换成机器指令，放到一块内存里，然后
+去执行这块内存里的指令。[这篇文章][1]给出了一个实现。
+
+    //通过mmap分配一块内存
+    //把权限设置成可读/写/执行，实际上为了安全应该是：刚刚分配的内存设置成可写的，
+    //    等往里面写入机器指令后去掉可写权限，只保留可读和可执行权限
+    //用mmap而不是malloc的原因是权限设置信息（protection bits）只能放在内存页的边界上，
+    //    mmap分配的内存是从内存页边界开始的，而malloc分配则不一定。如果用malloc的话，
+    //    要自己处理权限问题，会麻烦一点。
+    void* alloc_executable_memory(size_t size) {
+      void* ptr = mmap(0, size,
+                       PROT_READ | PROT_WRITE | PROT_EXEC,
+                       MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+      if (ptr == (void*)-1) {
+        perror("mmap");
+        return NULL;
+      }
+      return ptr;
+    }
+
+    void emit_code_into_memory(unsigned char* m) {
+      //机器指令
+      unsigned char code[] = {
+        0x48, 0x89, 0xf8,                   // mov %rdi, %rax
+        0x48, 0x83, 0xc0, 0x04,             // add $4, %rax
+        0xc3                                // ret
+      };
+      memcpy(m, code, sizeof(code));
+    }
+
+    const size_t SIZE = 1024;
+    typedef long (*JittedFunc)(long);
+
+    void run_from_rwx() {
+      void* m = alloc_executable_memory(SIZE);
+      emit_code_into_memory(m);
+
+      JittedFunc func = m;
+      //把内存地址当成函数地址直接去执行它
+      int result = func(2);
+      printf("result = %d\n", result);
+    }
 
 
-
-[1]: http://www.pentaxforums.com/forums/53-pentax-dslr-camera-articles/51036-how-use-trap-focus-catch-focus.html "Pentax Trap Focus"
+[1]: http://eli.thegreenplace.net/2013/11/05/how-to-jit-an-introduction/ "How to JIT - an introduction"
