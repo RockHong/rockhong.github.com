@@ -3,6 +3,8 @@ My personal blog site powered by Jekyll and Github. [Click Me](http://rockhong.g
 *The design of the site “copies” a lot from [163 lofter](http://www.lofter.com)*
 
 ##404 page##
+[http://www.qq.com/404/](http://www.qq.com/404/) for lost children.    
+An example 404 page,    
 [http://rockhong.github.io/not-existing-page.html](http://rockhong.github.io/not-existing-page.html)       
 
 ##References:##
