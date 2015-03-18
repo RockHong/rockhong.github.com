@@ -15,3 +15,10 @@ My personal blog site powered by Jekyll and Github. [Click Me](http://rockhong.g
 [Github Status](https://status.github.com/messages)       
 [Quick Start for Jekyll](https://help.github.com/articles/using-jekyll-with-pages/)        
 [Jekyll Document](http://jekyllrb.com/docs/home/)           
+
+##Run Jekyll Locally
+From [this doc](https://help.github.com/articles/using-jekyll-with-pages/)
+
+    switch to gh-pages branch if you want
+    bundle exec jekyll serve
+    go to http://localhost:4000
