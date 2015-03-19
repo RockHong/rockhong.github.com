@@ -43,13 +43,17 @@ Emoji是unicode的一部分，UTF-8编码也是可以表示Emoji的。
 
 最后效果如下，       
 Chrome on Windows 7       
+<img src="../images/blog/chrome-win7-emoji.png" alt="chrome win7 emoji" title="chrome win7 emoji" style="display: block; margin-left: auto; margin-right: auto;">
 IE 11 on Windows 7      
+<img src="../images/blog/ie-win7-emoji.png" alt="ie win7 emoji" title="ie win7 emoji" style="display: block; margin-left: auto; margin-right: auto;">
 Safari on OS X     
+<img src="../images/blog/safari-osx-emoji-png.png" alt="safari osx emoji" title="safari osx emoji" style="display: block; margin-left: auto; margin-right: auto;">
 Chrome on OS X      
+<img src="../images/blog/chrome-osx-emoji-png.png" alt="chrome osx emoji" title="chrome osx emoji" style="display: block; margin-left: auto; margin-right: auto;">
 
 
-
-[1]: http://apps.timwhitlock.info/emoji/tables/unicode "Emoji Unicode Tables"
-[2]: https://msdn.microsoft.com/en-us/library/windows/apps/jj841126.aspx "Segoe UI Symbol"
-[3]: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family "font-family"
-[5]: http://www.w3schools.com/cssref/pr_font_font-family.asp "font-family"
+###参考连接
+[Emoji Unicode Tables]: (http://apps.timwhitlock.info/emoji/tables/unicode)     
+[Segoe UI Symbol]: (https://msdn.microsoft.com/en-us/library/windows/apps/jj841126.aspx)     
+[font-family MDN]: (https://developer.mozilla.org/en-US/docs/Web/CSS/font-family)      
+[font-family]: (http://www.w3schools.com/cssref/pr_font_font-family.asp)    
