@@ -53,7 +53,7 @@ Chrome on OS X
 
 
 ###参考连接
-[Emoji Unicode Tables]: (http://apps.timwhitlock.info/emoji/tables/unicode)     
-[Segoe UI Symbol]: (https://msdn.microsoft.com/en-us/library/windows/apps/jj841126.aspx)     
-[font-family MDN]: (https://developer.mozilla.org/en-US/docs/Web/CSS/font-family)      
-[font-family]: (http://www.w3schools.com/cssref/pr_font_font-family.asp)    
+[Emoji Unicode Tables](http://apps.timwhitlock.info/emoji/tables/unicode)     
+[Segoe UI Symbol](https://msdn.microsoft.com/en-us/library/windows/apps/jj841126.aspx)     
+[font-family MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/font-family)      
+[font-family](http://www.w3schools.com/cssref/pr_font_font-family.asp)    
