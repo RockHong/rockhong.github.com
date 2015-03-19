@@ -43,13 +43,13 @@ Emoji是unicode的一部分，UTF-8编码也是可以表示Emoji的。
 
 最后效果如下，       
 Chrome on Windows 7       
-<img src="../images/blog/chrome-win7-emoji.png" alt="chrome win7 emoji" title="chrome win7 emoji" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="../images/blog/chrome-win7-emoji.png" alt="chrome win7 emoji" title="chrome win7 emoji" style="display: block;">
 IE 11 on Windows 7      
-<img src="../images/blog/ie-win7-emoji.png" alt="ie win7 emoji" title="ie win7 emoji" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="../images/blog/ie-win7-emoji.png" alt="ie win7 emoji" title="ie win7 emoji" style="display: block;">
 Safari on OS X     
-<img src="../images/blog/safari-osx-emoji-png.png" alt="safari osx emoji" title="safari osx emoji" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="../images/blog/safari-osx-emoji-png.png" alt="safari osx emoji" title="safari osx emoji" style="display: block;">
 Chrome on OS X      
-<img src="../images/blog/chrome-osx-emoji-png.png" alt="chrome osx emoji" title="chrome osx emoji" style="display: block; margin-left: auto; margin-right: auto;">
+<img src="../images/blog/chrome-osx-emoji-png.png" alt="chrome osx emoji" title="chrome osx emoji" style="display: block;">
 
 
 ###参考连接
