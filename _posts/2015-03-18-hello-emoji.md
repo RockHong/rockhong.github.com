@@ -8,7 +8,7 @@ title: Hello Emoji, 😊😊😊
 is_short: true
 subtitle:
 tags: 
-- JIT
+- emoji
 date: 2015-03-18 19:13:00
 image:
 image_desc:
