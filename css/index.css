@@ -131,6 +131,7 @@ div#self-intro {
     -moz-border-radius: 9px 9px 9px 9px;
     -webkit-border-radius: 9px 9px 9px 9px;
     border-radius: 9px 9px 9px 9px;
+    margin-bottom: 8px;
 }
 
 div#self-intro img{
