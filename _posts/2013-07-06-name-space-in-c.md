@@ -12,7 +12,9 @@ date: 2013-07-07 00:30:00
 image:
 image_desc:
 ---
-《The Standard C Library》（《C标准库》）中有一道习题，0.2 编写一个包含下面这行代码的（正确的）程序：    
+《The Standard C Library》（《C标准库》）中有一道习题，
+
+0.2 编写一个包含下面这行代码的（正确的）程序：    
 `x: ((struct x*)x)->x = x(8);`    
 描述x的5个不同的用途。
 
@@ -37,9 +39,11 @@ image_desc:
 	    printf("%d\n", ((struct x*)x)->x);
 	    return 0;
 	}
-    	
+    
+	
 这个程序能正确地编译、运行，其结果为64。     
 
+<!--more-->
 可以看到程序中，同一个标识符（identifier）“x”在“行THE LINE”中出现了5次，但是编译器能正确地找出每个“x”标识符所指定实体（entity）。这是因为5个“x”（用于预处理器对宏的展开，实际上是4个“x”）分别属于不同的名字空间（name space）。不同名字空间中的实体可以使用相同的标识符；当然，同一名字空间里的不同实体也有可能使用相同的标识符，比如，
 
 	int foo()
@@ -60,17 +64,24 @@ image_desc:
 >如果在一个翻译单元（比如一个.c文件）里的某个点（比如某行代码），一个标识符出现了多次，那么编译器会尝试
 >消除歧义，去找到每次出现所对应的实体。
 
->label names (disambiguated by the syntax of the label declaration and use);    
+
+>label names (disambiguated by the syntax of the label declaration and use);    
 >所有标签名组成一个名字空间。编译器通过标签的语法（label:）来确认一个标识符是不是属于该名字空间。
 
->the tags of structures, unions, and enumerations (disambiguated by following any>of the keywords struct, union, or enum);    
+
+>the tags of structures, unions, and enumerations (disambiguated by following any
+>of the keywords struct, union, or enum);    
 >所有结构体、联合、枚举的名字组成一个名字空间。编译器通过关键字`struct`,`union`,`enum`来消除歧义。    
 
->the members of structures or unions; each structure or union has a separate name >space for its members (disambiguated by the type of the expression used to access the >member via the . or -> operator);    
+
+>the members of structures or unions; each structure or union has a separate name >space for its members (disambiguated by the type of the expression used to access the >member via the . or -> operator);    
 >一个结构体或者联合里的成员的名字组成一个名字空间。编译器通过`.`或者`->`来消除歧义。
 
->all other identifiers, called ordinary identifiers (declared in ordinary >declarators or as enumeration constants).    >所有其它的标识符组成一个名字空间。
-
+
+>all other identifiers, called ordinary identifiers (declared in ordinary >declarators or as enumeration constants).    
+>所有其它的标识符组成一个名字空间。
+
+
 现在解释下编译器是怎么对`x: ((struct x*)x)->x = x(8);`消除歧义的。     
 第一个“x”：     
 看到x:，编译器知道这个“x”是一个标签名字。     
