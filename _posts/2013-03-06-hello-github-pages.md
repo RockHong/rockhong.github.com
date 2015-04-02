@@ -24,7 +24,8 @@ Jekyll和Github用到了下面所列的技术：
   传到Github的主机上。这里，可以简单把git当成一个类FTP的工具。
 * *YAML*，可以用来表达列表（list）、哈希表（key value table）等数据的一种文本格式。通过给站点中的某
   个文件（比如某篇文章）加上“YAML头“，让Jekyll知道这个文件的“元信息”。比如，在一篇博客的头部加上如下
-  的“YAML头”,
+  的“YAML头”,    
+<!--more-->
   
         ---
         layout: post
