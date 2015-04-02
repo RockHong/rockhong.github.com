@@ -27,3 +27,21 @@ From [this doc](https://help.github.com/articles/using-jekyll-with-pages/)
     switch to gh-pages branch for a Project Pages site. it's not my case.
     bundle exec jekyll serve
     go to http://localhost:4000
+
+##Others
+###How to implement "Read More" functionality
+Jekyll already supports this, see [here](http://jekyllrb.com/docs/posts/#post-excerpts). Use `excerpt_separator`
+and etc. to implement.
+
+###Code Highlight
+Jekyll already supports this, see [here](http://jekyllrb.com/docs/posts/#highlighting-code-snippets). For example,
+
+    {% highlight ruby %}
+    def show
+        @widget = Widget(params[:id])
+        respond_to do |format|
+            format.html # show.html.erb
+            format.json { render json: @widget }
+        end
+    end
+    {% endhighlight %}
