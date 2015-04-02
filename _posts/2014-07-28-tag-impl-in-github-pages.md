@@ -5,7 +5,6 @@ disqus_identifier: 20140728-tag-impl-in-github-pages # DON'T CHANGE THE VALUE ON
 title: 给Jekyll搭建的静态博客增加标签系统
 # MUST HAVE END
 
-excerpt_separator: <!--more-->
 subtitle:
 tags: 
 - jekyll
