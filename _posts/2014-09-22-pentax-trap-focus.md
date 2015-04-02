@@ -5,6 +5,7 @@ disqus_identifier: 20140922-pentax-trap-focus # DON'T CHANGE THE VALUE ONCE SET
 title: 宾得单反的对焦陷阱
 # MUST HAVE END
 
+is_short: true
 subtitle:
 tags: 
 - Pentax
