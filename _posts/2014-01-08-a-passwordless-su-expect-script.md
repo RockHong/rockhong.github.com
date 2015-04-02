@@ -5,6 +5,7 @@ disqus_identifier: 20140108-an-expect-script-for-passwordless-su # DON'T CHANGE 
 title: 一个自动化输入su密码的expect脚本
 # MUST HAVE END
 
+is_short: true
 subtitle:
 tags: 
 - linux
