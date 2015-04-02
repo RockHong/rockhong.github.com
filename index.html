@@ -27,12 +27,15 @@ title: Home Page
             </div> 
            {% else %}
             <div class="pp-content">
-                {% if post.image %}
-                <div class="pp-image">
-                    <a href="/"> <!--TODO lofter image click effect -->
+                {% if post.excerpt contains '<img' %}
+                {% else %}
+                  {% if post.image %}
+                  <div class="pp-image">
+                      <a href="/"> <!--TODO lofter image click effect -->
                         <img src="../images/blog/{{ post.image }}" alt="{{ post.image-desc}}">
-                    </a>
-                </div>
+                      </a>
+                  </div>
+                  {% endif %}
                 {% endif %}
                 <!-- <p> {{ post.content | strip_html | truncatewords: 18 }}</p> -->
                 {{ post.excerpt }}
