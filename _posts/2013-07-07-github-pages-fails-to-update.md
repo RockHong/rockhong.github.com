@@ -5,6 +5,7 @@ disqus_identifier: 20130707-github-pages-fails-to-update # DON'T CHANGE THE VALU
 title: github pages不能自动更新
 # MUST HAVE END
 
+is_short: true
 subtitle:
 tags: 
 - jekyll
