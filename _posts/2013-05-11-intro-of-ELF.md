@@ -16,7 +16,8 @@ image_desc: ELF layout
 ![ELF layout](../images/blog/{{page.image}} "ELF layout")
 
 首先是ELF header，它描述了这个ELF文件的概况，比如数据的编码方式、ELF文件的类型、program header和section header的起始位置(起始字节)等。ELF header同时还指定了自身的长度，一般而言是64字节（byte）；之后，就是program header。  
-readelf命令可以用来检查ELF文件的内容。查看ELF header的命令如下，
+readelf命令可以用来检查ELF文件的内容。查看ELF header的命令如下，      
+<!--more-->
 
 	[hong@localhost elf]$ readelf -h exe
 	ELF Header:
