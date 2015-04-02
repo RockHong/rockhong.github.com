@@ -5,6 +5,7 @@ disqus_identifier: 20140728-tag-impl-in-github-pages # DON'T CHANGE THE VALUE ON
 title: 给Jekyll搭建的静态博客增加标签系统
 # MUST HAVE END
 
+excerpt_separator: <!--more-->
 subtitle:
 tags: 
 - jekyll
@@ -36,6 +37,7 @@ image_desc:
     └── about.html
 
 下面简述一下实现的大致流程。
+<!--more-->
 
 首先，在文章（比如_posts/2014-07-28-tag-impl-in-github-pages.md）的“YAML头”中增加“标签”信息。
 
