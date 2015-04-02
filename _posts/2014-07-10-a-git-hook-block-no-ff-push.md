@@ -5,6 +5,7 @@ disqus_identifier: 20140710-a-git-hook-block-noff-push # DON'T CHANGE THE VALUE 
 title: A Git Hook Script to Block No-Fast-Forward Push
 # MUST HAVE END
 
+is_short: true
 subtitle:
 tags: 
 - git
