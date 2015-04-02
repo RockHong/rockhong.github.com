@@ -34,7 +34,9 @@ title: Home Page
                     </a>
                 </div>
                 {% endif %}
-                <p> {{ post.content | strip_html | truncatewords: 18 }}</p>
+                <!-- <p> {{ post.content | strip_html | truncatewords: 18 }}</p> -->
+                {{ post.excerpt }}
+                <a href="{{ post.url }}">阅读更多……</a>
             </div> 
            {% endif %}
 
