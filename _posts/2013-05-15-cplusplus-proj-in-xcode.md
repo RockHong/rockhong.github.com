@@ -5,6 +5,7 @@ disqus_identifier: 20130515-cplusplus-proj-in-xcode # DON'T CHANGE THE VALUE ONC
 title: 在XCode中新建C++工程
 # MUST HAVE END
 
+is_short: true
 subtitle:
 tags: 
 - XCode
