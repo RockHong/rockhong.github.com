@@ -5,6 +5,7 @@ disqus_identifier: 20140320-mintty-as-a-cygwin-terminal # DON'T CHANGE THE VALUE
 title: 使用mintty作为cygwin的终端
 # MUST HAVE END
 
+is_short: true
 subtitle:
 tags: 
 - cygwin
