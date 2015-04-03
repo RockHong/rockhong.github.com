@@ -134,6 +134,13 @@ div#self-intro {
     margin-bottom: 8px;
 }
 
+div#db-fm {
+  background-color: rgb(241, 241, 241);
+  -moz-border-radius: 9px 9px 9px 9px;
+  -webkit-border-radius: 9px 9px 9px 9px;
+  border-radius: 9px 9px 9px 9px;
+}
+
 div#self-intro img{
     float: left;
     width: 68px;
