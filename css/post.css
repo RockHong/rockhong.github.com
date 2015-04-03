@@ -143,5 +143,5 @@ a.db-sharing {
 img#db-sharing {
   padding-top: 3px;
   height: 17px;
-  width: 81px;
+  width: 81px !important;
 }
