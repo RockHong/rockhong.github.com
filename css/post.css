@@ -140,7 +140,7 @@ a.db-sharing {
   height: 25px;
 }
 
-a.db-sharing img{
+img#db-sharing {
   padding-top: 3px;
   height: 17px;
   width: 81px;
