@@ -32,6 +32,7 @@ Jekyll和Github用到了下面所列的技术：
         title: stashing your changes
         category: beginner
         ---
+  
   Jekyll在解析这个文件后，会知道这个文件分类（category）是“beginner”；这些信息后续可以给Liquid使用。
 
 * [*Liquid*](https://github.com/Shopify/liquid/wiki)， 一个模版引擎（Ruby库），可用于生成HTML内容。比如，
@@ -66,6 +67,7 @@ Jekyll和Github用到了下面所列的技术：
         |-- css
         |-- images
         `-- index.html
+        
   \_layouts目录下放置着HTML模版，\_posts目录是我们的文章，index.html是博客站点的主页；其他目录，比如css，images可以用来放置样式表和图片，这些目录不是必需的。
 - 在本地建立并且测试好站点后，将本地的内容库推送（git push）到Github上后，我们的博客站点就发布/更新成功了。
 - 通过http://my-github-username.github.com/就可以访问我们的博客站点了。
