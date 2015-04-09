@@ -5,7 +5,7 @@ disqus_identifier: 20150409-newline-in-git # DO NOT CHANGE THE VALUE ONCE SET
 title: Git里的换行符
 # MUST HAVE END
 
-subtitle:Newline in Git
+subtitle: Newline in Git
 tags: 
 - git
 date: 2015-04-09 20:13:00
