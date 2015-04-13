@@ -66,9 +66,40 @@ Chrome on OS X
 
 
 
+数据库的锁/加锁策略（lock/locking)和数据库的隔离级别（isolation level）不是同一个
+概念（虽然有关联）。隔离级别主要关心的是一个transaction对其它transaction修改的可见性。
+锁/加锁策略主要关心如何控制多个transaction对表上某一行（row）的并发访问。
+
+### 加锁策略 Locking
+数据库有两种加锁的策略，optimistic locking以及pessimistic locking。它们也经常被
+翻译成或者叫成“乐观锁”和“悲观锁”。实际上，不是说一个锁有”乐观“和”悲观“之分；而是说在使用
+锁的”态度“上有”乐观“和”悲观“之分。下面可以看到optimistic locking根本不会使用锁。
+
+#### 悲观的加锁策略 Pessimistic Locking
+通过使用锁（不同类型的锁）来防止数据（row）被其它的用户修改。用户A在执行操作（比如读或者
+更新操作）前加上锁，如果其它用户对数据的操作和锁有冲突，那么在用户A释放锁之前，其它用户的这些
+操作将不能执行。
+
+因为用户在执行操作前不管未来是否会有冲突总是加锁，所以叫pessimistic locking。这种加锁
+策略适用于数据竞争（data contention）发生的概率很高的情景。因为在这种情景下，如果采用
+乐观的加锁策略，transaction的回滚概率高，使得回滚的总开销比加锁带来的开销还大。
+
+#### 乐观的加锁策略 Optimistic Locking
+采用optimistic locking时，用户在读数据时不会使用锁。当用户A更新数据时，数据库会检查其它
+用户有没有修改过这份数据（比如通过对比内存中用户A的数据的版本信息和更新时数据库中的版本
+信息）。如果用户A要更新的数据已经被其它用户更新过，数据库会报错。通常用户收到错误消息后会
+回滚并重试。
+
+为什么是乐观的？因为采用这种策略时，用户倾向于认为数据之间是没有竞争的。这种策略适用于数据
+竞争很少的场景。这种场景下，偶尔的回滚带来的开销要低于加锁防止冲突的开销。
+
+### 不同的锁
 
 
 --------------------
+
+具体锁的应用要参考具体的db
+不是“乐观”乐观的锁，而是乐观的加锁策略；
 
 https://technet.microsoft.com/en-us/library/ms189132(v=sql.105).aspx
 
@@ -94,137 +125,95 @@ In optimistic concurrency control, users do not lock data when they read it. Whe
 
 
 https://technet.microsoft.com/en-us/library/ms175519(v=sql.105).aspx
+Applies to: SQL Server 2008 R2 and higher versions.
 
-Shared Locks
+Shared (S) locks
+Used for read operations that do not change or update data, such as a SELECT statement.
+允许多个transaction同时读SELECT；是悲观加锁策略下的一种锁；
+当resource上存在这种锁时，不允许其它transaction修改这个对象、资源；
+读操作完成后这个锁马上就释放了；除非隔离级别是repeatable read or higher或者a locking hint is used to retain the shared (S) locks for the duration of the transaction.
 
-Shared (S) locks allow concurrent transactions to read (SELECT) a resource under pessimistic concurrency control. For more information, see Types of Concurrency Control. No other transactions can modify the data while shared (S) locks exist on the resource. Shared (S) locks on a resource are released as soon as the read operation completes, unless the transaction isolation level is set to repeatable read or higher, or a locking hint is used to retain the shared (S) locks for the duration of the transaction.
-Update Locks
+Update (U) locks
+Used on resources that can be updated. Prevents a common form of deadlock that occurs when multiple sessions are reading, locking, and potentially updating resources later.
+prevent a common form of deadlock
+怎么形成死锁
+Only one transaction can obtain an update (U) lock to a resource at a time.
+If a transaction modifies a resource, the update (U) lock is converted to an exclusive (X) lock.
 
-Update (U) locks prevent a common form of deadlock. In a repeatable read or serializable transaction, the transaction reads data, acquiring a shared (S) lock on the resource (page or row), and then modifies the data, which requires lock conversion to an exclusive (X) lock. If two transactions acquire shared-mode locks on a resource and then attempt to update data concurrently, one transaction attempts the lock conversion to an exclusive (X) lock. The shared-mode-to-exclusive lock conversion must wait because the exclusive lock for one transaction is not compatible with the shared-mode lock of the other transaction; a lock wait occurs. The second transaction attempts to acquire an exclusive (X) lock for its update. Because both transactions are converting to exclusive (X) locks, and they are each waiting for the other transaction to release its shared-mode lock, a deadlock occurs.
-To avoid this potential deadlock problem, update (U) locks are used. Only one transaction can obtain an update (U) lock to a resource at a time. If a transaction modifies a resource, the update (U) lock is converted to an exclusive (X) lock.
-Exclusive Locks
+Exclusive (X) locks
+Used for data-modification operations, such as INSERT, UPDATE, or DELETE. Ensures that multiple updates cannot be made to the same resource at the same time.
+prevent access to a resource by concurrent transactions； 防止并发访问
+With an exclusive (X) lock, no other transactions can modify data; read operations can take place only with the use of the NOLOCK hint or read uncommitted isolation level.没有其它人可以修改数据；读操作一般也不运行；出发有NOLOCK hint和read uncommitted隔离级别
 
-Exclusive (X) locks prevent access to a resource by concurrent transactions. With an exclusive (X) lock, no other transactions can modify data; read operations can take place only with the use of the NOLOCK hint or read uncommitted isolation level.
-Data modification statements, such as INSERT, UPDATE, and DELETE combine both modification and read operations. The statement first performs read operations to acquire data before performing the required modification operations. Data modification statements, therefore, typically request both shared locks and exclusive locks. For example, an UPDATE statement might modify rows in one table based on a join with another table. In this case, the UPDATE statement requests shared locks on the rows read in the join table in addition to requesting exclusive locks on the updated rows.
 
 还讲了其他的锁
+schema lock，
+key range lock，Key-range locking prevents phantom reads
+By protecting the ranges of keys between rows, it also prevents phantom insertions or deletions into a record set accessed by a transaction.
+
 
 http://www.objectdb.com/java/jpa/persistence/lock
 乐观锁和悲观锁是应用在database object level上的；
 time out
 
-JPA 2 supports both optimistic locking and pessimistic locking. Locking is essential to avoid update collisions resulting from simultaneous updates to the same data by two concurrent users. 
+JPA 2 supports both optimistic locking and pessimistic locking
+
+Locking is essential to avoid update collisions resulting from simultaneous updates to the same data by two concurrent users. 
 
 Locking in ObjectDB (and in JPA) is always at the database object level, i.e. each database object is locked separately.
 
 Optimistic locking is applied on transaction commit.
-Any database object that has to be updated or deleted is checked. An exception is thrown if it is found out that an update is being performed on an old version of a database object, for which another update has already been committed by another transaction.
+An exception is thrown if it is found out that an update is being performed on an old version of a database object, for which another update has already been committed by another transaction.
 
-optimistic locking is enabled by default and fully automatic. Optimistic locking should be the first choice for most applications, since compared to pessimistic locking it is easier to use and more efficient.
+When using ObjectDB, optimistic locking is enabled by default and fully automatic.
 
-In the rare cases in which update collision must be revealed earlier (before transaction commit) pessimistic locking can be used. When using pessimistic locking, database objects are locked during the transaction and lock conflicts, if they happen, are detected earlier.
+Optimistic locking should be the first choice for most applications, since compared to pessimistic locking it is easier to use and more efficient.
+
+In the rare cases in which update collision must be revealed earlier (before transaction commit) pessimistic locking can be used. 
+When using pessimistic locking, database objects are locked during the transaction and lock conflicts, if they happen, are detected earlier.
 
 
-This page covers the following topics:
-Optimistic Locking
-Pessimistic Locking
-Other Explicit Lock Modes
-Locking during Retrieval
-Optimistic Locking
-ObjectDB maintains a version number for every entity object. The initial version of a new entity object (when it is stored in the database for the first time) is 1. In every transaction in which an entity object is modified its version number is automatically increased by one. Version numbers are managed internally but can be exposed by defining a version field.
+maintains a version number for every entity object.
+In every transaction in which an entity object is modified its version number is automatically increased by one. 
+Version numbers are managed internally but can be exposed by defining a version field.
+@Entity public class EntityWithVersionField {
+     @Version long version;
+}
 
-During commit (and flush), ObjectDB checks every database object that has to be updated or deleted, and compares the version number of that object in the database to the version number of the in-memory object being updated. The transaction fails and an OptimisticLockException is thrown if the version numbers do not match, indicating that the object has been modified by another user (using another EntityManager) since it was retrieved by the current updater.
+compares the version number of that object in the database to the version number of the in-memory object being updated.
 
-Optimistic locking is completely automatic and enabled by default in ObjectDB, regardless if a version field (which is required by some ORM JPA providers) is defined in the entity class or not.
+ OptimisticLockException
+ 
+  indicating that the object has been modified by another user (using another EntityManager) since it was retrieved by the current updater.
+每个线程起一个EM？
 
-Pessimistic Locking
-The main supported pessimistic lock modes are:
 
 PESSIMISTIC_READ - which represents a shared lock.
 PESSIMISTIC_WRITE - which represents an exclusive lock.
-Setting a Pessimistic Lock
+
 An entity object can be locked explicitly by the lock method:
+em.lock(employee, LockModeType.PESSIMISTIC_WRITE);
 
-  em.lock(employee, LockModeType.PESSIMISTIC_WRITE);
-The first argument is an entity object. The second argument is the requested lock mode.
-
-A TransactionRequiredException is thrown if there is no active transaction when lock is called because explicit locking requires an active transaction.
+A TransactionRequiredException is thrown if there is no active transaction
 
 A LockTimeoutException is thrown if the requested pessimistic lock cannot be granted:
-
 A PESSIMISTIC_READ lock request fails if another user (which is represented by another EntityManager instance) currently holds a PESSIMISTIC_WRITE lock on that database object.
 A PESSIMISTIC_WRITE lock request fails if another user currently holds either a PESSIMISTIC_WRITE lock or a PESSIMISTIC_READ lock on that database object.
-For example, consider the following code fragment:
+  
 
-  em1.lock(e1, lockMode1);
-  em2.lock(e2, lockMode2);
-em1 and em2 are two EntityManager instances that manage the same Employee database object, which is referenced as e1 by em1 and as e2 by em2 (notice that e1 and e2 are two in-memory entity objects that represent one database object).
+By default, when a pessimistic lock conflict occurs a LockTimeoutException is thrown immediately.
 
-If both lockMode1 and lockMode2 are PESSIMISTIC_READ - these lock requests should succeed. Any other combination of pessimistic lock modes, which also includes PESSIMISTIC_WRITE, will cause a LockTimeoutException (on the second lock request).
+The "javax.persistence.lock.timeout" hint can be set to allow waiting for a pessimistic lock for a specified number of milliseconds.
 
-Pessimistic Lock Timeout
-By default, when a pessimistic lock conflict occurs a LockTimeoutException is thrown immediately. The "javax.persistence.lock.timeout" hint can be set to allow waiting for a pessimistic lock for a specified number of milliseconds. The hint can be set in several scopes:
-
-For the entire persistence unit - using a persistence.xml property:
-
-    <properties>
-       <property name="javax.persistence.lock.timeout" value="1000"/>
-    </properties>
-For an EntityManagerFactory - using the createEntityManagerFacotory method:
-
-  Map<String,Object> properties = new HashMap();
-  properties.put("javax.persistence.lock.timeout", 2000);
-  EntityManagerFactory emf =
-      Persistence.createEntityManagerFactory("pu", properties);
-For an EntityManager - using the createEntityManager method:
-
-  Map<String,Object> properties = new HashMap();
-  properties.put("javax.persistence.lock.timeout", 3000);
-  EntityManager em = emf.createEntityManager(properties);
-or using the setProperty method:
-
-  em.setProperty("javax.persistence.lock.timeout", 4000);
-In addition, the hint can be set for a specific retrieval operation or query.
-
-Releasing a Pessimistic Lock
 Pessimistic locks are automatically released at transaction end (using either commit or rollback).
 
-ObjectDB supports also releasing a lock explicitly while the transaction is active, as so:
+supports also releasing a lock explicitly
+em.lock(employee, LockModeType.NONE);
 
-  em.lock(employee, LockModeType.NONE);
 Other Explicit Lock Modes
-In addition to the two main pessimistic modes (PESSIMISTIC_WRITE and PESSIMISTIC_READ, which are discussed above), JPA defines additional lock modes that can also be specified as arguments for the lock method to obtain special effects:
-
 OPTIMISTIC (formerly READ)
 OPTIMISTIC_FORCE_INCREMENT (formerly WRITE)
 PESSIMISTIC_FORCE_INCREMENT
-Since optimistic locking is applied automatically by ObjectDB to every entity object, the OPTIMISTIC lock mode has no effect and, if specified, is silently ignored by ObjectDB.
-
-The OPTIMISTIC_FORCE_INCREMENT mode affects only clean (non dirty) entity objects. Explicit lock at that mode marks the clean entity object as modified (dirty) and increases its version number by 1.
-
-The PESSIMISTIC_FORCE_INCREMENT mode is equivalent to the PESSIMISTIC_WRITE mode with the addition that it marks a clean entity object as dirty and increases its version number by one (i.e. it combines PESSIMISTIC_WRITE with OPTIMISTIC_FORCE_INCREMENT).
 
 Locking during Retrieval
-JPA 2 provides various methods for locking entity objects when they are retrieved from the database. In addition to improving efficiency (relative to a retrieval followed by a separate lock), these methods perform retrieval and locking as one atomic operation.
 
-For example, the find method has a form that accepts a lock mode:
-
-  Employee employee = em.find(
-      Employee.class, 1, LockModeType.PESSIMISTIC_WRITE);
-Similarly, the refresh method can also receive a lock mode:
-
-  em.refresh(employee, LockModeType.PESSIMISTIC_WRITE);
-A lock mode can also be set for a query in order to lock all the query result objects.
-
-When a retrieval operation includes pessimistic locking, timeout can be specified as a property. For example:
-
-  Map<String,Object> properties = new HashMap();
-  properties.put("javax.persistence.lock.timeout", 2000);
- 
-  Employee employee = em.find(
-      Employee.class, 1, LockModeType.PESSIMISTIC_WRITE, properties);
- 
-  ...
- 
-  em.refresh(employee, LockModeType.PESSIMISTIC_WRITE, properties);
-Setting timeout at the operation level overrides setting in higher scopes.
