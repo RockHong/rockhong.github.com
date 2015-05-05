@@ -137,8 +137,13 @@ div#self-intro {
     padding: 8px 8px 8px 8px;
 }
 
-div#db-fm {
+div#db-fm img{
+  display: none; /* tmp fix: the src of img is broken, so hide it*/
+}
 
+div#db-collect table {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 div#self-intro img{
