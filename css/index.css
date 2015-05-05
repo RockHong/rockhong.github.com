@@ -125,20 +125,20 @@ div#right-col {
     width: 230px;
 }
 
-div#self-intro {
-    background: rgb(241, 241, 241);
-    padding: 8px 8px 8px 8px;
-    -moz-border-radius: 9px 9px 9px 9px;
-    -webkit-border-radius: 9px 9px 9px 9px;
-    border-radius: 9px 9px 9px 9px;
-    margin-bottom: 8px;
-}
-
-div#db-fm {
-  background-color: rgb(241, 241, 241);
+#right-col div {
+  background: rgb(241, 241, 241);
   -moz-border-radius: 9px 9px 9px 9px;
   -webkit-border-radius: 9px 9px 9px 9px;
   border-radius: 9px 9px 9px 9px;
+  margin-bottom: 8px;
+}
+
+div#self-intro {
+    padding: 8px 8px 8px 8px;
+}
+
+div#db-fm {
+
 }
 
 div#self-intro img{
