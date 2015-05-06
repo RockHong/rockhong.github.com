@@ -13,7 +13,7 @@ image:
 image_desc:
 ---
 
-### Names
+### 不同的名字 Names
 一个共享库常常有多个名字，比如
 
     lrwxrwxrwx  1 hong hong    43 Apr 19 23:31 libadd.so -> /home/hong/workspace/playground/libadd.so.1*
