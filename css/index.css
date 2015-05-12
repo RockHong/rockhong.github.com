@@ -43,10 +43,11 @@ div.pp-main, div.pp-main-short {
     border-radius: 9px 9px 9px 9px; 
 }
 
+/*
 div.pp-main-short {
     border-bottom: 2px solid #FFD2BF;
     border-right: 3px solid #FFD2BF;
-}
+}*/
 
 div.pp-main-wrapper {
     padding: 8px 28px 28px 16px;

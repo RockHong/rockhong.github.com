@@ -39,15 +39,15 @@ title: Home Page
                 {% endif %}
                 <!-- <p> {{ post.content | strip_html | truncatewords: 18 }}</p> -->
                 {{ post.excerpt }}
-                <a href="{{ post.url }}">阅读更多……</a>
+                <a href="{{ post.url }}">阅读更多…</a>
             </div> 
            {% endif %}
 
             <div class="pp-bottom-bar">
                 <div class="pp-tags">
-                    {% if post.is_short %}
+                    <!-- {% if post.is_short %}
                         <span class="short-blog-tag">short blog</span>
-                    {% endif %}
+                        {% endif %} -->
                     {% for tag in post.tags %}
                     <a title="{{ tag }}" href="/tags.html#{{ tag }}">{{ tag }}</a>
                     {% endfor %}
