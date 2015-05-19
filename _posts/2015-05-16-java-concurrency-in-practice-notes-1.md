@@ -2,7 +2,7 @@
 # MUST HAVE BEG
 layout: post
 disqus_identifier: 2015-05-16-java-concurrency-in-practice-notes-1 # DO NOT CHANGE THE VALUE ONCE SET
-title: <Java Concurrency in Practice>读书笔记1
+title: &ltJava Concurrency in Practice>读书笔记1
 # MUST HAVE END
 
 is_short: false
@@ -48,13 +48,13 @@ However, operating system support for larger numbers of threads has improved sig
 
 <!-- 在这本书里，作者用@NotThreadSafe表示示例的代码是不安全的；同理的，有@ThreadSafe and @Immutable等 -->
 
-<!-- 1.3.2 Liveness hazards -->
+#### 1.3.2 Liveness hazards
 <!-- While safety means “nothing bad ever happens”, liveness concerns the complementary goal that “something good eventually happens” -->
 `thread safety`侧重于“nothing bad ever happens”，程序不会出错。`liveness`侧重于“something good
 eventually happens”，程序不会卡住，能运行下去。
 
-<!-- 1.3.3 Performance hazards
-threads nevertheless carry some degree of runtime overhead. Context switches
+#### 1.3.3 Performance hazards
+<!--threads nevertheless carry some degree of runtime overhead. Context switches
 significant costs: saving and restoring execution context, loss of locality, and CPU time spent scheduling threads instead of running them
 When threads share data, they must use synchronization mechanisms that can inhibit compiler optimizations, flush or invalidate memory caches, and create synchronization traffic on the shared memory bus. -->
 线程对性能的影响：
@@ -131,8 +131,8 @@ Java里最简单的同步机制是`synchronized`关键字；它是一种互斥�
 在设计thread-safe类时，封装（encapsulation），不变性（immutability），清晰的不变式（invariants）会有助于
 设计。
 
-<!-- 2.1 What is thread safety?
-
+#### 2.1 What is thread safety?
+<!--
 At the heart of any reasonable definition of thread safety is the concept of correctness. Correctness means that a class conforms to its specification. A good specification defines invariants constraining an object’s state and postconditions describing the effects of its operations. -->
 线程安全的定义中最核心的是“正确性”（correctness）。“正确”的意思是一个类遵守它的规格说明（specification）。
 好的规格说明定义了invariants和postconditions。invariants用来约束对象的state；postconditions用来
@@ -160,8 +160,8 @@ public class UnsafeCountingFactorizer implements Servlet {
      }
 } -->
 
-<!-- 2.2.1 Race conditions
-A race condition occurs when the correctness of a computation depends on the relative timing or interleaving of multiple threads by the runtime; in other words, when getting the right answer relies on lucky timing. -->
+#### 2.2.1 Race conditions
+<!--A race condition occurs when the correctness of a computation depends on the relative timing or interleaving of multiple threads by the runtime; in other words, when getting the right answer relies on lucky timing. -->
 当程序的正确性取决于运行时多个线程的调用时机或者顺序（relative timing or interleaving of multiple
 threads），那么我们就说程序出现了race condition。换句话说，正确性全靠运气。
 
@@ -169,8 +169,8 @@ threads），那么我们就说程序出现了race condition。换句话说，�
 最常见的race condition类型是check-then-act，在这种情况下“check”可能会观察到一个过时的状态（stale state），
 这会使得程序可能基于错误的条件做了“action”。
 
-<!-- 2.2.2 Example: race conditions in lazy initialization
-A common idiom that uses check-then-act is lazy initialization -->
+#### 2.2.2 Example: race conditions in lazy initialization
+<!--A common idiom that uses check-then-act is lazy initialization -->
 一个不线程安全的check-then-act的例子。这里使用check-then-act做lazy initialization。
 
 	public class LazyInitRace {
@@ -182,7 +182,7 @@ A common idiom that uses check-then-act is lazy initialization -->
 	     }
 	}
 
-<!-- 2.2.3 Compound actions -->
+#### 2.2.3 Compound actions
 
 >To avoid race conditions, there must be a way to prevent other threads from using a variable
 >while we’re in the middle of modifying it,
@@ -215,8 +215,8 @@ thread-safey时变得简单一点。
 To preserve state consistency, update related state variables in a single atomic operation. -->
 如果一个对象的state的一致性涉及到多个state，那么所有相关的state变量都要在一个原子操作里更新。
 
-<!-- 2.3.1 Intrinsic locks
-Java provides a built-in locking mechanism for enforcing atomicity: the synchronized block.
+#### 2.3.1 Intrinsic locks
+<!--Java provides a built-in locking mechanism for enforcing atomicity: the synchronized block.
 
 A synchronized block has two parts: a reference to an object that will serve as the lock, and a block of code to be guarded by that lock
 
@@ -250,8 +250,8 @@ The fact that every object has a built-in lock is just a convenience so that you
 <!-- Intrinsic locks in Java act as mutexes (or mutual exclusion locks), which means that at most one thread may own the lock. -->
 Java里intrinsic lock和mutex一样，在一个时刻只有一个线程能得到它。
 
-<!-- 2.3.2 Reentrancy
-But because intrinsic locks are reentrant, if a thread tries to acquire a lock that it already holds, the request succeeds.
+#### 2.3.2 Reentrancy
+<!--But because intrinsic locks are reentrant, if a thread tries to acquire a lock that it already holds, the request succeeds.
 Reentrancy means that locks are acquired on a per-thread rather than per-invocation basis.
 Reentrancy is implemented by associating with each lock an acquisition count and an owning thread.
 
@@ -262,8 +262,8 @@ Reentrancy意味着获得锁是基于每个线程的，而不是基于每个调�
 （acquisition count）。（每获得一次锁这个计数会加一，每释放一次锁这个技术减一？）      
 如果intrinsic lock不是重入的，那么在子类重载的synchronized方法里调用父类的方法就会死锁。
 
-<!-- 2.4 Guarding state with locks
-
+#### 2.4 Guarding state with locks
+<!--
 However, just wrapping the compound action with a synchronized block is not sufficient;if synchronization is used to coordinate access to a variable, it is needed everywhere that variable is accessed -->
 如果使用同步来协调对一个变量的访问，那么所有访问到这个变量的地方都需要加上同步代码。比如，只在写操作地方加同步
 代码是不够的，也要在所有读操作的地方加同步代码；要不读到的可能是过时的状态或者中间状态。
@@ -282,8 +282,8 @@ For each mutable state variable that may be accessed by more than one thread, al
 <!-- This attempt at a put-if-absent operation has a race condition, even though both contains and add are atomic. -->
 上面的代码中，虽然`contains`和`add`都是原子操作，但是整个put-if-absent操作仍然不是原子的。
 
-<!-- 2.5 Liveness and performance
-
+#### 2.5 Liveness and performance
+<!--
 narrowing the scope of the synchronized block. 
 You should be careful not to make the scope of the synchronized block too small; you would not want to divide an operation that should be atomic into more than one synchronized block.
 
@@ -315,8 +315,8 @@ synchronized/synchronization也会影响内存可见性（memory visibility）�
 <!-- You can ensure that objects are published safely either by using explicit synchronization or by taking advantage of the synchronization built into library classes.
 可以用同步来保证对象都是被‘完整地’publish（看不到中间状态）；也可以利用java提供的类的帮助 -->
 
-<!-- 3.1 Visibility
-
+#### 3.1 Visibility
+<!--
 In general, there is no guarantee that the reading thread will see a value written by another thread on a timely basis, or even at all. In order to ensure visibility of memory writes across threads, you must use synchronization -->
 一般情况下（不加额外的同步代码），java不能保证一个线程可以**及时地**看到另一个线程对一个变量做的修改，甚至
 有可能根本看不到（而不仅仅是不及时）。为了在线程之间保证内存写操作的可见性（visibility of memory writes），
@@ -354,8 +354,8 @@ Fortunately, there’s an easy way to avoid these complex issues: always use the
 写。这个现象叫reordering。在没有同步的情况下，编译器、处理器和runtime都可以改变执行顺序。     
 为了防止上述的问题，最简单的方法是，无论何时当需要跨线程共享数据时都加上合适的同步代码。
 
-<!-- 3.1.1 Stale data
-
+#### 3.1.1 Stale data
+<!--
 NoVisibility demonstrated one of the ways that insufficiently synchronized programs can cause surprising results: stale data.
 
 Worse, staleness is not all-or-nothing: a thread can see an up-to-date value of one variable but a stale value of another variable that was written first. -->
@@ -380,8 +380,8 @@ Worse, staleness is not all-or-nothing: a thread can see an up-to-date value of 
 
 加上同步代码，可以解决问题。
 
-<!-- 3.1.2 Nonatomic 64-bit operations
-When a thread reads a variable without synchronization, it may see a stale value, but at least it sees a value that was actually placed there by some thread rather than some random value. This safety guarantee is called out-of-thin-air safety.
+#### 3.1.2 Nonatomic 64-bit operations
+<!--When a thread reads a variable without synchronization, it may see a stale value, but at least it sees a value that was actually placed there by some thread rather than some random value. This safety guarantee is called out-of-thin-air safety.
 
 Out-of-thin-air safety applies to all variables, with one exception: 64-bit numeric variables (double and long) that are not declared volatile (see Section 3.1.4).
 因为 the JVM is permitted to treat a 64-bit read or write as two separate 32-bit operations；可能一半更新了，一半没有。。
@@ -395,8 +395,8 @@ Out-of-thin-air safety适用于所有变量，除了64位的数字变量（numer
 所以，即使你不在乎值是否是stale，在线程间不加同步代码（volatile或者锁）就共享可变的long和double变量也是
 不安全的。
 
-<!-- 3.1.3 Locking and visibility
-
+#### 3.1.3 Locking and visibility
+<!--
 In other words, everything A did in or prior to a synchronized block is visible to B when it executes a synchronized block guarded by the same lock. Without synchronization, there is no such guarantee.
 
 Locking is not just about mutual exclusion; it is also about memory visibility. To ensure that all threads see the most up-to-date values of shared mutable variables, the reading and writing threads must synchronize on a common lock. -->
@@ -406,8 +406,8 @@ Locking is not just about mutual exclusion; it is also about memory visibility. 
 所以锁不仅仅是互斥，锁也影响内存的可见性。为了保证所有线程都能看到共享变量的最新状态，线程需要在同一个锁上做
 同步。
 
-<!-- 3.1.4 Volatile variables
-weaker form of synchronization,
+#### 3.1.4 Volatile variables
+<!--weaker form of synchronization,
 volatile variables
 
 When a field is declared volatile, the compiler and runtime are put on notice that this variable is shared and that operations on it should not be reordered with other memory operations. Volatile variables are not cached in registers or in caches where they are hidden from other processors, so a read of a volatile variable always returns the most recent write by any thread -->
@@ -462,8 +462,8 @@ volatile变量可以带来一些便利，也有一些限制。比如volatile变�
 只有一个线程会写这个volatile变量，其它线程都只做读操作。      
 锁能同时保证visibility和atomicity；volatile只能保证visibility。
 
-<!-- 3.2 Publication and escape
-Publishing an object means making it available to code outside of its current scope, such as by storing a reference to it where other code can find it, returning it from a nonprivate method, or passing it to a method in another class. -->
+#### 3.2 Publication and escape
+<!--Publishing an object means making it available to code outside of its current scope, such as by storing a reference to it where other code can find it, returning it from a nonprivate method, or passing it to a method in another class. -->
 Publishing一个对象就是让这个对象在“外层scope”可见/可用。Publish就是发布、暴露的意思。      
 某些时候，我们希望暴露对象和对象的内部状态；有些时候，暴露又是必须的（为了线程安全，可能需要额外的同步）。        
 暴露对象可能会使得invariants更难维护。
@@ -492,8 +492,8 @@ final的方法）。因为alien方法怎么使用传入的对象是不可控的�
 还有一种暴露对象的方式是：如果一个对象的inner class instance被暴露出去了，那么这个对象也会被间接地暴露出去。
 因为inner class的对象总是可以通过`OutterClass.this`来引用它的外层类的对象。
 
-<!--3.2.1 Safe construction practices
-
+#### 3.2.1 Safe construction practices
+<!--
 If the this reference escapes during construction, the object is considered not properly constructed.
 
 publishing an object from within its constructor can publish an incompletely constructed object. This is true even if the publication is the last statement in the constructor.-->
@@ -553,8 +553,8 @@ publishing an object from within its constructor can publish an incompletely con
 	  }
 	}
 
-<!--3.3 Thread confinement
-
+#### 3.3 Thread confinement
+<!--
 Accessing shared, mutable data requires using synchronization; one way to avoid this requirement is to not share. If data is only accessed from a single thread, no synchronization is needed. This technique, thread confinement, is one of the simplest ways to achieve thread safety.-->
 在线程间共享可变的data需要同步；为了避免同步，可以让data只能被一个线程访问。这种技术叫“thread confinement”。
 
@@ -568,7 +568,7 @@ Connection对象不是线程安全的。但是在典型的应用场景下，一�
 虽然java提供了一些机制，比如local变量和`ThreadLocal`类，但是thread confinement更多的是一种程序上的design。
 开发者需要保证thread-confined对象不从指定的线程里escape出去。
 
-<!--3.3.1 Ad-hoc thread confinement-->
+#### 3.3.1 Ad-hoc thread confinement
 >Ad-hoc thread confinement describes when the responsibility for maintaining thread confinement
 >falls entirely on the implementation. 
 
@@ -583,8 +583,8 @@ confinement。
 推荐少用ad-hoc thread confinement，因为代码会变得脆弱；尽量用更健壮的thread confinement手段，比如
 stack confinement或者ThreadLocal。
 
-<!--3.3.2 Stack confinement
-Stack confinement is a special case of thread confinement in which an object can only be reached through local variables.
+#### 3.3.2 Stack confinement
+<!--Stack confinement is a special case of thread confinement in which an object can only be reached through local variables.
 
 Local variables are intrinsically confined to the executing thread; they exist on the executing thread’s stack, which is not accessible to other threads.
 
@@ -599,8 +599,8 @@ Stack confinement是指一个对象仅能通过（stack上的）local变量引�
 
 使用stack confinement时，最好有一个清晰的文档；否则可能不知不觉被维护者违法。
 
-<!--3.3.3 ThreadLocal
-A more formal means of maintaining thread confinement is ThreadLocal, which allows you to associate a per-thread value with a value-holding object
+#### 3.3.3 ThreadLocal
+<!--A more formal means of maintaining thread confinement is ThreadLocal, which allows you to associate a per-thread value with a value-holding object
 Thread- Local provides get and set accessor methods that maintain a separate copy of the value for each thread that uses it, so a get returns the most recent value passed to set from the currently executing thread.-->
 另一种更formal的维持thread confinement的方式是`ThreadLocal`；使用它可以associate a per-thread value with a
 value-holding object。
@@ -638,8 +638,8 @@ ThreadLocal常常用来实现application framework；比如一些J2EE的框架�
 不要滥用ThreadLocal；不要把ThreadLocal当成可以随便增加global变量和某些“隐藏”变量的执照。这会减少reusability，
 增加couplings。
 
-<!--3.4 Immutability
-An immutable object is one whose state cannot be changed after construction.
+#### 3.4 Immutability
+<!--An immutable object is one whose state cannot be changed after construction.
 
 their invariants are established by the constructor, and if their state cannot be changed, these invariants always hold.
 
@@ -664,12 +664,12 @@ immutable对象永远是线程安全的。
 <!--Program state stored in immutable objects can still be updated by “replacing” immutable objects with a new instance holding new state; the next section offers an example of this technique. -->
 可以通过immutable对象存储程序的state；想要改变程序的state，可以替换一个新的immutable对象。
 
-<!--3.4.1 Final fields
-Just as it is a good practice to make all fields private unless they need greater visibility [EJ Item 12], it is a good practice to make all fields final unless they need to be mutable. -->
+#### 3.4.1 Final fields
+<!--Just as it is a good practice to make all fields private unless they need greater visibility [EJ Item 12], it is a good practice to make all fields final unless they need to be mutable. -->
 如果field不是可变就把它声明成final，这是一个good practice。
 
-<!--3.4.2 Example: Using volatile to publish immutable objects
-
+#### 3.4.2 Example: Using volatile to publish immutable objects
+<!--
 However, immutable objects can sometimes provide a weak form of atomicity.
 
 Whenever a group of related data items must be acted on atomically, consider creating an immutable holder class for them, such as OneValueCache14 in Listing 3.12.
@@ -719,13 +719,13 @@ immutable对象某些时候可以保证一种较弱的原子性（a weak form of
 	    }
 	}
 
-<!--3.5 Safe publication
-
+#### 3.5 Safe publication
+<!--
 Unfortunately, simply storing a reference to an object into a public field, as in Listing 3.14, is not enough to publish that object safely.
 
 This improper publication could allow another thread to observe a partially constructed object.
-
-3.5.1 Improper publication: when good objects go bad-->
+-->
+#### 3.5.1 Improper publication: when good objects go bad
 一个improper publication的例子，
 
 	public class Holder {       private int n;       public Holder(int n) { this.n = n; }       public void assertSanity() { 
@@ -752,7 +752,8 @@ partially constructed object。
 <!--3.4.1 Final fields
 
 Final fields can’t be modified (although the objects they refer to can be modified if they are mutable), but they also have special semantics under the Java Memory Model. It is the use of final fields that makes possible the guarantee of initialization safety (see Section 3.5.2) that lets immutable objects be freely accessed and shared without synchronization. -->
-<!--3.5.2 Immutable objects and initialization safety
+#### 3.5.2 Immutable objects and initialization safety
+<!--
 Because immutable objects are so important, the Java Memory Model offers a special guarantee of initialization safety for sharing immutable objects.
 
 As we’ve seen, that an object reference becomes visible to another thread does not necessarily mean that the state of that object is visible to the consuming thread.
@@ -770,8 +771,8 @@ mmutable objects can be used safely by any thread without additional synchroniza
 就能安全的访问。       
 但是，如果final field指向的对象是可变的，那么访问这个对象的state还是需要同步的。
 
-<!--3.5.3 Safe publication idioms
-Objects that are not immutable must be safely published, which usually entails synchronization by both the publishing and the consuming thread. For the moment, let’s focus on ensuring that the consuming thread can see the object in its as－published state; 
+#### 3.5.3 Safe publication idioms
+<!--Objects that are not immutable must be safely published, which usually entails synchronization by both the publishing and the consuming thread. For the moment, let’s focus on ensuring that the consuming thread can see the object in its as－published state; 
 
 To publish an object safely, both the reference to the object and the object’s state must be made visible to other threads at the same time. A properly constructed object can be safely published by:
 • Initializing an object reference from a static initializer;
@@ -810,8 +811,8 @@ Static initializers are executed by the JVM at class initialization time; becaus
 JVM会在类初始化的时候执行上面的这个static initializer；JVM内部会有一些同步来保证statically initialized的对象被
 safely publish。
 
-<!--3.5.4 Effectively immutable objects
-Safe publication is sufficient for other threads to safely access objects that are not going to be modified after publication without additional synchronization. The safe publication mechanisms all guarantee that the as-published state of an object is visible to all accessing threads as soon as the reference to it is visible, and if that state is not going to be changed again, this is sufficient to ensure that any access is safe.
+#### 3.5.4 Effectively immutable objects
+<!--Safe publication is sufficient for other threads to safely access objects that are not going to be modified after publication without additional synchronization. The safe publication mechanisms all guarantee that the as-published state of an object is visible to all accessing threads as soon as the reference to it is visible, and if that state is not going to be changed again, this is sufficient to ensure that any access is safe.
 
 Objects that are not technically immutable, but whose state will not be modified after publication, are called effectively immutable. 
 
@@ -840,8 +841,8 @@ the as-published state）。后续访问这个对象时也要加同步代码；�
 - Effectively immutable objects must be safely published;      
 - Mutable objects must be safely published, and must be either thread-safe or guarded by a lock.
 
-<!--3.5.6 Sharing objects safely
-
+#### 3.5.6 Sharing objects safely
+<!--
 The most useful policies for using and sharing objects in a concurrent program are:
 Thread-confined. A thread-confined object is owned exclusively by and confined to one thread, and can be modified by its owning thread.
 Shared read-only. A shared read-only object can be accessed concur- rently by multiple threads without additional synchronization, but cannot be modified by any thread. Shared read-only objects include immutable and effectively immutable objects.
