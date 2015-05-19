@@ -753,8 +753,7 @@ partially constructed object。
 
 Final fields can’t be modified (although the objects they refer to can be modified if they are mutable), but they also have special semantics under the Java Memory Model. It is the use of final fields that makes possible the guarantee of initialization safety (see Section 3.5.2) that lets immutable objects be freely accessed and shared without synchronization. -->
 #### 3.5.2 Immutable objects and initialization safety
-<!--
-Because immutable objects are so important, the Java Memory Model offers a special guarantee of initialization safety for sharing immutable objects.
+<!-- Because immutable objects are so important, the Java Memory Model offers a special guarantee of initialization safety for sharing immutable objects.
 
 As we’ve seen, that an object reference becomes visible to another thread does not necessarily mean that the state of that object is visible to the consuming thread.
 
