@@ -35,6 +35,7 @@ JVM的垃圾回收器也是跑在另外的线程（一个或多个）里的。
 <!-- Simplicity of modeling
 This benefit is often exploited by frameworks such as servlets or RMI (Remote Method Invocation).-->
 多线程的好处：      
+
 - 有效地利用多处理器的资源     
 - 在某个线程等待I/O完成时，其它的线程可以利用CPU      
 - 简化建模（modeling）。比如像servlets或者RMI这样的框架利用了多线程来简化建模。
@@ -58,6 +59,7 @@ eventually happens”，程序不会卡住，能运行下去。
 significant costs: saving and restoring execution context, loss of locality, and CPU time spent scheduling threads instead of running them
 When threads share data, they must use synchronization mechanisms that can inhibit compiler optimizations, flush or invalidate memory caches, and create synchronization traffic on the shared memory bus. -->
 线程对性能的影响：
+
 - 上下文切换（context switch）的成本：保留和恢复上下文，缓存的失效（loss of locality），话费在调度上的
 CPU时间等。
 - 线程间同步（synchronization）带来的影响：失去编译器的优化，flush or invalidate memory caches（应该是
@@ -119,7 +121,8 @@ Java里最简单的同步机制是`synchronized`关键字；它是一种互斥�
 • Don’t share the state variable across threads;
 • Make the state variable immutable; or
 • Use synchronization whenever accessing the state variable. -->
-如果多个线程没有使用合适的同步机制就去访问同一个可变的state，那么你的程序就是有问题的。三种解决方法：       
+如果多个线程没有使用合适的同步机制就去访问同一个可变的state，那么你的程序就是有问题的。三种解决方法：      
+ 
 - 不要在线程间共享这个state
 - 把这个state对应的变量变成不可变的（immutable），或者
 - 不管什么时候，只要访问这个state就加上合适的同步操作
@@ -413,6 +416,7 @@ volatile variables
 When a field is declared volatile, the compiler and runtime are put on notice that this variable is shared and that operations on it should not be reordered with other memory operations. Volatile variables are not cached in registers or in caches where they are hidden from other processors, so a read of a volatile variable always returns the most recent write by any thread -->
 `volatile`是一种“稍弱”一点的同步方式。      
 如果一个变量被声明成`volatile`，那么编译器和runtime会保证：      
+
 - 不会把对这个变量的操作和其它内存操作做reorder
 - 不会把这个变量缓存在寄存器里，也不会把这个变量放在其它处理器看不到的cache里；线程总是能看到这个变量的最新值      
 
@@ -473,6 +477,7 @@ Publishing一个对象就是让这个对象在“外层scope”可见/可用。P
 escaped对象都可能导致线程安全问题；因为你不知道使用者是怎么使用escaped对象的。
 
 有很多暴露对象的途径：       
+
 - 把变量声明成public的       
 - 在非private的方法里返回一个对象      
 - 把一个对象传给其它类的方法     
@@ -657,6 +662,7 @@ immutable对象永远是线程安全的。
 • All its fields are final;12 and
 • It is properly constructed (the this reference does not escape during construction).-->
 当满足下面三个条件时，对象就是immutable的：
+
 - 构造之后对象的state都不能变；       
 - 所有的field都是final的；       
 - 构造期间，this引用没有escape。
@@ -725,7 +731,9 @@ Unfortunately, simply storing a reference to an object into a public field, as i
 
 This improper publication could allow another thread to observe a partially constructed object.
 -->
+
 #### 3.5.1 Improper publication: when good objects go bad
+
 一个improper publication的例子，
 
 	public class Holder {       private int n;       public Holder(int n) { this.n = n; }       public void assertSanity() { 
@@ -744,6 +752,7 @@ This improper publication could allow another thread to observe a partially cons
 partially constructed object。
 
 上面的代码（因为没有加同步）可能会导致以后的问题：     
+
 - 其它的线程可能会看到一个stale的`holder`引用，也就是说线程A虽然已经设置了`holder`，但是线程B可能还是会看到null。       
 - 更糟的是，其它线程可能能看到`holder`的最新值，但是看到`holder`对应的对象的state却是stale的。       
 - 另外，一个线程可能在某个时刻看到stale值，在下一个时刻却看到更新后的值；这就是上面代码有可能会抛异常的原因。对于
@@ -752,7 +761,9 @@ partially constructed object。
 <!--3.4.1 Final fields
 
 Final fields can’t be modified (although the objects they refer to can be modified if they are mutable), but they also have special semantics under the Java Memory Model. It is the use of final fields that makes possible the guarantee of initialization safety (see Section 3.5.2) that lets immutable objects be freely accessed and shared without synchronization. -->
+
 #### 3.5.2 Immutable objects and initialization safety
+
 <!-- Because immutable objects are so important, the Java Memory Model offers a special guarantee of initialization safety for sharing immutable objects.
 
 As we’ve seen, that an object reference becomes visible to another thread does not necessarily mean that the state of that object is visible to the consuming thread.
@@ -783,6 +794,7 @@ To publish an object safely, both the reference to the object and the object’s
 
 要safely publish对象，对象的引用和对象的state都要对另外的线程visible。一个properly constructed object可以
 通过以下的方式来safely publish：        
+
 - Initializing an object reference from a static initializer;       
 - Storing a reference to it into a volatile field or AtomicReference;      
 - Storing a reference to it into a final field of a properly constructed object; or      
@@ -835,7 +847,8 @@ If an object may be modified after construction, safe publication ensures only t
 the as-published state）。后续访问这个对象时也要加同步代码；要不如果这个对象被修改了，修改的可见性却不能保证。
 
 <!--The publication requirements for an object depend on its mutability:-->
-对于可变性不同的对象，publication的要求也不相同：        
+对于可变性不同的对象，publication的要求也不相同：    
+    
 - Immutable objects can be published through any mechanism;       
 - Effectively immutable objects must be safely published;      
 - Mutable objects must be safely published, and must be either thread-safe or guarded by a lock.
@@ -848,9 +861,10 @@ Shared read-only. A shared read-only object can be accessed concur- rently by mu
 Shared thread-safe. A thread-safe object performs synchronization in- ternally, so multiple threads can freely access it through its public interface without further synchronization.
 Guarded. A guarded object can be accessed only with a specific lock held. Guarded objects include those that are encapsulated within other thread-safe objects and published objects that are known to be guarded by a specific lock.-->
 总结一下，在多线程环境中使用和共享对象的policy有：       
+
 - Thread-confined；不会被分享，所以也不需要同步。        
 - Shared read-only；对于immutable或者effectively immutable对象，访问时不需要加同步。       
-- Shared thread-safe；A thread-safe object performs synchronization in- ternally, so multiple threads can freely access it through its public interface without further synchronization.      
+- Shared thread-safe；A thread-safe object performs synchronization internally, so multiple threads can freely access it through its public interface without further synchronization.      
 - Guarded；A guarded object can be accessed only with a specific lock held. Guarded objects include those that are encapsulated within other thread-safe objects and published objects that are known to be guarded by a specific lock.
 
 <!--## 第4章 Composing Objects
