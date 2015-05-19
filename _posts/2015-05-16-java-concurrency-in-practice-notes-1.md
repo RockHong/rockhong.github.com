@@ -2,7 +2,7 @@
 # MUST HAVE BEG
 layout: post
 disqus_identifier: 2015-05-16-java-concurrency-in-practice-notes-1 # DO NOT CHANGE THE VALUE ONCE SET
-title: &lt;Java Concurrency in Practice>读书笔记1
+title: Java Concurrency in Practice 读书笔记1
 # MUST HAVE END
 
 is_short: false
