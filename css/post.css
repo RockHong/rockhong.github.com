@@ -1,6 +1,6 @@
 div#css-namespace-post {
     text-align: left;
-    width: 928px;
+    width: 1060px;
     margin: 0 auto;
     font-size:13px;
 }
@@ -14,7 +14,7 @@ div#css-namespace-post img{
 
 div#dummy-left-col {
     float: left;
-    width: 724px;
+    width: 856px;
 }
 
 div#dummy-left-col-placeholder {
@@ -24,7 +24,7 @@ div#dummy-left-col-placeholder {
 
 div#post-comment-wrapper {
     float: right;
-    width: 618px;
+    width: 750px;
 }
 
 div#post {
@@ -65,9 +65,11 @@ div#post #content p{
     margin-bottom: 24px;
 }
 
+div#pub-date {
+    margin: 0 0 8px 0;
+}
+
 div#pub-date span{
-    //float: right;
-    //text-align: right;
     font-style: italic;
 }
 /*

@@ -1,13 +1,13 @@
 
 div#main-content {
-    width: 938px;
+    width: 1070px;
     text-align: left;
     margin: 0 auto;
 }
 
 div#left-col {
     float: left;
-    width: 684px;
+    width: 816px;
 }
 
 div.post-preview {
@@ -36,7 +36,7 @@ div.pp-timedate p {
 
 div.pp-main, div.pp-main-short {
     float: right;
-    width: 618px;
+    width: 750px;
     background: #fff;
     -moz-border-radius: 9px 9px 9px 9px;
     -webkit-border-radius: 9px 9px 9px 9px;

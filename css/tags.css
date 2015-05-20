@@ -1,3 +1,14 @@
+div#main-content-tags {
+    width: 938px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+div#left-col-tags {
+    float: left;
+    width: 684px;
+}
+
 div#all-tags {
     margin: 0 0 16px;
     overflow: hidden;     /* works like clear */
