@@ -2,7 +2,7 @@
 # MUST HAVE BEG
 layout: post
 disqus_identifier: 20150523-another-newline-trouble # DO NOT CHANGE THE VALUE ONCE SET
-title: *又*一个换行符引起的问题
+title: 又一个换行符引起的问题
 # MUST HAVE END
 
 is_short: true
@@ -33,7 +33,13 @@ tmux报的错误消息如下，
 Google了一下发现，这[又是][1]Windows和Unix换行符不同产生的问题。
 
 用Notepad++可以方便地（`View->Show Symbol->...`）把换行符等不可见字符显示出来。比如，
-![nodepad++ snapshot](../images/blog/notepad_show_newline.png "nodepad++ snapshot")
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/notepad_show_newline.png" alt="nodepad++ snapshot">
+</div>
 
 用Notepad++查看`.tmux.conf`文件后，发现它的换行符是`CRLF`。而cygwin下的tmux认为自己处于“unix世界”里，
 它要求`.tmux.conf`文件以`LF`结尾，于是就报错了。
@@ -63,7 +69,13 @@ vim提供了另一个选项`fileformats`（`ffs`），它是一个全局的配�
 	set fileformats=unix,dos
 
 当vim/gvim发现`ff`的值和当前系统“不一致”时，会提醒用户，
-![vim snapshot](../images/blog/unix-vim-written.png "vim snapshot")
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/unix-vim-written.png" alt="vim snapshot">
+</div>
 
 ### 总结
 在Windows上使用unix/linux工具时，类似的换行符问题总是会[时不时出现][1]。避免类似问题的最好方法是，尽量在“一个世界”

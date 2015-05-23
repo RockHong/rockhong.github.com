@@ -6,15 +6,23 @@ title: Hello World from a Blog Site Powered by Jekyll and Github
 # MUST HAVE END
 
 subtitle: 利用Jekyll和Github搭建个人博客站点
+is_short: false
 tags: 
 - jekyll
 - Github Pages
 date: 2012-03-13 00:46:00
-image: baracktocat.jpg
-image_desc: github artwork
+image: 
+image_desc: 
 ---
 
 搭建博客站点有很多种方式，比如WordPress框架、Django框架。只是WordPress需要懂PHP语言，Django需要知晓Python语言；此外，还需要了解一些数据库的知识。相比而言，使用[*Jekyll*](https://github.com/mojombo/jekyll)和[*Github*](https://github.com/)搭建博客站点会显得简单一点。Jekyll是一个静态站点生成器（static site generator），换言之，不使用数据库；Github则是互联网上的代码/内容托管服务器。Github公司利用Jekyll将我们站点的“原始（raw）内容”生成一个标准的静态站点，放在Github的主机上让我们的读者访问。Github将这种服务称为[*Github Pages*](http://pages.github.com/)。
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/baracktocat.jpg" alt="github artwork" style="width:360px;">
+</div>
 
 Jekyll+Github（Github Pages）的优点，一言以蔽之，就是简单（*Simple*）。我们不必为搭建一个站点去学习一门语言（比如PHP或者Python），去学习数据库知识，去寻找合适的主机。在搭建好站点后（搭建的过程不会很复杂），我们只需要专注于写作就可以。
 
@@ -73,8 +81,6 @@ Jekyll和Github用到了下面所列的技术：
 - 通过http://my-github-username.github.com/就可以访问我们的博客站点了。
 
 Github的创始人兼Jekyll的作者有一篇介绍Jekyll的博客，[“Blogging Like a Hacker”](http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html)，可以参考阅读。另外Jekyll的工程页面上也列出了很多以Jekyll为引擎的博客站点，以及[这些站点的源代码链接](https://github.com/mojombo/jekyll/wiki/sites)，可以提供很好的参考。当然，也可以参考[*我的站点*](https://github.com/RockHong/rockhong.github.com);-)
-
-![Github logo](../images/blog/{{ page.image }} "Github logo, yes we can")
 
 *DON'T BE PANIC*.
 

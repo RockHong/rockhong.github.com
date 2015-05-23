@@ -68,6 +68,10 @@ ul#nav a {
 }
 
 div#footer {
+    background-color: rgb(44,51,54);
+    height: 30px;
+    text-align: right;
+    padding-right: 420px;
     margin-top: 18px;
     border-top: 1px solid #838B83;
     color: #aaa;

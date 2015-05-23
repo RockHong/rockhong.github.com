@@ -13,7 +13,13 @@ image: 217px-elf-layout.png
 image_desc: ELF layout
 ---
 在Unix/Linux中，可执行文件、目标文件（.o）、共享库（.so）等一般都是ELF（Executable and Linkable Format）格式的。一个ELF文件的大致结构如下所示，  
-![ELF layout](../images/blog/{{page.image}} "ELF layout")
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/217px-elf-layout.png" alt="ELF layout">
+</div>
 
 首先是ELF header，它描述了这个ELF文件的概况，比如数据的编码方式、ELF文件的类型、program header和section header的起始位置(起始字节)等。ELF header同时还指定了自身的长度，一般而言是64字节（byte）；之后，就是program header。  
 readelf命令可以用来检查ELF文件的内容。查看ELF header的命令如下，      
