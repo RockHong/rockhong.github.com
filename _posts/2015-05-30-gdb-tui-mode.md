@@ -21,7 +21,7 @@ image_desc:
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/tui-snapshot.png" alt="gdb tui snapshot">
+  <img src="/images/blog/tui-snapshot.png" alt="gdb tui snapshot" style="width:620px;">
 </div>
 
 在Google English搜索一下关键词“gdb tui”就能找到详细的文档。
