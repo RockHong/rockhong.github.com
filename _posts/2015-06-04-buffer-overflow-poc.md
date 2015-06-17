@@ -9,6 +9,8 @@ is_short: true
 subtitle:
 tags: 
 - gdb
+- security
+- c
 date: 2015-06-04 18:00:00
 image: 
 image_desc: 

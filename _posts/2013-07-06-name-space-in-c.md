@@ -7,7 +7,7 @@ title: C语言中的名字空间
 
 subtitle:
 tags: 
-- C
+- c
 date: 2013-07-07 00:30:00
 image:
 image_desc:
