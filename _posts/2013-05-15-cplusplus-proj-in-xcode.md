@@ -8,7 +8,7 @@ title: 在XCode中新建C++工程
 is_short: true
 subtitle:
 tags: 
-- XCode
+- xcode
 date: 2013-05-15 22:16:00
 image: 	
 image_desc: 

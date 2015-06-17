@@ -7,7 +7,7 @@ title: backtrace函数和addr2line工具
 
 subtitle:
 tags: 
-- Linux
+- linux
 date: 2013-05-16 22:00:00
 image:
 image_desc:

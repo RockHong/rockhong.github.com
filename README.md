@@ -45,3 +45,17 @@ Jekyll already supports this, see [here](http://jekyllrb.com/docs/posts/#highlig
         end
     end
     {% endhighlight %}
+
+See more [here](http://jekyllrb.com/docs/templates/), and see language's short name [here](http://pygments.org/docs/lexers/).
+
+Github flavored markdown(GFM) also supports code highlight. Jekyll [supports GFM](http://jekyllrb.com/docs/configuration/).
+All supported languages can be found here, [Code Highlight by Github Markdown](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
+Example,
+
+    ```ruby
+    require 'redcarpet'
+    markdown = Redcarpet.new("Hello World!")
+    puts markdown.to_html
+    ```
+
+(GFM treats newline differently to Markdown, so it's not very convenient to turn on GFM support on jekyll site.)

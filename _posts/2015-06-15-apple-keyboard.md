@@ -8,7 +8,7 @@ title: Apple Keyboard with Numeric Keypad
 is_short: true
 subtitle:
 tags: 
-- Apple
+- apple
 date: 2015-06-15 13:00:00
 image: 
 image_desc: 

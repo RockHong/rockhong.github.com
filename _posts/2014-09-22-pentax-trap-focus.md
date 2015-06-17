@@ -8,7 +8,7 @@ title: 宾得单反的对焦陷阱
 is_short: true
 subtitle:
 tags: 
-- Pentax
+- pentax
 date: 2014-09-22 21:32:00
 image:
 image_desc:

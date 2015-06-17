@@ -9,7 +9,7 @@ subtitle: 利用Jekyll和Github搭建个人博客站点
 is_short: false
 tags: 
 - jekyll
-- Github Pages
+- github pages
 date: 2012-03-13 00:46:00
 image: 
 image_desc: 

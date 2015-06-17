@@ -8,7 +8,7 @@ title: 给Jekyll搭建的静态博客增加标签系统
 subtitle:
 tags: 
 - jekyll
-- Github Pages
+- github pages
 date: 2014-07-28 12:12:00
 image:
 image_desc:

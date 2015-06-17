@@ -19,40 +19,43 @@ image_desc:
 [之前的一篇文章][2]讲了一个缓冲区溢出的简单示例，这里再讲一下格式化字符串存在的安全性问题。
 
 ### Variable Argument List
-C语言的库函数`printf(const char * format_str, ...)`是我们很熟悉的一个函数，它接受一个格式化字符串，以及一组数目
-不定的其它参数。
+C语言的库函数`printf(const char * format_str, ...)`是我们很熟悉的一个函数，它接受一个格式化字符串，以及一组数目不定的其它参数。
 
 `printf()`通常通过“可变长度参数列表”（variable argument list）来实现。“可变长度参数列表”的一个简单例子如下所示（详
 见`man 3 stdarg`），
 
-	#include <stdarg.h> 
-	#include <stdio.h>
-	    
-	void printNDoubles(int n, ... ) {        /* 函数声明中的"..."表示可变长度参数 */
-	    va_list args;                        /* 对应的类型 */
-	    va_start(args, n);                   /* 找到可变长度参数列表的起始处 */
-	
-	    int i = 0;
-	    for (; i < n; ++i) {
-	        double d = va_arg(args, double); /* 取可变长度参数列表中的下一个参数 */
-	        printf("%dth double is:%f\n", i, d);
-	    }
-	    va_end( args );                      /* 做一下清理工作 */
-	}
-	
-	int main(int argc, char **argv) {
-	    printNDoubles(3, 1.1, 2.2, 3.3);
-	
-	    return 0;
-	}
+{% highlight cpp %}
+#include <stdarg.h> 
+#include <stdio.h>
+    
+void printNDoubles(int n, ... ) {        /* 函数声明中的"..."表示可变长度参数 */
+    va_list args;                        /* 对应的类型 */
+    va_start(args, n);                   /* 找到可变长度参数列表的起始处 */
+
+    int i = 0;
+    for (; i < n; ++i) {
+        double d = va_arg(args, double); /* 取可变长度参数列表中的下一个参数 */
+        printf("%dth double is:%f\n", i, d);
+    }
+    va_end( args );                      /* 做一下清理工作 */
+}
+
+int main(int argc, char **argv) {
+    printNDoubles(3, 1.1, 2.2, 3.3);
+
+    return 0;
+}
+{% endhighlight %}
 
 对于`printf()`而言，它会根据格式化字符串中的格式信息，比如`%d`，`%f`等，利用`va_arg()`依次取出可变参数列表中的相应参数。
 
 一般而言，`va_start`，`va_arg`等会被实现成宏（macro）；[这篇文章][1]给出了一个简单的实现，
 
-	typedef unsigned char *va_list;
-	#define va_start(list, param) (list = (((va_list)&param) + sizeof(param)))
-	#define va_arg(list, type)    (*(type *)((list += sizeof(type)) - sizeof(type)))
+{% highlight cpp %}
+typedef unsigned char *va_list;
+#define va_start(list, param) (list = (((va_list)&param) + sizeof(param)))
+#define va_arg(list, type)    (*(type *)((list += sizeof(type)) - sizeof(type)))
+{% endhighlight %}
 
 （*TODO:* 看一下gcc/glibc中的实现）
 
@@ -68,19 +71,21 @@ C语言的库函数`printf(const char * format_str, ...)`是我们很熟悉的�
 
 （所有的源文件都是以`gcc -m32 -fno-stack-protector -Wno-format-security -g test.c`在Ubuntu 14.04上编译。）
  
-    int main(int argc, char **argv) {
-    	int s1 = 42;
-    	int s2 = 8;
-    	char s3[] = "hello";
-    	/* ... */
-    }
+{% highlight cpp %}
+int main(int argc, char **argv) {
+    int s1 = 42;
+    int s2 = 8;
+    char s3[] = "hello";
+    /* ... */
+}
+{% endhighlight %}
 
 对应的汇编语句如下，
 
-	mov    DWORD PTR [esp+0x1c],0x2a        // s1
-	mov    DWORD PTR [esp+0x18],0x8         // s2
-	mov    DWORD PTR [esp+0x12],0x6c6c6568  // s3，“lleh”（l:0x6c, e:0x65, h:0x68）
-	mov    WORD PTR [esp+0x16],0x6f         // s3，“o”（o:0x6f）
+    mov    DWORD PTR [esp+0x1c],0x2a        // s1
+    mov    DWORD PTR [esp+0x18],0x8         // s2
+    mov    DWORD PTR [esp+0x12],0x6c6c6568  // s3，“lleh”（l:0x6c, e:0x65, h:0x68）
+    mov    WORD PTR [esp+0x16],0x6f         // s3，“o”（o:0x6f）
 
 栈的示意图，
 
@@ -94,11 +99,13 @@ C语言的库函数`printf(const char * format_str, ...)`是我们很熟悉的�
 
 ### 函数调用时的参数
 
-	int main(int argc, char **argv) {
-		/* ... */
-		printf("%s",argv[1]);
-		/* ... */
-	}
+{% highlight cpp %}
+int main(int argc, char **argv) {
+	/* ... */
+	printf("%s",argv[1]);
+	/* ... */
+}
+{% endhighlight %}
 
 在gdb里执行上面的代码，执行时传入一个参数（`(gdb) run abc`）。调用`printf()`时的汇编代码片段如下，
 
@@ -134,7 +141,7 @@ C语言的库函数`printf(const char * format_str, ...)`是我们很熟悉的�
 ### 格式化字符串存在的安全问题
 下面的代码允许用户传入格式化字符串，这会产生安全问题。
 
-```c
+{% highlight cpp %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -150,7 +157,7 @@ int main(int argc, char **argv) {
 
    	return 0;
 }
-```
+{% endhighlight %}
 
 ##### 查看内存内容
 用下面的参数执行程序，
@@ -174,7 +181,7 @@ int main(int argc, char **argv) {
 	|--------------| 高地址
 
 `printf`会认为它的第一个参数的“下方”（高地址方向）就是它的可变长度参数列表；所以，只要传入的格式化字符串足够长，
-就能打印出`magic`变量。可以看到“%#x_%#x_%#x_%#x_%#x_%#x_%#x_%#x_”中的第7个“%#x”打印出了`magic`变量的值。
+就能打印出`magic`变量。可以看到`“%#x_%#x_%#x_%#x_%#x_%#x_%#x_%#x_”`中的第7个“%#x”打印出了`magic`变量的值。
 
 `%#x`中的`x`表示以16进制形式打印整数；`#`则在16进制整数前面加上`0x`。详见`man 3 printf`。
 
@@ -201,8 +208,8 @@ int main(int argc, char **argv) {
 前4个字节。因为我机器的字节序（Byte Order）是Little Endian，所以前4个字节对应的整数是`0x646162`（`0x00646162`）。
 也就是说`printf`在遇到`%n`前应该先输出`0x646162`个字符。简单算一下`0x646162`对应的10进制值，
 
-	$ echo $((0x646162))
-	6578530
+    $ echo $((0x646162))
+    6578530
 
 格式化字符串`%#010x`中的`#`表示打印16进制整数时加上`0x`前缀，`0`表示如果指定了宽度时用0来做填充，`10`表示
 输出时宽度是10个字符，`x`表示16进制打印；所以整数`0x62`会输出成`0x00000062`。

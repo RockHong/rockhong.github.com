@@ -7,7 +7,8 @@ title: ELF简介
 
 subtitle:
 tags: 
-- Linux
+- linux
+- ELF
 date: 2013-05-11 14:34:00
 image: 217px-elf-layout.png	
 image_desc: ELF layout

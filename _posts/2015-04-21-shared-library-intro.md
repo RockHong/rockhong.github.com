@@ -7,7 +7,7 @@ title: 共享库简介
 
 subtitle: Introduction of Shared Library
 tags: 
-- Linux
+- linux
 date: 2015-04-21 20:30:00
 image:
 image_desc:

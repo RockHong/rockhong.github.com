@@ -9,6 +9,7 @@ is_short: false
 subtitle:
 tags: 
 - JPA
+- java
 date: 2015-05-19 22:15:00
 image:
 image_desc:
