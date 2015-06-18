@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
 在gdb里执行上面的代码，执行时传入一个参数（`(gdb) run abc`）。调用`printf()`时的汇编代码片段如下，
 
 	0x8048445 <main+40>     mov    eax,DWORD PTR [ebp+0xc]   // [ebp+0xc]是argv[]数组
-	0x8048448 <main+43>     add    eax,0x4                   // 加4，argv[1]的地址（argv+1）
+	0x8048448 <main+43>     add    eax,0x4                   // 加4，argv+1，就是argv[1]的地址
 	0x804844b <main+46>     mov    eax,DWORD PTR [eax]       // 把eax设成argv[1]的值，就是字符串“abc”的地址
 	0x804844d <main+48>     mov    DWORD PTR [esp+0x4],eax   // printf的参数argv[1]入栈
 	0x8048451 <main+52>     mov    DWORD PTR [esp],0x8048500 // printf的参数"%s"入栈，0x8048500是字符串"%s"的地址
@@ -159,7 +159,7 @@ int main(int argc, char **argv) {
 }
 {% endhighlight %}
 
-##### 查看内存内容
+##### 通过格式化字符串查看内存内容
 用下面的参数执行程序，
 
 	$ ./a.out %#x_%#x_%#x_%#x_%#x_%#x_%#x_%#x_
@@ -185,13 +185,15 @@ int main(int argc, char **argv) {
 
 `%#x`中的`x`表示以16进制形式打印整数；`#`则在16进制整数前面加上`0x`。详见`man 3 printf`。
 
-##### 修改内存内容
+##### 通过格式化字符串修改内存内容
 目标是通过传入一个精心构造的格式化字符串，使得字符串`str`的内容被修改成`"bad"`。
 
-格式化字符串中的`%n`可以把`printf()`在遇到`%n`前打印的字符数目写入到一个内存地址（`int *`）中。比如，
+格式化字符串中的`%n`可以让`printf()`把它在遇到`%n`前所输出的字符的数量写入到一个内存地址（`int *`）中。比如，
 
-	int count = 0;
-	printf("123456789%n", &count);  /* count的值会被printf设为9 */
+{% highlight cpp %}
+int count = 0;
+printf("123456789%n", &count);  /* count的值会被printf设为9 */
+{% endhighlight %}
 
 格式化字符串中的第7个`%`对应`magic`变量，前一个`%`（第6个）对应的就是`str`变量。因为`str`变量实际上是个
 内存地址（`char *`指针），所以把第6个`%`变成`%n`就能修改`str`指向的内存内容。
@@ -204,25 +206,27 @@ int main(int argc, char **argv) {
 	| b (0x62)| a (0x61) | d (0x64)| 0 | ... | . |
 	 --------------------------------------------
 
-当`%n`写`str`指向的内存时，它会认为`str`是`int *`类型的指针，也就是`%n`会把一个整数写入`str`所指内容的
-前4个字节。因为我机器的字节序（Byte Order）是Little Endian，所以前4个字节对应的整数是`0x646162`（`0x00646162`）。
+当`%n`写`str`指向的内存时，它会认为`str`是`int *`类型的指针，也就是`%n`会把一个整数写入`str`所指内存的
+前4个字节。因为我的机器的字节序（Byte Order）是Little Endian，所以前4个字节对应的整数是`0x646162`（`0x00646162`）。
 也就是说`printf`在遇到`%n`前应该先输出`0x646162`个字符。简单算一下`0x646162`对应的10进制值，
 
     $ echo $((0x646162))
     6578530
 
 格式化字符串`%#010x`中的`#`表示打印16进制整数时加上`0x`前缀，`0`表示如果指定了宽度时用0来做填充，`10`表示
-输出时宽度是10个字符，`x`表示16进制打印；所以整数`0x62`会输出成`0x00000062`。
+输出宽度是10个字符，`x`表示16进制打印；所以整数`0x62`会输出成`0x00000062`。
 
 现在我们给可执行程序传入如下的字符串，
 
 	./a.out %#010x_%#010x_%#010x_%#010x_%#06578485x_%n_%#010x_
             11     +11    +11    +11    +6578485   +1 = 6578530
 
-在程序输出了一大推`'0'`后，可以看到`str`指向的字符串已经被修改成`"bad"`了。
+在程序打印了一大堆`'0'`后，可以看到打印出的`str`字符串已经被修改成`"bad"`了。
 
 ### 总结
-所以，不要让用户传入格式化字符串。现代的编译器发现这种可疑代码时会警告你；所以不要关闭编译器的warning。
+所以，不要让用户传入格式化字符串。现代的编译器发现这类可疑代码时会警告你；所以不要关闭编译器的warning。另外，
+OS X上的`man 3 printf`就有一个专门的章节讲了`printf`家族存在的安全性问题。
+
 C语言经常被人诟病不安全是有原因的。
 
 
@@ -241,6 +245,18 @@ va_end is called when completed to clean up
 function taking a variable argument list must be declared as __cdecl because the caller is the only one who knows how to properly clean up the call stack (the callee doesn’t know how many parameter were passed to it, remember?)
 
 里面的一条评论里还讨论了在以寄存器传参数的cpu上，平台上，是怎么实现va_start的
+
+## 如果在Ubuntu上 -m32 有问题， 报错误 fatal error: sys/cdefs.h: No such file or directory
+you can try to install the package libc6-dev-i386
+http://askubuntu.com/questions/470796/fatal-error-sys-cdefs-h-no-such-file-or-directory
+
+
+## github上有很多 gcc ，glic的源码（镜像），可以看看
+比如
+https://github.com/gcc-mirror/gcc
+
+官方
+https://gcc.gnu.org/about.html#cvs
 
 
 -->
