@@ -9,6 +9,7 @@ is_short: false
 subtitle:
 tags: 
 - java
+- 读书笔记
 date: 2015-05-16 15:15:00
 image:
 image_desc:

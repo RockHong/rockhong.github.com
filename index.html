@@ -22,7 +22,9 @@ title: Home Page
             </div>
             {% if post.is_short %}
             <div class="pp-content-short">
+                {% comment %}
                 <!-- <p> {{ post.content | strip_html }}</p> -->
+                {% endcomment %}
                 <p> {{ post.content }}</p>
             </div> 
            {% else %}

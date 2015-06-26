@@ -33,5 +33,14 @@ div#all-tags-content h3{
 }
 
 div#all-tags-content ul{
-    font-size: 0.7em;
+    font-size: 0.75em;
+}
+
+#all-tags a {
+    color: rgb(249, 38, 114);
+    text-decoration: none;
+}
+
+li {
+    margin-bottom: 6px;
 }

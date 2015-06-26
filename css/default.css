@@ -80,10 +80,10 @@ div#footer {
 }
 
 /* general*/
-/* http://css-tricks.com/examples/Blockquotes/ */
 blockquote {
-  font: 13px/18px normal helvetica, sans-serif;
-    /* for "/", google "slash in font-size css"*/
+  /*font: 13px/18px normal helvetica, sans-serif;*/ /* for "/", google "slash in font-size css"*/
+  font-size: 13px;
+  line-height: 18px;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 15px;

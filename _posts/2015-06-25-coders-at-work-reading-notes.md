@@ -22,19 +22,25 @@ image_desc:
 
 > Seibel: Are there any books that every programmer should read?
 > 
-> Bloch: ... I still think everyone should read, is Design Patterns. It gives us a common vocabulary. There are a lot of good ideas in there.
-
-> Another is [Elements of Style](http://book.douban.com/subject/1433835/), which isn’t even a programming book. ... for two reasons: The first is that a large part of every software engineer’s job is writing prose. 
+> Bloch: ... I still think everyone should read, is **Design Patterns**. It gives us a common vocabulary.
+> There are a lot of good ideas in there.
 >
-> ... The Art of Computer Programming. In truth, I haven’t read the whole series or anything close to it. When I’m working on a particular algorithm, though, I go there to see what he has to say about it.
+> Another is **Elements of Style**, which isn’t even a programming
+> book. ... for two reasons: The first is that a large part of every software engineer’s job is writing prose. 
 >
-> Another old one is Frederick Brooks’s The Mythical Man Month. It’s 40 years old and still as true today as when it was written. ... Everyone should read that. The main message of the book is “adding people to a late software project makes it later,” and it’s still true.
+> ... **The Art of Computer Programming**. In truth, I haven’t read the whole series or anything close to
+> it. When I’m working on a particular algorithm, though, I go there to see what he has to say about it.
+>
+> Another old one is Frederick Brooks’s **The Mythical Man Month**. It’s 40 years old and still as true
+> today as when it was written. ... Everyone should read that. The main message of the book is
+> **“adding people to a late software project makes it later,”** and it’s still true.
 > 
-> These days, everybody has to learn about concurrency. So Java Concurrency in Practice is another good bet.
+> These days, everybody has to learn about concurrency. So **Java Concurrency in Practice** is another good bet.
 > 
-> Merriam-Webster’s Collegiate Dictionary, 11th Edition. ... It’s not something you actually read, but as I said, when you’re writing programs you need to be able to name your identifiers well.
+> **Merriam-Webster’s Collegiate Dictionary, 11th Edition**. ... It’s not something you actually read,
+> but as I said, when you’re writing programs you need to be able to name your identifiers well.
 
-Bloch推荐了《设计模式》、《Java并发编程实战》；也推荐了一本写作相关的书（Elements of Style，豆瓣上的评分是9.1/10）
+Bloch推荐了《设计模式》、《Java并发编程实战》；也推荐了一本写作相关的书（《[Elements of Style](http://book.douban.com/subject/1433835/)》，豆瓣上的评分是9.1/10）
 和韦氏词典。优美、简洁的注释、文档和API需要良好的写作能力；同时一本词典可以让程序员在给类、变量、方法起名字时减少“词穷”
 的尴尬。书里的很多被采访者都说没通读过《The Art of Computer Programming》，Bloch也是把它当成工具书和参考书；估计
 Bloch在实现Java Collections Framework里的算法部分时翻了不少《The Art of Computer Programming》。
@@ -51,7 +57,7 @@ power来分配资源和管理项目的人都应该好好读读。
 >I’m not proud of this. Engineers have things that they’re good at and things they’re not so good at.
 
 估计Bloch对maven、git之类的工具不熟、貌似也不想尝试精通他们，所以搞不定工具时就去问他的同事😅。对average people才
-会要求每样都会点；如果你在某些点足够闪光，人们不会关心那些你不擅长的东西。另外，实际上对于工具的了解能满足daily usage
+会要求每样都会点；如果你在某些点足够闪光，人们不会太关心那些你不擅长的东西。另外，就掌握一个工具而言，能满足daily usage
 应该就可以了；时间总是一定的，可以把精通工具的时间花在“更有价值的”地方。
 
 >Seibel: What’s your short list of ones you want to play with more?
@@ -61,17 +67,18 @@ power来分配资源和管理项目的人都应该好好读读。
 又一次说明了不用样样精通。Be focus，be specialised.
 
 >Seibel: I was reading [Java Puzzlers](http://book.douban.com/subject/1882469/) 
->and [Effective Java](http://book.douban.com/subject/3998727/) and it struck me that there are a lot of little weird corners for a language that started out so simple.
+>and [Effective Java](http://book.douban.com/subject/3998727/) and it struck me that there are a lot
+of little weird corners for a language that started out so simple.
 >
->Bloch: There are weird corners, yes, but that’s just a fact of life; all languages have them. You haven’t seen a book called C Puzzlers. Why not?
+>Bloch: There are weird corners, yes, but that’s just a fact of life; all languages have them.
+You haven’t seen a book called C Puzzlers. Why not?
 
 *TODO: 有空看看这两本书，观摩一下java的“weird corners”。*
 
-Bloch在谈到他的编程风格、编程哲学时推荐了他自己的一个演讲，
-“[How to Design a Good API and Why It Matters](https://www.youtube.com/watch?v=aAb7hSCtvGw)”。
-
-另外，谈到测试时，他还推荐了Bentley的一篇论文，
-“[Engineering a Sort Function](http://cs.fit.edu/~pkc/classes/writing/samples/bentley93engineering.pdf)”，
+另外，Bloch在谈到他的编程风格、编程哲学时推荐了他自己的一个演讲，
+“[How to Design a Good API and Why It Matters](https://www.youtube.com/watch?v=aAb7hSCtvGw)”；
+在谈到测试时，推荐了Bentley的一篇论文，
+“[Engineering a Sort Function](http://cs.fit.edu/~pkc/classes/writing/samples/bentley93engineering.pdf)”。
 有空可以看看。 
 
 
@@ -103,6 +110,8 @@ Bloch在谈到他的编程风格、编程哲学时推荐了他自己的一个演
 >Seibel: Do you use it anyway or do you write your lexers by hand? 
 >
 >Thompson: I write my lexers by hand. Much easier.
+
+*待续*
 
 [1]: http://book.douban.com/subject/2258023/ "Masterminds of Programming"
 
