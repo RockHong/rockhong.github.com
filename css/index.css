@@ -64,7 +64,7 @@ div.pp-main-wrapper {
     text-decoration: none;
 }
 
-.pp-content a {
+.pp-content a, .pp-content-short a {
     color: rgb(249, 38, 114);
     text-decoration: none;
     font-weight: bold;

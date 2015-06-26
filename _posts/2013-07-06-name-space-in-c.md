@@ -57,6 +57,7 @@ image_desc:
 只是在inner scope里，int类型的`bar`是不可见的。
 
 根据C语言的标准，有四种不同的名字空间。    
+
 >If more than one declaration of a particular identifier is visible at any point in a 
 >translation unit, the syntactic context disambiguates uses that refer to different 
 >entities. Thus, there are separate name spaces for various categories of identifiers, 
@@ -96,11 +97,8 @@ image_desc:
 属于普通的名字空间中的一个标识符。    
 可以看到编译器清楚地知道每个“x”的含义，所以编译能顺利地进行下去。    
 
-如果把宏定义换成函数定义，即把    
-`#define x(a) ((a)*(a))`    
-换成    
-`int x(a) { return a*a;}`    
-那么编译会出错。    
+如果把宏定义换成函数定义，即把`#define x(a) ((a)*(a))`换
+成`int x(a) { return a*a;}`,编译会出错。    
 因为在“行THE LINE”所在的scope中，指针“x”会令函数名“x”变得不可见。编译器会认为你把一个void \*指针当成了函数，于是报错：    
 `error: called object ‘x’ is not a function`
 
