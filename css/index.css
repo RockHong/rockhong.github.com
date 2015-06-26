@@ -64,6 +64,12 @@ div.pp-main-wrapper {
     text-decoration: none;
 }
 
+.pp-content a {
+    color: rgb(249, 38, 114);
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .pp-content, .pp-content-short  {
     width: 100%;
     line-height: normal;

@@ -64,6 +64,12 @@ div#post #content p{
     margin-bottom: 24px;
 }
 
+#post #content a {
+    color: rgb(249, 38, 114);
+    text-decoration: none;
+    font-weight: bold;
+}
+
 div#pub-date {
     margin: 0 0 8px 0;
 }
