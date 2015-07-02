@@ -1,0 +1,45 @@
+https://www.w3.org/Security/wiki/Same_Origin_Policy
+There is no single same-origin policy.
+
+An origin is defined by the scheme, host, and port of a URL
+Generally speaking, documents retrieved from distinct origins are isolated from each other
+Although the same-origin policy differs between APIs, the overarching intent is to let users visit untrusted web sites without those web sites interfering with the user's session with honest web sites.
+	访问不安全的网站不要影响到安全的网站
+	
+Broadly, one origin is permitted to send information to another origin, but one origin is not permitted to receive information from another origin. 
+	可以发；但是不能收取／读另一个origin的东西
+The prohibition on receiving information is intended to prevent malicious web sites from reading confidential information from other web sites, 
+	防止恶意网站读取其它origin的敏感信息
+but also prevents web content from legitimately reading information offered by other web sites.
+
+Under the same-origin policy, cross-site sending of information is also dangerous since it enables attacks such as cross-site request forgery (CSRF) and clickjacking. 允许发送也会有一些安全问题，因为这会导致CSRF   The same-origin policy cannot address these security vulnerabilities in the same way it does those around receiving of information since prohibiting cross-site sending of information would prohibit cross-site hyperlinks.   不允许发送是不现实的；   Without "allow sending," there would be no "web" at all because each origin would be allowed to link only to itself.
+
+The same-origin policy restricts which network messages one origin can send to another. For example, the same-origin policy allows inter-origin HTTP requests with GET and POST methods but denies inter-origin PUT and DELETE requests.  允许跨origin的GET和POST；不允许跨origin的PUT和DELETE；？？？    Additionally, origins can use custom HTTP headers when sending requests to themselves but cannot use custom headers when sending requests to other origins.
+
+The restrictions on reading information received from other origins is also somewhat subtle.  不能读取也是有一些例外的。。  For example, the HTML <script> element can execute content retrieved from foreign origins  <script>可以执行另外一个origin的东西, which means web sites should not rely on the same-origin policy to protect the confidentiality of information in a format that happens to parse as script (e.g., JavaScript source files, JSON format, JSONP services, or JavaScript/gif polyglots) 敏感信息不能放在“会被当成script处理的东西”里  . For all such resources, no loss of security would result (and much flexibility would be gained) from adding the Access-Control-Allow-Origin:* header to all responses.  加上 Access-Control-Allow-Origin:*总是没什么损失的， 这是啥？？
+
+这个文章里有很多参考链接，可以看看
+
+
+https://code.google.com/p/browsersec/wiki/Part2#Same-origin_policy
+TODO: 读一下、很详细
+In practice, there is no single same-origin policy, but rather, a set of mechanisms with some superficial resemblance, but quite a few important differences. 
+并没有一个单一的policy；而是一组相似却有区别的policy
+
+Same-origin policy for DOM access
+
+
+
+
+
+＃＃ 其它链接
+http://stackoverflow.com/questions/3076414/ways-to-circumvent-the-same-origin-policy
+https://en.wikipedia.org/wiki/Same-origin_policy
+https://en.wikipedia.org/wiki/JSONP
+http://security.stackexchange.com/questions/8264/why-is-the-same-origin-policy-so-important
+http://javascript.info/tutorial/same-origin-security-policy
+https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
+
+https://developers.google.com/analytics/resources/concepts/gaConceptsTrackingOverview
+https://support.google.com/analytics/answer/1008015?hl=en
+	google analytics是怎么工作的
