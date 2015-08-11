@@ -47,6 +47,7 @@ Jekyll already supports this, see [here](http://jekyllrb.com/docs/posts/#highlig
     {% endhighlight %}
 
 See more [here](http://jekyllrb.com/docs/templates/), and see language's short name [here](http://pygments.org/docs/lexers/).
+To use this highlight function, a style sheet is also needed.
 
 Github flavored markdown(GFM) also supports code highlight. Jekyll [supports GFM](http://jekyllrb.com/docs/configuration/).
 All supported languages can be found here, [Code Highlight by Github Markdown](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
