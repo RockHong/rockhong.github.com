@@ -1,0 +1,38 @@
+---
+layout: default
+title: Reading List
+---
+
+<div id="main-content">
+<div id="left-col">
+{% for page in site.pages %}
+    {% if page.page_type != "reading-list" %}
+        {% continue %}
+    {% endif %}
+    <div class="post-preview">
+        <div class="pp-main">
+        <div class="pp-main-wrapper reading-list-box">
+            <div class="pp-title">
+                <a href="{{ page.source }}">{{ page.title }}</a>
+            </div>
+            <div class="pp-bottom-bar">
+                <div class="pp-tags">
+                    {% for tag in page.tags %}
+                    <a title="{{ tag }}" href="/tags/reading-list-tags.html#{{ tag }}">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div> 
+        </div> 
+    </div> <!-- post-preview -->
+{% endfor %}
+</div> <!-- left-col -->
+
+<div id="right-col">
+    <div id="self-intro">
+    <p id="words"> Learn by Making Notes. <br> Share by Posting Notes.</p>
+    <p id="mail">hongs.blog.contact<br>{AT}gmail.com</p> 
+    </div>
+</div>
+</div> <!-- main-content -->
+

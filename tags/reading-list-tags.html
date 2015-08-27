@@ -1,0 +1,53 @@
+---
+layout: default
+title: Reading List Tags
+---
+
+<div id="main-content-tags">
+<div id="left-col-tags">
+<div id="all-tags">
+  <div id="all-tags-content">
+    <h2>归类.Tags</h2>
+    {% assign tags = "" %}
+    {% for page in site.pages %}
+        {% if page.page_type != "reading-list" %}
+            {% continue %}
+        {% endif %}
+        {% assign tags = (page.tags | join: ';' | append: tags) %}
+    {% endfor %}
+
+    {% assign sorted = (tags | split: ';' | uniq | sort: 0) %}
+
+
+    {% for ele in sorted %}
+        {% assign tag = ele[0] %}
+        <h3><a name="{{ tag }}"></a>{{ tag }} </h3>
+            <ul>
+            {% for page in site.pages %}
+                {% if page.page_type != "reading-list" %}
+                    {% continue %}
+                {% endif %}
+                
+                {% for ptag in page.tags %}
+                    {% if ptag == tag %}
+                        <li>
+                          <a href="{{ page.source }}">{{ page.title }}</a>
+                        </li> 
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </ul>
+    {% endfor %}
+    </div> <!-- all-tags-content -->
+</div> <!-- all-tags -->
+</div> <!-- left-col -->
+
+<div id="right-col">
+    <div id="self-intro">
+    <p id="words"> Learn by Making Notes. <br> Share by Posting Notes.</p>
+    <p id="mail">hongs.blog.contact<br>{AT}gmail.com</p> 
+    </div>
+</div>
+
+
+</div> <!-- main-content -->
