@@ -13,14 +13,12 @@ title: Reading List Tags
         {% if page.page_type != "reading-list" %}
             {% continue %}
         {% endif %}
-        {% assign tags = (page.tags | join: ';' | append: tags) %}
+        {% assign tags = (page.tags | join: ';' | append: ';' | append: tags) %}
     {% endfor %}
 
     {% assign sorted = (tags | split: ';' | uniq | sort: 0) %}
 
-
-    {% for ele in sorted %}
-        {% assign tag = ele[0] %}
+    {% for tag in sorted %}
         <h3><a name="{{ tag }}"></a>{{ tag }} </h3>
             <ul>
             {% for page in site.pages %}
