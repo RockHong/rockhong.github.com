@@ -9,14 +9,14 @@ title: Reading List
     {% if page.page_type != "reading-list" %}
         {% continue %}
     {% endif %}
-    <div class="post-preview">
-        <div class="pp-main">
-        <div class="pp-main-wrapper reading-list-box">
-            <div class="pp-title">
+    <div class="readling-list">
+        <div class="rl-main">
+        <div class="rl-main-wrapper">
+            <div class="rl-title">
                 <a href="{{ page.source }}">{{ page.title }}</a>
             </div>
-            <div class="pp-bottom-bar">
-                <div class="pp-tags">
+            <div class="rl-bottom-bar">
+                <div class="rl-tags">
                     {% for tag in page.tags %}
                     <a title="{{ tag }}" href="/tags/reading-list-tags.html#{{ tag }}">{{ tag }}</a>
                     {% endfor %}
@@ -24,7 +24,7 @@ title: Reading List
             </div>
         </div> 
         </div> 
-    </div> <!-- post-preview -->
+    </div> <!-- readling-list -->
 {% endfor %}
 </div> <!-- left-col -->
 

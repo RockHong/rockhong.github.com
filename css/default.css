@@ -67,6 +67,10 @@ ul#nav a {
     font-size: 14px;
 }
 
+div.main-body {
+    min-height: 618px;
+}
+
 div#footer {
     background-color: rgb(44,51,54);
     height: 30px;
@@ -91,3 +95,57 @@ blockquote {
   border-left: 3px solid #ccc;
 }
 
+/* for reading list */
+div.readling-list {
+    margin-bottom: 8px;
+    overflow: hidden;     /* works like clear */
+}
+
+div.rl-main{
+    float: right;
+    width: 750px;
+    background: #fff;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border-radius: 9px 9px 9px 9px; 
+}
+
+div.rl-main-wrapper {
+    padding: 8px 16px 8px 16px;
+}
+
+.rl-title {
+    line-height: 19px
+    font-size: 14px;
+    margin: 0 0 16px;
+}
+
+.rl-title  a{
+    color: #888;
+    text-decoration: none;
+}
+
+.rl-title  a:hover{
+    color: rgb(249, 38, 114);
+    text-decoration: none;
+}
+
+div.rl-bottom-bar {
+    height: 19px;      
+    margin: 11px 0 0;
+    line-height: 19px;
+    font-size: 11px;
+}
+
+div.rl-tags {
+    float: left;
+    height: 19px;
+    background: url(../images/tag-icon.png) no-repeat;
+    background-size: auto 19px;
+}
+
+div.rl-tags a {
+    color: #aaa;
+    text-decoration: none;
+    margin-left: 28px;   
+}   
