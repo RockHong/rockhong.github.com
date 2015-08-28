@@ -8,17 +8,21 @@ title: Reading List Tags
 <div id="all-tags">
   <div id="all-tags-content">
     <h2>归类.Tags</h2>
-    {% assign tags = "" %}
+    {% assign all_tags_str = ' ' | split: ';' %}
     {% for page in site.pages %}
         {% if page.page_type != "reading-list" %}
             {% continue %}
         {% endif %}
-        {% assign tags = (page.tags | join: ';' | append: ';' | append: tags) %}
+        <!-- it seems 'uniq' filter does not work, so use below code instead -->
+        {% for ptag in page.tags %}
+            {% unless all_tags_str contains ptag %}
+                {% capture all_tags_str %}{{all_tags_str}};{{ptag}}{% endcapture %}
+            {% endunless %}
+        {% endfor %}
     {% endfor %}
 
-    {% assign sorted = (tags | split: ';' | uniq | sort: 0) %}
-
-    {% for tag in sorted %}
+    {% assign all_tags =  all_tags_str | split: ';' %}
+    {% for tag in all_tags %}
         <h3><a name="{{ tag }}"></a>{{ tag }} </h3>
             <ul>
             {% for page in site.pages %}
