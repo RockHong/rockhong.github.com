@@ -22,6 +22,11 @@ title: Reading List
                     {% endfor %}
                 </div>
             </div>
+            {% if page.has_self_comment %}
+            <div class="rl-self-comment" style="display: none;">
+                <p>{{ page.content }}</p>
+            </div>
+            {% endif %}
         </div> 
         </div> 
     </div> <!-- readling-list -->

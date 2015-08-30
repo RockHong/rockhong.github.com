@@ -148,4 +148,14 @@ div.rl-tags a {
     color: #aaa;
     text-decoration: none;
     margin-left: 28px;   
-}   
+}
+
+div.rl-self-comment {
+    color: #aaa;
+    font-size: 12px;
+}
+
+div.rl-self-comment a{
+    color: rgb(249, 38, 114);
+    text-decoration: none;
+}

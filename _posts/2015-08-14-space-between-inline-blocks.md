@@ -14,8 +14,8 @@ image:
 image_desc: 
 ---
 
-Share a weird css issue I met today. There are always some space between `inline-block`
-div elements on a line. For these div elements, `margin` are confirmed to be `0`. It's shown in
+Share a weird css issue I met today, that isthere are always some space between `inline-block`
+div elements of a line. For these div elements, `margin` are confirmed to be `0`. See how it looks in
 the top part of below snapshot.
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
@@ -25,7 +25,7 @@ but you can use <span>, <cite>, <del> freely -->
   <img src="/images/blog/space-btw-inline-block.png" alt="space between" style="width:545px;">
 </div>
 
-And corresponding code snippet is below,
+And below is corresponding code snippet,
 
 {% highlight html %}
 <div style="border:red 1px solid;">
@@ -35,10 +35,10 @@ And corresponding code snippet is below,
 </div>
 {% endhighlight %}
 
-The root cause is whitespace between `inline-block` div elements. In the above code, whitespace
+After some time on googling, the root cause was located; It's the  whitespace between `inline-block` div elements. In the above code, whitespace
 is `newline` character.
 
-And two solutions can be used to fix this issue. One is eliminating whitespace, like
+Two solutions can be used to fix this issue. One is eliminating whitespace, like
 
 {% highlight html %}
 <div style="border:red 1px solid;">
@@ -48,7 +48,7 @@ And two solutions can be used to fix this issue. One is eliminating whitespace, 
 </div></div>
 {% endhighlight %}
 
-The other is to use `display:table-cell;`, which may be better than previous way, since it does
+The other is to use `display:table-cell;`, which may be better than former method, since it does
 not hurt your beautiful format.
 
 {% highlight html %}
