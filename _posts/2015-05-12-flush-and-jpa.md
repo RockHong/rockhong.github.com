@@ -17,7 +17,7 @@ image_desc:
 
 部分内容搬运自[SO上的一个回答][1]。
 
-如果managed entity有改动，那么在transaction提交时，JPA会*自动地*<del>（待确定）</del>帮你向数据库提交改动（不用显式地调用`em.flush()`）。     
+如果managed entity有改动，那么在transaction提交时，JPA会*自动地*<del>（待确定）</del>帮你向数据库提交改动（不用显式地调用`em.flush()`）。
 一般来说，调用`em.persist()`时，entity的改动不会立即写到数据库中，JPA会暂缓执行这些改动对应的SQL语句，
 等到transaction提交时再去执行这些SQL语句。这样有利于提高性能，比如JPA可以把不同改动对应的SQL语句放在一次请求里发给数据库。
 
@@ -25,7 +25,7 @@ image_desc:
 以得到一个数据库自动产生的键值（也就是自动生成主键）。`em.flush()`会立即执行之前缓存的SQL，然后清空缓存。因为`em.flush()`会涉及到数据库的操作，所以会对
 性能产生一点影响。如果transaction提交失败了，`flush()`时写到数据库的操作也会回滚。        
 
-##### 关于自动生成主键
+##### 关于上面提到的“自动生成主键”
 JPA可以指定entity主键的生成方式。比如，下面的代码指定了entity的主键通过数据库的某个sequence来生成，
 
     @Id
@@ -39,7 +39,10 @@ JPA可以指定entity主键的生成方式。比如，下面的代码指定了en
 
     ...--Connection(1849633626)--Thread(Thread[http-bio-8091-exec-8,5,main])--SELECT XYZ_SEQ.NEXTVAL FROM DUMMY
     
+这意味着，EclipseLink在执行`persist()`时会调用数据库的sequence去生成主键。
 JPA的API文档里并没有讲`persist()`对entity主键的影响。所以，不同的JPA provider对`persist()`可能会有不同的实现。
+当然，生成主键的行为也可能受到`GenerationType`的影响；比如`GenerationType`设成`GenerationType.IDENTITY`时，JPA provider
+可能在`persist()`时就生成主键了。
     
 <del>还有一个使用`flush()`的场景是，用JPQL查询时只会把数据库里的内容查询出来，所以如果想把内存里的entity的改
 动也一起query出来要先`flush()`一下，把entity的改动刷到数据库里后再查询。（待确定）</del>
