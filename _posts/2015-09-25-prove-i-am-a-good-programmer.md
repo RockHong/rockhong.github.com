@@ -38,13 +38,14 @@ but you can use <span>, <cite>, <del> freely -->
   <img src="/images/blog/gaoda-3.jpg" alt="Gundam" style="width:640px;">
 </div>
 
-I did it with/by:
+Did it with/by:
 
 - a obscure document with few Chinese instructions.
 - finding right tools among existing ones.
 - doing it carefully for perfection.
 - doing the work with passion and interest.
 
+What a proving.
 
 [1]: https://en.wikipedia.org/wiki/Gundam_model "Gundam model"
 
