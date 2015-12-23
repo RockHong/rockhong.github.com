@@ -141,3 +141,13 @@ img#db-sharing {
   height: 17px;
   width: 81px !important;
 }
+
+.pay-weixin {
+  color: grey;
+  font-size: 12px;
+}
+
+.pay-weixin img{
+    width: 120px;
+    margin: 0 !important;
+}
