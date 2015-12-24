@@ -149,7 +149,10 @@ Encode后的字符串可能会面目全非，比如，
 这段代码的功能是检测'/'字符。例如，如果filename参数是'/etc/passwd'时，就会报错。
 但是如果filename是经过`base64`编码的，那么'/etc/passwd'会被encode成'L2V0Yy9wYXNzd2Q='，上面这段代码就会失效。
 
+<br/>
+*根据[这篇文章][3]的观点，Python 2的`str/unicode`存在的问题是设计Python 3的重要原因。*
 
 [1]: https://docs.python.org/2/howto/unicode.html "Unicode HOWTO"
 [2]: https://docs.python.org/2/library/codecs.html#standard-encodings "7.8.3. Standard Encodings"
+[3]: http://www.snarky.ca/why-python-3-exists "Why Python 3 exists"
 
