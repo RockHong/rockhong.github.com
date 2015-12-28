@@ -1,7 +1,7 @@
 ---
 # MUST HAVE BEG
 layout: post
-disqus_identifier: 20150925-prove-i-am-a-good-programmer # DO NOT CHANGE THE VALUE ONCE SET
+disqus_identifier: 20150925-first-gundam-model # DO NOT CHANGE THE VALUE ONCE SET
 title: My First Gundam Model 
 # MUST HAVE END
 
