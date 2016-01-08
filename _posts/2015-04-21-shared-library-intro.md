@@ -18,7 +18,7 @@ image_desc:
 
     lrwxrwxrwx  1 hong hong    43 Apr 19 23:31 libadd.so -> /home/hong/workspace/playground/libadd.so.1*
     lrwxrwxrwx  1 hong hong    47 Apr 19 23:31 libadd.so.1 -> /home/hong/workspace/playground/libadd.so.1.0.1*
-     -rwxrwxr-x  1 hong hong  8559 Apr 16 21:34 libadd.so.1.0.1*
+    -rwxrwxr-x  1 hong hong  8559 Apr 16 21:34 libadd.so.1.0.1*
 
 像`libadd.so.1`这样的叫做`soname`，通常是由`“lib”`，紧接着库的名字，紧接着`“.so”`，然后跟着一个版本号。版本号通常是递增的。
 

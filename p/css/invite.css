@@ -1,0 +1,22 @@
+/*
+ * color:
+ * http://getbootstrap.com/css/#less-variables-colors
+ * http://getbootstrap.com/components/#available-variations
+ * http://www.dtelepathy.com/blog/inspiration/beautiful-color-palettes-for-your-next-web-project
+*/
+
+div.big-bg {
+    margin: 0;
+    padding: 0;
+}
+
+.map-link {
+  background-color: #d9534f;
+  font-size: 18px;
+}
+
+.map-link a {
+text-decoration: none;
+}
+
+
