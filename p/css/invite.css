@@ -6,17 +6,24 @@
 */
 
 div.big-bg {
-    margin: 0;
     padding: 0;
 }
 
 .map-link {
-  background-color: #d9534f;
+  background-color: #f2dede; 
+  /* #d9534f #f2dede */
   font-size: 18px;
+  height: 30px;
 }
 
 .map-link a {
-text-decoration: none;
+  text-decoration: none;
 }
 
+.wrapper {
+  display: inline-block;
+}
 
+.mg0 {
+  margin: 0;
+}
