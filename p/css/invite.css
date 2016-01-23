@@ -43,3 +43,7 @@ div.big-bg {
 .tips h6 {
   color: #999;
 }
+
+.dropdown-menu {
+  min-width: 120px; 
+}
