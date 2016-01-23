@@ -5,7 +5,7 @@
  * http://www.dtelepathy.com/blog/inspiration/beautiful-color-palettes-for-your-next-web-project
 */
 
-body {
+body, .map-btn {
   background-color: #f2dede; 
 }
 
