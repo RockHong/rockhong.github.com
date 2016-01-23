@@ -5,8 +5,12 @@
  * http://www.dtelepathy.com/blog/inspiration/beautiful-color-palettes-for-your-next-web-project
 */
 
+body {
+  background-color: #f2dede; 
+}
+
 div.big-bg {
-    padding: 0;
+  padding: 0;
 }
 
 .map-link {
@@ -26,4 +30,16 @@ div.big-bg {
 
 .mg0 {
   margin: 0;
+}
+
+.glyphicon-map-marker {
+  color: #2196F3;
+}
+
+.tips {
+  padding-left: 15px;
+}
+
+.tips h6 {
+  color: #999;
 }
