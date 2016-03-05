@@ -14,7 +14,7 @@ image:
 image_desc: 
 ---
 
-xxx
+A brief introduction of Raspberry Pi.
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
 and one blank after </div>.
