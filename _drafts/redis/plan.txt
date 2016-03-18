@@ -1,0 +1,15 @@
+先会用redis
+    安装
+    熟悉数据结构
+    熟悉命令
+    部署
+    把redis integrate到一个app里
+    cluster
+    
+熟悉源码
+
+在过程中，先写一些draft blog；看完了，体会了，有时间整理了再publish
+   
+参考资料
+在pocket搜一下redis
+onedrive里
