@@ -1,15 +1,15 @@
 ---
 # MUST HAVE BEG
 layout: post
-disqus_identifier: 20151228-cannot-open-itunes-on-win7 # DO NOT CHANGE THE VALUE ONCE SET
-title: Windows 7上不能打开iTunes的问题 
+disqus_identifier: 20160318-notes-of-metaprogramming-ruby # DO NOT CHANGE THE VALUE ONCE SET
+title: Metaprogramming Ruby读书笔记
 # MUST HAVE END
 
-is_short: true
+is_short: false
 subtitle:
 tags: 
-- apple
-date: 2015-12-28 10:36:00
+- ruby
+date: 2016-03-18 22:36:00
 image: 
 image_desc: 
 ---
@@ -17,840 +17,6 @@ image_desc:
 静态语言，比如java，类定义是对象的一个“模板”；但是ruby不是这样的
 
 
-my_object = Greeting.new("Hello" )
-my_object.class # => Greeting
-my_object.class.instance_methods(false) # => [:welcome]
-my_object.instance_variables # => [:@text]
-
-
-## Chapter 1  Monday: The Object Model
-Open Classes
-class String
-    def to_alphanumeric
-        gsub /[^\w\s]/, ''
-    end
-end
-
-In a sense, the class keyword in Ruby is more like a scope operator than a class declaration.
-For class, the core job is to move you in the context of the class, where you can define methods.
-class关键字没什么特殊的，ruby会“立即执行”class内的代码
-
-open class的一个实际用例
-class Numeric
-    def to_money
-        Money.new(self * 100)
-    end
-end
-money gem打开了Numeric类，加了一个方法
-
-[].methods.grep /^re/ # => [:replace, :reject, :reject!, :respond_to?, ...
-
-Monkeypatch.   open class然后加个方法，这种做法也叫monkey patch
-
-obj.instance_variables # => [:@v]
-obj.methods.grep(/my/) # => [:my_method]
-
-Instance Variables
-在对象里
-
-where are the methods，这里的method是指instance method
-String.instance_methods == "abc".methods # => true
-String.methods == "abc".methods # => false
-instance method 在 类 里
-
-Classes themselves are nothing but objects
-"hello".class # => String
-String.class # => Class
-
-inherited = false
-Class.instance_methods(inherited) # => [:superclass, :allocate, :new]
-
-String.superclass # => Object
-Object.superclass # => BasicObject
-BasicObject.superclass # => nil
-
-Class.superclass # => Module
-Module.superclass # => Object
-
-class就比module多3个方法，new( ), allocate( ), and superclass( )， class和module基本都一样
-那为什么要分别有这两个东西么？
-The main reason for having both modules and classes is clarity，可了可读性
-Usually, you pick a module when you
-mean it to be included somewhere (or maybe to be used as
-a Namespace (41)  可以用来实现名字空间), and you pick a class when you mean it to
-be instantiated or inherited.
-
-
-Constants
-首字母是大写的就是Constants
-
-Constants有层次结构，和目录很像
-
-一个例子，老版本的rake没有名字空间，新版本的有
-module Rake
-    class Task    新版本
-    
-Task = Rake::Task      新老版本的兼容
-FileTask = Rake::FileTask
-FileCreationTask = Rake::FileCreationTask    
-
-
-module M
-class C
-X = 'a constant'
-end
-C::X # => "a constant"
-end
-M::C::X # => "a constant"
-
-module M
-Y = 'another constant'
-class C
-::M::Y # => "another constant"    加两个:开头，表示“绝对路径”
-end
-end
-
-M.constants # => [:C, :Y]
-Module.constants[0..1] # => [:Object, :Module]
-
-module M
-class C
-module M2
-Module.nesting # => [M::C::M2, M::C, M]     当前路径。。
-end
-end
-end
-
-
-load('motd.rb' )
-Using load( ), however, has a side effect. The motd.rb file probably
-defines variables and classes. Although variables fall out of
-scope when the file has finished loading, constants don’t. As a
-result, motd.rb can pollute your program with the names of its
-own constants—in particular, class names.
-
-load('motd.rb' , true)
-If you load a file this way, Ruby creates an anonymous module,
-uses that module as a Namespace (41) to contain all the
-constants from motd.rb, and then destroys the module.
-
-The require( )method is quite similar to load( ), but it’smeant for a
-different purpose. You use load( ) to execute code, and you use
-require( ) to import libraries. That’s why require( ) has no second
-argument: those leftover class names are probably the reason
-why you imported the file in the first place
-
-小节
-What’s an object? It’s just a bunch of instance variables, plus a link to
-a class.
-对象就是一堆instance variables， 同时它也知道自己的class
-对象也可以有自己的方法。。。
-
-What’s a class? It’s just an object (an instance of Class), plus a list of
-instance methods and a link to a superclass. Class is a subclass of
-Module, so a class is also a module.
-class也是一个对象，它里面存在“instance of that class”的instance methods； 
-
-Like any object, a class has its own methods, such as new( ). These are
-instance methods of the Class class. Also like any object, classes must
-be accessed through references. You already have a constant reference
-to each class: the class’s name.
-
-since
-Object is a class, its class must be Class. This is true of all classes,
-meaning that the class of Class must be Class itself.
-
-obj3.instance_variable_set("@x" , 10)
-
-1.5 What Happens When You Call a Method?
-When you call a method, Bill explains, Ruby does two things:
-1. It finds the method. This is a process called method lookup.
-2. It executes the method. To do that, Ruby needs something called
-self.
-
-Method Lookup
-the concept of an ancestors chain
-to find a method, Ruby goes in the receiver’s class, and from there
-it climbs the ancestors chain until it finds the method   实际上会先去找 这个object的？？？class，后面章节会讲
-
-MySubclass.ancestors # => [MySubclass, MyClass, Object, Kernel, BasicObject]
-
-Modules and Lookup
-Actually, the ancestors chain also includes modules.
-
-module M
-def my_method
-'M#my_method()'
-end
-end
-class C
-include M
-end
-class D < C; end
-D.new.my_method() # => "M#my_method()"
-
-When you include a module in a class (or even in another module),
-Ruby plays a little trick. It creates an anonymous class that wraps the
-module and inserts the anonymous class in the chain, just above the
-including class itself:12
-D.ancestors # => [D, C, M, Object, Kernel, BasicObject]
-
-The Kernel
-As Bill is quick to show you, methods such as print( )
-are actually private instance methods of module Kernel:
-Kernel.private_instance_methods.grep(/^pr/) # => [:printf, :print, :proc]
-
-The trick here is that class Object includes Kernel, so Kernel gets into
-every object’s ancestors chain.
-
-You can take advantage of this mechanism yourself: if you add a
-method to Kernel, this Kernel Method will be available to all objects.
-例子，The RubyGems Example
-
-Method Execution
-Every line of Ruby code is executed inside an object—the so–called current
-object. The current object is also known as self
-Only one object can take the role of self at a given time, but no object
-holds that role for a long time.
-
-“If you want to become a master of Ruby,” Bill warns you, “you should
-always know which object has the role self at any given moment.”
-
-You can run irb and ask Ruby itself for an
-answer:
-self # => main
-self.class # => Object
-As soon as you start a Ruby program, you’re sitting within an
-object named main that the Ruby interpreter created for you.
-This object is sometimes called the top-level context,
-
-Class Definitions and self
-in a class or module definition (and outside of any method),
-the role of self is taken by the class or module:
-class MyClass
-self # => MyClass
-end
-
-What private Really Means
-Private methods are governed by a
-single simple rule: you cannot call a private method with an
-explicit receiver. In other words, every time you call a private
-method, it must be on the implicit receiver—self.
-
-class C
-def public_method
-self.private_method
-end
-private
-def private_method; end
-end
-C.new.public_method
-) NoMethodError: private method ‘private_method' called [...]
-You can make this code work by removing the self keyword.
-
-Can object x call a private method
-on object y if the two objects share the same class? The answer
-is no, because no matter which class you belong to, you still
-need an explicit receiver to call another object’s method
-
-1.7 Object Model Wrap-Up
-• An object is composed of a bunch of instance variables and a link
-to a class.
-• The methods of an object live in the object’s class (from the point
-of view of the class, they’re called instance methods).
-• The class itself is just an object of class Class. The name of the
-class is just a constant.
-• Class is a subclass of Module. A module is basically a package of
-methods. In addition to that, a class can also be instantiated (with
-new( )) or arranged in a hierarchy (through its superclass( )).
-• Constants are arranged in a tree similar to a file system, where
-the names of modules and classes play the part of directories and
-regular constants play the part of files.
-• Each class has an ancestors chain, beginning with the class itself
-and going up to BasicObject.
-• When you call a method, Ruby goes right into the class of the
-receiver and then up the ancestors chain, until it either finds the
-method or reaches the end of the chain.
-• Every time a class includes a module, the module is inserted in
-the ancestors chain right above the class itself.
-• When you call a method, the receiver takes the role of self.
-• When you’re defining a module (or a class), the module takes the
-role of self.
-• Instance variables are always assumed to be instance variables of
-self.
-• Any method called without an explicit receiver is assumed to be a
-method of self.
-
-
-Chapter 2   Tuesday: Methods
-
-we can remove the duplication in our code with either
-Dynamic Methods or method_missing( ),”
-
-2.2 Dynamic Methods
-how to call and define methods dynamically
-
-obj.send(:my_method, 3) # => 6
-With send( ), the name of the
-method that you want to call becomes just a regular argument. You can
-wait literally until the very last moment to decide which method to call,
-while the code is running. This technique is called Dynamic Dispatch
-
-Symbols
-symbols are immutable
-In
-most cases, symbols are used as names of things—in particular,
-names of metaprogramming-related things such as methods.
-easily convert a string to a symbol (by calling
-either String#to_sym( ) or String#intern( )) or back (by calling
-either Symbol#to_s( ) or Symbol#id2name( )).
-
-Privacy Matters
-In particular, you can
-call any method with send( ), including private methods
-public_send( ) method that respects the receiver’s privacy.
-
-Defining Methods Dynamically
-You can define a method on the spot with Module#define_method( ). You
-just need to provide a method name and a block, which becomes the
-method body
-class MyClass
-define_method :my_method do |my_arg|
-my_arg * 3
-end
-end
-obj = MyClass.new
-obj.my_method(2) # => 6
-This technique of defining a method at
-runtime is called a Dynamic Method.
-
-class Computer
-def initialize(computer_id, data_source)
-@id = computer_id
-@data_source = data_source
-end
-def self.define_component(name)
-define_method(name) {           传block时花括号也是可以的
-info = @data_source.send "get_#{name}_info" , @id
-price = @data_source.send "get_#{name}_price" , @id
-result = "#{name.to_s.capitalize}: #{info} ($#{price})"
-return "* #{result}" if price >= 100
-result
-}
-end
-define_component :mouse
-define_component :cpu
-define_component :keyboard
-end
-
-
-2.3 method_missing()
-class Lawyer
-def method_missing(method, *args)
-puts "You called: #{method}(#{args.join(', ')})"
-puts "(You also passed it a block)" if block_given? ------ block given
-end
-end
-
-Ghost Methods
-A message that’s processed by method_missing( ) looks like a regular call
-from the caller’s side but has no corresponding method on the receiver’s
-side. This is named a Ghost Method
-
-class Table
-def method_missing(id,*args,&block)
-return as($1.to_sym,*args,&block) if id.to_s =~ /^to_(.*)/
-return rows_with($1.to_sym => args[0]) if id.to_s =~ /^rows_with_(.*)/
-super
-end
-# ...
-
-class MyOpenStruct
-def initialize
-@attributes = {}
-end
-def method_missing(name, *args)
-attribute = name.to_s
-if attribute =~ /=$/
-@attributes[attribute.chop] = args[0]
-else
-@attributes[attribute]
-end
-end
-end
-icecream = MyOpenStruct.new
-icecream.flavor = "vanilla"
-icecream.flavor # => "vanilla"
-
-
-Dynamic Proxies
-They collect method calls through method_
-missing( ) and forward them to the wrapped object
-The Flickr Example
-
-class Computer
-def initialize(computer_id, data_source)
-@id = computer_id
-@data_source = data_source
-end
-def method_missing(name, *args)
-super if !@data_source.respond_to?("get_#{name}_info" )
-info = @data_source.send("get_#{name}_info" , args[0])
-price = @data_source.send("get_#{name}_price" , args[0])
-result = "#{name.to_s.capitalize}: #{info} ($#{price})"
-return "* #{result}" if price >= 100
-result
-end
-end
-
-Overriding respond_to?()
-class Computer
-def respond_to?(method)
-@data_source.respond_to?("get_#{method}_info" ) || super
-end
-
-const_missing()
-You can define const_missing( ) on a specific Namespace (41)
-(either a module or a class). If you define it on the Object class,
-then all objects inherit it, including the top-level main object:
-def Object.const_missing(name)
-name.to_s.downcase.gsub(/_/, ' ' )
-end
-MY_CONSTANT # => "my constant"
-
-class Roulette
-def method_missing(name, *args)
-person = name.to_s.capitalize
-3.times do
-number = rand(10) + 1
-puts "#{number}..."
-end
-"#{person} got a #{number}" =========
-end
-end
-====When Ruby executes that line,
-it can’t know that the number there is supposed to be a variable. As a
-default, it assumes that number must be a parentheses-less method call
-on self.
-
-2.5 More method_missing()
-When Methods Clash
-The call to
-Computer#display( ) finds a real method by that name, so it never lands
-on method_missing( )
-
-Whenever
-the name of a Ghost Method clashes with the name of a real, inherited
-method, the latter wins.
-
-If you don’t need the inherited method, you
-can fix the problem by removing it. To stay on the safe side, you might
-want to remove most inherited methods from your proxies right away.
-The result is called a Blank Slate, a class that has fewer methods than 
-the Object class itself.
-
-You can remove a method in two easy ways. The drastic Module#undef_
-method( ) removes all methods, including the inherited ones. The kinder
-Module#remove_method( ) removes the method from the receiver, but it
-leaves inherited methods alone.
-
-Performance Anxiety
-On my computer, the benchmark shows that ghost_reverse( ) is
-about twice as slow as reverse( ):
-
-If the performance
-of Ghost Methods ever turns out to be a problem, you
-can sometimes find a middle ground. For example, you might
-be able to arrange things so that the first call to aGhostMethod
-defines a Dynamic Method (68) for the next calls. You’ll see an
-example of this technique and a discussion of its trade-offs in
-Chapter 8, Inside ActiveRecord, on page 206. 
-
-Reserved Methods
-Some of the methods in Object are used internally by Ruby. If
-you redefine or remove them, the languagemight break in subtle
-ways. To make this less likely to happen, Ruby identifies these
-methods with a leading double underscore and issues a warning
-if you mess with them.
-At the time of writing, Ruby has two such reserved methods,
-__send__( ) and __id__( ), which are synonyms for send( ) and
-id( ).
-
-refactor Computer to transform it
-into a Blank Slate (84).
-class Computer
-instance_methods.each do |m|
-undef_method m unless m.to_s =~ /^__|method_missing|respond_to?/
-end
-
-BasicObject
-Starting with Ruby 1.9, Blank Slates (84) are an integral part of
-the language. In previous versions of Ruby, Object used to be
-the root of the class hierarchy. In Ruby 1.9, Object has a superclass
-named BasicObject that provides only a handful of essential
-methods:
-p BasicObject.instance_methods
-) [:==, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__]
-By default, classes still inherit from Object. Classes that inherit
-directly from BasicObject are automatically Blank Slates.
-
-
-Chapter 3  Wednesday: Blocks
-def a_method(a, b)
-a + yield(a, b)
-end
-a_method(1, 2) {|x, y| (x + y) * 3 } # => 10
-
-define a block with either curly braces or the do. . . end
-
-The block is passed straight into the method, and the method can then
-call back to the block with the yield keyword
-
-
-ask Ruby whether the current call includes
-a block. You can do that with the Kernel#block_given?( ) method:
-def a_method
-return yield if block_given?
-'no block'
-end
-a_method # => "no block"
-a_method { "here's a block!" } # => "here's a block!"
-
-
-write a Ruby version of using，    加到Kernel module里的代码在神恶名地方都能用，就像关键字一样
-
-module Kernel
-def using(resource)
-begin
-yield
-ensure   === 这个应该是ruby的异常捕捉
-resource.dispose
-end
-end
-
-
-3.3 Closures
-When
-code runs, it needs an environment: local variables, instance variables,
-self. . . . Since these entities are basically names bound to objects, you
-can call them the bindings for short. The main point about blocks is
-that they are all inclusive and come ready to run. They contain both
-the code and a set of bindings.
-
-where the block picks up its bindings
-When
-you define the block, it simply grabs the bindings that are there at that
-moment, and then it carries those bindings along when you pass the
-block into a method
-def my_method
-x = "Goodbye"
-yield("cruel" )
-end
-x = "Hello"
-my_method {|y| "#{x}, #{y} world" } # => "Hello, cruel world"   hello来自外面的x， cruel来自执行时传入的参数
-
-when you create the block, you capture the local bindings,
-such as x.
-
-Block-Local Variables
-You can also define additional bindings inside
-the block, but they disappear after the block ends
-
-
-
-
-Scope
-the Kernel#local_variables( ) method
-v1 = 1
-class MyClass
-v2 = 2
-local_variables # => [:v2]   注意没有v1
-def my_method
-v3 = 3
-local_variables
-end
-local_variables # => [:v2]
-end
-obj = MyClass.new
-obj.my_method # => [:v3]
-obj.my_method # => [:v3]
-local_variables # => [:v1, :obj]
-
-Some languages, such as Java and C#, allow an “inner scope” to see
-variables from an “outer scope.”
-That kind of nested visibility doesn’t
-happen in Ruby, where scopes are sharply separated: as soon as you
-enter a new scope, the previous bindings are simply replaced by a new
-set of bindings.
-
-“Whenever the program
-changes scope, some bindings are replaced by a new set of bindings.”
-Granted, this doesn’t happen to all the bindings each and every time.
-For example, if a method calls another method on the same object,
-instance variables stay in scope through the call. In general, though,
-bindings tend to fall out of scope when the scope changes. In particular,
-local variables change at every new scope. (That’s why they’re “local”!)
-
-
-Scope Gates
-There are exactly three places where a program leaves the previous
-scope behind and opens a new one:
-• Class definitions
-• Module definitions
-• Methods
-
-
-Global Variables and Top-Level Instance Variables
-Global variables can be accessed by any scope
-def a_scope
-$var = "some value"
-end
-def another_scope
-$var
-end
-You can sometimes use a top-level instance variable in place
-of a global variable
-@var = "The top-level @var"
-def my_method
-@var
-end
-my_method # => "The top-level @var"
-
-There is a subtle difference between class and module on one side and
-def on the other. The code in a class or module definition is executed
-immediately. Conversely, the code in a method definition is executed
-later, when you eventually call the method.
-
-
-Flattening the Scope
-you want to pass bindings through a Scope Gate
-you can replace class with something else that is not a Scope Gate: a
-method. If you could use a method in place of class, you could capture
-my_var in a closure and pass that closure to the method
-my_var = "Success"
-MyClass = Class.new do
-# Now we can print my_var here...
-puts "#{my_var} in the class definition!"
-def my_method
-# ...but how can we print it here?
-end
-end
-
-Now, how can you pass my_var through the def Scope Gate? Once again,
-you have to replace the keyword with a method. Instead of def, you can
-use Module#define_method( )
-my_var = "Success"
-MyClass = Class.new do
-puts "#{my_var} in the class definition!"
-define_method :my_method do
-puts "#{my_var} in the method!"
-end
-end
-MyClass.new.my_method
-) Success in the class definition!
-Success in the method!
-Technically, this trick should be called
-nested lexical scopes, but many Ruby coders refer to it simply as “flattening
-the scope,”
-
-Sharing the Scope
-通过Flat Scopes 来share a variable among a few methods
-def define_methods
-shared = 0
-Kernel.send :define_method, :counter do
-shared
-end
-Kernel.send :define_method, :inc do |x|
-shared += x
-end
-end
-define_methods
-counter # => 0
-inc(4)
-counter # => 4
-This smart way
-to control the sharing of variables is called a Shared Scope.
-
-
-3.4 instance_eval()
-another way to mix code and bindings at will
-class MyClass
-def initialize
-@v = 1
-end
-end
-obj = MyClass.new
-obj.instance_eval do
-self # => #<MyClass:0x3340dc @v=1>
-@v # => 1
-end
-
-v = 2
-obj.instance_eval { @v = v }
-obj.instance_eval { @v } # => 2
-The three lines in the previous example are evaluated in the same
-Flat Scope (103), so they can all access the local variable v—but the
-blocks are evaluated with the object as self, so they can also access
-obj’s instance variable @v. In all these cases, you can call the block that
-you pass to instance_eval( ) a Context Probe, because it’s like a snippet Spell: Context Probe
-of code that you dip inside an object to do something in there.
-
-instance_exec()
-Ruby 1.9 introduced a method named instance_exec( ). This is
-similar to instance_eval( ), but it also allows you to pass arguments
-to the block
-C.new.instance_exec(3) {|arg| (@x + @y) * arg } # => 9
-
-
-3.5 Callable Objects
-at least three other places in Ruby
-where you can package code:
-• In a proc, which is basically a block turned object
-• In a lambda, which is a slight variation on a proc
-• In a method
-
-Proc Objects
-although most things in Ruby are objects,
-blocks are not
-
-A Proc is a block that has been turned into an object.
-You can create a Proc by passing the block to Proc.new. Later, you can
-evaluate the block-turned-object with Proc#call( ):
-inc = Proc.new {|x| x + 1 }
-# more code...
-inc.call(2) # => 3
-This technique is called a Deferred Evaluation
-
-two Kernel Methods (51) that convert a block to
-a Proc: lambda( ) and proc( )
-there are
-subtle differences between lambda( ), proc( ), and Proc.new( ), but in most
-cases you can just use whichever one you like best
-dec = lambda {|x| x - 1 }
-dec.class # => Proc
-dec.call(2) # => 1
-
-The & Operator
-This argument must
-be the last in the list of arguments and prefixed by an & sign
-def math(a, b)
-yield(a, b)
-end
-def teach_math(a, b, &operation)
-puts "Let's do the math:"
-puts math(a, b, &operation)
-end
-teach_math(2, 3) {|x, y| x * y}
-If you call teach_math( ) without a block, the &operation argument is
-bound to nil, and the yield operation in math( ) fails.
-
-The real meaning of the & is this: “This is a Proc that I want to
-use as a block.” Just drop the &, and you’ll be left with a Proc again
-def my_method(&the_proc)
-the_proc
-end
-p = my_method {|name| "Hello, #{name}!" }
-puts p.class
-puts p.call("Bill" )
-Proc
-Hello, Bill!
-
-You now know a bunch of different ways to convert a block to a Proc.
-But what if you want to convert it back? Again, you can use the &
-operator to convert the Proc to a block
-def my_method(greeting)
-puts "#{greeting}, #{yield}!"
-end
-my_proc = proc { "Bill" }
-my_method("Hello" , &my_proc)
-) Hello, Bill!
-
-
-Procs vs. Lambdas
-The difference between procs and lambdas
-is probably the most confusing feature of Ruby, with lots of special
-cases and arbitrary distinctions. There’s no need to go into all the gory
-details, but you need to know, at least roughly, the important differences.
-There are two differences between procs and lambdas. One has to do
-with the return keyword, and the other concerns the checking of arguments.
-
-Procs created with lambda( )
-are called lambdas, while the others are simply called procs.”
-
-Procs, Lambdas, and return
-In a lambda, return just returns from the
-lambda
-In a proc, return behaves differently. Rather than return from the proc,
-it returns from the scope where the proc itself was defined
-
-Procs, Lambdas, and Arity
-For example, a particular proc or lambda
-might have an arity of two, meaning that it accepts two arguments
-Now, what happens if you call this callable object with three arguments
-or a single argument?
-The short answer is that, in general,
-lambdas tend to be less tolerant than procs (and regular blocks) when
-it comes to arguments. Call a lambda with the wrong arity, and it fails
-with an ArgumentError. On the other hand, a proc fits the argument list
-to its own expectations:
-p = Proc.new {|a, b| [a, b]}
-p.call(1, 2, 3) # => [1, 2]
-p.call(1) # => [1, nil]
-
-Generally speaking, lambdas are more intuitive than procs because
-they’re more similar to methods. They’re pretty strict about arity, and
-they simply exit when you call return. For this reason, many Rubyists
-use lambdas as a first choice, unless they need the specific features
-of procs.
-
-The Stubby Lambda
-Ruby 1.9 introduces yet
-another syntax for defining lambdas—the so-called “stubby
-lambda” operator
-p = ->(x) { x + 1 }
-Notice the little arrow. The previous code is the same as the
-following:
-p = lambda {|x| x + 1 }
-The stubby lambda is an experimental feature, and it might or
-might not make its way into Ruby 2.0.
-
-Methods Revisited
-object = MyClass.new(1)
-m = object.method :my_method
-m.call # => 1
-By calling Object#method( ), you get the method itself as a Method object,
-which you can later execute with Method#call( ).
-
-A Method object is similar
-to a lambda, with an important difference: a lambda is evaluated in
-the scope it’s defined in (it’s a closure, remember?), while a Method is
-evaluated in the scope of its object
-
-You can detach a method from its object with Method#unbind( ), which
-returns an UnboundMethod object. You can’t execute an UnboundMethod,
-but you can turn it back into a Method by binding it to an object.
-unbound = m.unbind
-another_object = MyClass.new(2)
-m = unbound.bind(another_object)
-m.call
-
-Finally, you can convert a Method object to a Proc object by calling
-Method#to_proc, and you can convert a block to a method with define_
-method( ).
-
-Callable Objects Wrap-Up
-Blocks (they aren’t really “objects,” but they are still “callable”):
-Evaluated in the scope in which they’re defined.
-• Procs: Objects of class Proc. Like blocks, they are evaluated in the
-scope where they’re defined.
-• Lambdas: Also objects of class Proc but subtly different from regular
-procs. They’re closures like blocks and procs, and as such
-they’re evaluated in the scope where they’re defined.
-• Methods: Bound to an object, they are evaluated in that object’s
-scope. They can also be unbound from their scope and rebound to
-the scope of another object.
-
-3.6 Writing a Domain-Specific Language
 
 
 Chapter 4  Thursday: Class Definitions
@@ -1363,33 +529,648 @@ Kernel#eval() and Kernel#load()
 
 
 
+===============Chapter 2   Tuesday: Methods==========================
+2.2 Dynamic Methods
+how to call and define methods dynamically
+
+Dynamic Dispatch
+obj.send(:my_method, 3) # => 6
+通过send()方法，可以在运行时再决定要调用的方法。这种技术叫做Dynamic Dispatch。
+可以通过send()调用private方法。
+public_send()可以保证private方法不会被调用。
+
+Dynamic Method
+Module#define_method()可以在运行时动态地定义方法。这种技术叫做Dynamic Method。
+class MyClass
+  define_method :my_method do |my_arg|
+    my_arg * 3
+  end # 传给define_method的block会被当作方法的body
+end
+obj = MyClass.new
+obj.my_method(2) # => 6
+
+
+Ghost Methods
+如果执行时找不到方法，那么会执行method_missing()。可以在method_missing()里
+响应消息，这样看起来就像这个对象真的有相关的方法一样。这些方法叫做Ghost Method。
+class MyOpenStruct
+def initialize
+@attributes = {}
+end
+def method_missing(name, *args)
+attribute = name.to_s
+if attribute =~ /=$/
+@attributes[attribute.chop] = args[0]
+else
+@attributes[attribute]
+end
+end
+end
+icecream = MyOpenStruct.new
+icecream.flavor = "vanilla"
+icecream.flavor # => "vanilla"
+
+名字冲突
+如果Ghost Method和真实的方法重名，那么只有后者才会被调用。
+Ruby里的对象都是继承自Object，如果不想要继承自Object的方法，可以把它们删掉。
+这样你的Ghost Method就不会和真实的方法发生重名了。
+这种删掉了继承自Object的方法的类叫做Blank Slate。
+Module#undef_method()可以删除包括继承来的方法在内的方法；
+Module#remove_method()则不会删除继承来的方法。
+Object的基类BasicObject仅仅包括如下方法，
+BasicObject.instance_methods
+[:==, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__]
+直接继承自BasicObject的类就是Blank Slate。
+
+书上对于method_missing()做了一个简单的性能测试（新的Ruby版本可能会有不同的结果），
+结果显示利用method_missing()实现的Ghost Method的运行时间是普通方法的两倍。
+一般来说，性能问题可以在真的成为瓶颈时才去考虑它。
+
+
+Object中以双下划线开头的方法会被Ruby内部使用，所以不要重定义或者删除这些方法。
+目前以双下划线开头的方法只有__send__()和__id__()，它们是send()和id()的别名。
+class Computer
+instance_methods.each do |m|
+undef_method m unless m.to_s =~ /^__|method_missing|respond_to?/
+end
+
+respond_to?()
+可以在respond_to?()里加上对Ghost Method的支持。这样，Ghost Method看起来会更像
+一个正常的方法。
+class Computer
+def respond_to?(method)
+@data_source.respond_to?("get_#{method}_info" ) || super
+end
+
+
+const_missing()
+类似地，当一个常量找不到时，const_missing()会被执行。
+def Object.const_missing(name)
+name.to_s.downcase.gsub(/_/, ' ' ) # 如果一个常量没有定义，那么简单地给它一个值
+end
+MY_CONSTANT # => "my constant"
+
+
+
+super
+
+
+
+
+Dynamic Proxies
+They collect method calls through method_
+missing( ) and forward them to the wrapped object
+The Flickr Example
+
+class Computer
+def initialize(computer_id, data_source)
+@id = computer_id
+@data_source = data_source
+end
+def method_missing(name, *args)
+super if !@data_source.respond_to?("get_#{name}_info" ) =========================super
+info = @data_source.send("get_#{name}_info" , args[0])
+price = @data_source.send("get_#{name}_price" , args[0])
+result = "#{name.to_s.capitalize}: #{info} ($#{price})"
+return "* #{result}" if price >= 100
+result
+end
+end
+
+
+class Roulette
+def method_missing(name, *args)
+person = name.to_s.capitalize
+3.times do
+number = rand(10) + 1
+puts "#{number}..."
+end
+"#{person} got a #{number}" =========
+end
+end
+====When Ruby executes that line,
+it can’t know that the number there is supposed to be a variable. As a
+default, it assumes that number must be a parentheses-less method call
+on self.
+
+
+===============Chapter 2   Tuesday: Methods==========================
+
+==========Chapter 1  Monday: The Object Model=============================
+• An object is composed of a bunch of instance variables and a link to a class.
+一个对象由一些instance variables和一个指向其class的link组成。
+对象也可以有自己的方法。。。  （这个在后面章节讲到）
+
+• The methods of an object live in the object’s class (from the point of view of the class, they’re called instance methods).
+对象的方法（或者叫类的instance methods）存在于它的class里。
+String.instance_methods == "abc".methods # => true
+String.methods == "abc".methods # => false
+
+• The class itself is just an object of class Class. The name of the class is just a constant.
+类（class）也是一个对象，它是Class类的对象。
+String.class # => Class  类是Class类的对象
+类和普通的对象一样，只不过外加了一个instance methods组成的列表和一个指向superclass的link。
+类名只是一个简单的常量（constant）。
+
+
+
+类的方法，比如new()，只是`Class`类的instance methods。
+和普通对象一样，需要一个引用才能调用类的方法，比如String.new()。
+类名就是一个指向类的引用。
+
+Object.class # => Class  Object的类是Class
+Class.class # => Class   Class的类是Class
 
 
 
 
 
+inherited = false
+Class.instance_methods(inherited) # => [:superclass, :allocate, :new]
+
+String.superclass # => Object
+Object.superclass # => BasicObject
+BasicObject.superclass # => nil
+
+
+• Class is a subclass of Module. A module is basically a package of methods. In addition to that, a class can also be instantiated (with
+new( )) or arranged in a hierarchy (through its superclass( )).
+module可以简单认为是方法的集合。
+Class继承于Module。
+Class.superclass # => Module
+Module.superclass # => Object
+类比module多了3个方法，new(), allocate(), and superclass()。
+基本上类和module可以认为是一样的。
+区分类和module主要是为了可读性。一般而言，module里的方法是用来include的，而类的方法是用来继承或者instantiated的。
+用module关键字来实现名字空间，代码上看也更清晰。
+
+
+
+• Constants are arranged in a tree similar to a file system, where
+the names of modules and classes play the part of directories and
+regular constants play the part of files.
+首字母为大写的就是常量，比如类的名字。
+常量有层次结构，和文件系统的层次结构很像。
+
+module M
+class C
+X = 'a constant'
+end
+C::X # => "a constant"
+end
+M::C::X # => "a constant"
+
+module M
+Y = 'another constant'
+class C
+::M::Y # => "another constant"    加两个:开头，表示“绝对路径”
+end
+end
+
+M.constants # => [:C, :Y]
+Module.constants[0..1] # => [:Object, :Module]
+
+module M
+class C
+module M2
+Module.nesting # => [M::C::M2, M::C, M]     当前路径。。
+end
+end
+end
+
+
+一个例子，老版本的rake没有名字空间，新版本的有
+module Rake
+    class Task    新版本
+    
+Task = Rake::Task      新老版本的兼容
+FileTask = Rake::FileTask
+FileCreationTask = Rake::FileCreationTask    
+
+
+• Each class has an ancestors chain, beginning with the class itself and going up to BasicObject.
+每个类都有一个ancestors chain，它的终点是BasicObject。
+
+• 
+执行方法需要两个步骤。一是找到这个方法，而是需要一个`self`。
+
+to find a method, Ruby goes in the receiver’s class, and from there
+it climbs the ancestors chain until it finds the method   实际上会先去找 这个object的？？？class，后面章节会讲
+寻找方法时，Ruby会沿着ancestors chain去找。
+MySubclass.ancestors # => [MySubclass, MyClass, Object, Kernel, BasicObject]
+
+
+ancestors chain也会包括include进来的module。
+当一个类（或者module）include一个module时，Ruby会创建一个匿名类来包含这个module，并把这个匿名类插入到ancestors chain里。
+这个匿名类在ancestors chain中的位置位于including class之后。
+
+
+每一行Ruby代码的执行都需要一个当前对象（current object），也就是`self`。
+一个时刻只有一个对象可以作为`self`。
+当方法调用时
+
+irb启动后，它会创建一个叫`main`的对象，这个对象就是初始的`self`。
+self # => main
+self.class # => Object
+
+
+在类（或者module）定义里，`self`就是切换成这个类（或者module）的引用。
+class MyClass
+self # => MyClass
+end
+
+
+Ruby里的private方法不能通过显式的receiver来调用；也就是说private方法必须以隐式的receiver来调用。
+class C
+def public_method
+self.private_method    # 删除self就可以成功执行了
+end
+private
+def private_method; end
+end
+C.new.public_method
+上面的代码会报错：
+NoMethodError: private method ‘private_method' called [...]
+
+
+
+• When you call a method, the receiver takes the role of self.
+
+• Instance variables are always assumed to be instance variables of self.
+
+• Any method called without an explicit receiver is assumed to be a method of self.
+
+
+
+Open Classes
+class String
+    def to_alphanumeric
+        gsub /[^\w\s]/, ''
+    end
+end
+
+In a sense, the class keyword in Ruby is more like a scope operator than a class declaration.
+For class, the core job is to move you in the context of the class, where you can define methods.
+class关键字没什么特殊的，ruby会“立即执行”class内的代码
+
+open class的一个实际用例
+class Numeric
+    def to_money
+        Money.new(self * 100)
+    end
+end
+money gem打开了Numeric类，加了一个方法
+
+[].methods.grep /^re/ # => [:replace, :reject, :reject!, :respond_to?, ...
+
+Monkeypatch.   open class然后加个方法，这种做法也叫monkey patch
+
+
+==============Chapter 1  Monday: The Object Model=========================
+
+
+
+=========Chapter 3  Wednesday: Blocks=========
+
+block可以用花括号或者`do...end`来定义。
+block可以直接传递给方法；在方法内可以用`yield`来调用block。
+def a_method(a, b)
+    a + yield(a, b)
+end
+a_method(1, 2) {|x, y| (x + y) * 3 } # => 10
+
+
+用`Kernel#block_given?()`可以判断有没有传入block到一个方法里。
+def a_method
+    return yield if block_given?
+    'no block'
+end
+a_method # => "no block"
+a_method { "here's a block!" } # => "here's a block!"
 
 
 
 
+代码执行需要一个环境，包括local variables, instance variables, self等。
+这些东西称之为bindings。block就是代码加上bindings。
+block在定义时可以capture那个时刻的bindings。
+block也可以定义自己的local variables。
+def my_method
+x = "Goodbye"
+yield("cruel" )
+end
+x = "Hello"
+my_method {|y| "#{x}, #{y} world" } # => "Hello, cruel world"   hello来自外面的x， cruel来自执行时传入的参数
+
+
+
+Scope
+
+the Kernel#local_variables( ) method
+v1 = 1
+class MyClass
+v2 = 2
+local_variables # => [:v2]   注意没有v1
+def my_method
+v3 = 3
+local_variables
+end
+local_variables # => [:v2]
+end
+obj = MyClass.new
+obj.my_method # => [:v3]
+obj.my_method # => [:v3]
+local_variables # => [:v1, :obj]
+
+
+当代码进入到新的scope时，bindings会被替换掉。
+不是所有的bindings都会被替换掉。
+比如，当同一个对象的某个方法调用另一个方法时，bindings中instance variables就不会被替换。
+但是当scope发生改变时，bindings中的local variables一定会被替换掉。
+
+
+
+Ruby里有3种scope gates（scope发生改变的界限），
+• Class definitions
+• Module definitions
+• Methods
+
+Global Variables and Top-Level Instance Variables
+Global variables can be accessed by any scope
+def a_scope
+$var = "some value"
+end
+def another_scope
+$var
+end
+You can sometimes use a top-level instance variable in place
+of a global variable
+@var = "The top-level @var"
+def my_method
+@var
+end
+my_method # => "The top-level @var"
+
+
+类或者module定义内的代码会被立即执行。方法定义（def）内的代码会在方法被调用到的时候被执行。
+
+
+Flattening the Scope
+my_var = "Success"
+class MyClass  # Scope Gate
+# 这里不能访问到my_var 
+def my_method #Scope Gate
+# 这里也不能访问到my_var
+end
+end
+
+
+my_var = "Success"
+MyClass = Class.new do
+puts "#{my_var} in the class definition!" #bindings通过block传入
+define_method :my_method do
+puts "#{my_var} in the method!"
+end
+end
+MyClass.new.my_method
+) Success in the class definition!
+Success in the method!
+
+像Class.new()和Module#define_method()这种通过替换掉Scope Gate，使得bindings可以以
+被closure（block）capture的方式“跨scope”的技术叫“flattening the scope”。
+
+
+Sharing the Scope
+def define_methods
+shared = 0
+Kernel.send :define_method, :counter do
+shared
+end
+Kernel.send :define_method, :inc do |x|
+shared += x
+end
+end
+define_methods
+counter # => 0
+inc(4)
+counter # => 4
+
+通过Flat Scopes在方法间共享变量的技术叫做Shared Scope。
+
+
+instance_eval()
+another way to mix code and bindings at will
+class MyClass
+def initialize
+@v = 1
+end
+end
+obj = MyClass.new
+obj.instance_eval do
+self # => #<MyClass:0x3340dc @v=1>
+@v # => 1
+end
+
+v = 2
+obj.instance_eval { @v = v }
+obj.instance_eval { @v } # => 2
+
+可以给some_obj.instance_eval()传一个block，这个block可以capture外面scope的local variable，
+同时block会把some_obj作为self（也就是说block可以访问some_obj的成员变量）。
+传给instance_eval()的block叫做Context Probe。
+
+
+instance_exec()和instance_eval()类似，但是它可以传参数。
+C.new.instance_exec(3) {|arg| (@x + @y) * arg } # => 9
+
+
+3.5 Callable Objects
+at least three other places in Ruby
+where you can package code:
+• In a proc, which is basically a block turned object
+• In a lambda, which is a slight variation on a proc
+• In a method
+
+Proc Objects
+although most things in Ruby are objects,
+blocks are not
+虽然Ruby中的大部分东西都是对象，但是block不是对象。
+
+A Proc is a block that has been turned into an object.
+You can create a Proc by passing the block to Proc.new. Later, you can
+evaluate the block-turned-object with Proc#call( ):
+Proc就是block的对象形式。
+把block传给Proc.new可以得到一个Proc。然后在未来某个时刻可以通过Proc#call()来执行它。这种技术叫做Deferred Evaluation。
+inc = Proc.new {|x| x + 1 }
+# more code...
+inc.call(2) # => 3
+
+
+The & Operator
+This argument must
+be the last in the list of arguments and prefixed by an & sign
+def math(a, b)
+yield(a, b)
+end
+def teach_math(a, b, &operation)
+puts "Let's do the math:"
+puts math(a, b, &operation)
+end
+teach_math(2, 3) {|x, y| x * y}
+If you call teach_math( ) without a block, the &operation argument is
+bound to nil, and the yield operation in math( ) fails.
+
+The real meaning of the & is this: “This is a Proc that I want to
+use as a block.” Just drop the &, and you’ll be left with a Proc again
+参数前加&表示这个参数是个Proc。这种参数如果出现，必须在参数表的最后位置。
+可以给“&参数”传block。
+def my_method(&the_proc)
+the_proc # the_proc是个Proc
+end
+p = my_method {|name| "Hello, #{name}!" } # 把一个block传给the_proc
+puts p.class
+puts p.call("Bill" )
+Proc
+Hello, Bill!
+
+
+You now know a bunch of different ways to convert a block to a Proc.
+But what if you want to convert it back? Again, you can use the &
+operator to convert the Proc to a block
+在Proc对象前加个&可以把它转换回block。
+def my_method(greeting)
+puts "#{greeting}, #{yield}!"
+end
+my_proc = proc { "Bill" }
+my_method("Hello" , &my_proc) #my_proc被转换回block
+) Hello, Bill!
 
 
 
 
+dec = lambda {|x| x - 1 }
+dec.class # => Proc
+dec.call(2) # => 1
+除了通过Proc.new( )来创建Proc对象，可以通过两个Kernel方法，lambda( )和proc( )，来创建Proc。
+这几种方式创建的Proc对象有一些细微的差别。一般而言，可以选择这三种方法中的任何一种来创建Proc。
+
+通过lambda( )创建的Proc叫做lambda，通过其它方式创建的Proc对象叫proc。
+
+
+
+proc和lambda的最主要的两点区别在于对return关键字的处理和对参数的处理。
+lambda中的return会从lambda返回。而proc中的return会从定义proc时的scope返回。
+相比而言lambda对return的处理更直观、更自然。
+假设一个lambda定义了两个参数，如果在调用时传入的参数数目不等于两个，那么Ruby会报ArgumentError的错误。
+假设一个proc定义了两个参数，如果传入参数不等于两个，proc会截断（参数过多时）或者以nil补全（参数过少时）。
+
+
+可以看到lambda相比proc而言更加自然、直观。所以，推荐在大部分情况下使用lambda。
+
+
+
+Methods Revisited
+object = MyClass.new(1)
+m = object.method :my_method
+m.call # => 1
+By calling Object#method( ), you get the method itself as a Method object,
+which you can later execute with Method#call( ).
+通过Object#method( )可以得到方法对应的Method对象。
+
+A Method object is similar
+to a lambda, with an important difference: a lambda is evaluated in
+the scope it’s defined in (it’s a closure, remember?), while a Method is
+evaluated in the scope of its object
+
+You can detach a method from its object with Method#unbind( ), which
+returns an UnboundMethod object. You can’t execute an UnboundMethod,
+but you can turn it back into a Method by binding it to an object.
+unbound = m.unbind
+another_object = MyClass.new(2)
+m = unbound.bind(another_object)
+m.call
+
+Finally, you can convert a Method object to a Proc object by calling
+Method#to_proc, and you can convert a block to a method with define_
+method( ).
+
+Callable Objects Wrap-Up
+Blocks (they aren’t really “objects,” but they are still “callable”):
+Evaluated in the scope in which they’re defined.
+• Procs: Objects of class Proc. Like blocks, they are evaluated in the
+scope where they’re defined.
+• Lambdas: Also objects of class Proc but subtly different from regular
+procs. They’re closures like blocks and procs, and as such
+they’re evaluated in the scope where they’re defined.
+• Methods: Bound to an object, they are evaluated in that object’s
+scope. They can also be unbound from their scope and rebound to
+the scope of another object.
+
+3.6 Writing a Domain-Specific Language
+=========Chapter 3  Wednesday: Blocks=========
+
+
+object model
+block
+
+
+
+obj3.instance_variable_set("@x" , 10)
 
 
 
 
+Symbols
+symbols are immutable
+In
+most cases, symbols are used as names of things—in particular,
+names of metaprogramming-related things such as methods.
+easily convert a string to a symbol (by calling
+either String#to_sym( ) or String#intern( )) or back (by calling
+either Symbol#to_s( ) or Symbol#id2name( )).
 
 
+my_object = Greeting.new("Hello" )
+my_object.class # => Greeting
+my_object.class.instance_methods(false) # => [:welcome]
+my_object.instance_variables # => [:@text]
+
+obj.instance_variables # => [:@v]
+obj.methods.grep(/my/) # => [:my_method]
+
+respond_to?
+super if !@data_source.respond_to?("get_#{name}_info" )
+
+load('motd.rb' )
+Using load( ), however, has a side effect. The motd.rb file probably
+defines variables and classes. Although variables fall out of
+scope when the file has finished loading, constants don’t. As a
+result, motd.rb can pollute your program with the names of its
+own constants—in particular, class names.
+
+load('motd.rb' , true)
+If you load a file this way, Ruby creates an anonymous module,
+uses that module as a Namespace (41) to contain all the
+constants from motd.rb, and then destroys the module.
+
+The require( )method is quite similar to load( ), but it’smeant for a
+different purpose. You use load( ) to execute code, and you use
+require( ) to import libraries. That’s why require( ) has no second
+argument: those leftover class names are probably the reason
+why you imported the file in the first place
 
 
+The Kernel
+As Bill is quick to show you, methods such as print( )
+are actually private instance methods of module Kernel:
+Kernel.private_instance_methods.grep(/^pr/) # => [:printf, :print, :proc]
 
+The trick here is that class Object includes Kernel, so Kernel gets into
+every object’s ancestors chain.
 
-
-
-
-
+You can take advantage of this mechanism yourself: if you add a
+method to Kernel, this Kernel Method will be available to all objects.
+例子，The RubyGems Example
 
 
 
