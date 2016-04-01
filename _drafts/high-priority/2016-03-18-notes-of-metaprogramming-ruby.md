@@ -19,7 +19,7 @@ image_desc:
 
 
 
-Chapter 4  Thursday: Class Definitions
+=============Chapter 4  Thursday: Class Definitions==================
 In truth, you can put any code you want in a class
 definition.
 class MyClass
@@ -27,26 +27,20 @@ puts 'Hello!'
 end
 ) Hello!
 
-in a class (or module)
-definition, the class itself takes the role of the current object self
 
-The Current Class
-you always have
-a current object: self. Likewise, you always have a current class (or
-module). When you define a method, that method becomes an instance
-method of the current class.
+在类（或者module）定义内，这个类（the class itself）就成了self。
 
-Whenever you open a class with the class keyword (or a
-module with the module keyword), that class becomes the current class
+和当前对象（current object）类似，也有当前类（current class）的概念。
+在定义方法时，这个方法就会成为当前类的instance method。
 
-However, the class keyword has a limitation: it needs the name of a
-class
-You need some
-way other than the class keyword to change the current class.
 
-class_eval()
-Module#class_eval( ) (also known by its alternate name, module_eval( ))
-evaluates a block in the context of an existing class
+用class关键字打开一个类后，这个类就成了当前类。
+
+
+除了class关键字，也可以用Module#class_eval( )来改变当前类。
+module_eval( )是class_eval()的别名。
+
+class_eval()可以接收一个block，并且evaluates a block in the context of an existing class。
 def add_method_to(a_class)
 a_class.class_eval do
 def m; 'Hello!' ; end
@@ -54,10 +48,13 @@ end
 end
 add_method_to String
 "abc".m # => "Hello!"
+
 instance_eval( ) only changes self, while
 class_eval( ) changes both self and the current class.3 By changing the
 current class, class_eval( ) effectively reopens the class, just like the class
 keyword does.
+
+
 
 Module#class_eval( ) is actually more flexible than class. You can use
 class_eval( ) on any variable that references the class, while class requires
@@ -108,24 +105,18 @@ being defined.
 
 Class Instance Variables
 class MyClass
-@my_var = 1
+@my_var = 1  # my_var是MyClass的instance variable
 def self.read; @my_var; end
-def write; @my_var = 2; end
+def write; @my_var = 2; end # my_var是MyClass的对象的instance variable
 def read; @my_var; end
 end
 obj = MyClass.new
 obj.write
 obj.read # => 2
 MyClass.read # => 1
-The previous code defines two instance variables. Both happen to be
-named @my_var, but they’re defined in different scopes, and they belong
-to different objects.
+上面的两个my_var变量在不同的scope中定义，属于不同的对象。
 
-If you come from Java, you may be tempted to think that Class Instance
-Variables are similar to Java’s “static fields.” Instead, they’re just regu-
-lar instance variables that happen to belong to an object of class Class.
-Because of that, a Class Instance Variable can be accessed only by the
-class itself—not by an instance or by a subclass
+Class Instance Variables不同于Java中的“static fields”，类的对象是看不到这种变量的。
 
 
 Class Variables
@@ -445,7 +436,7 @@ they can break existing code.
 The second potential problem has to do with loading. You should never
 load an Around Alias twice, unless you want to end up with an exception
 when you call the method. Can you see why?
-
+=============Chapter 4  Thursday: Class Definitions==================
 
 
 Chapter 5  Friday: Code That Writes Code
@@ -1070,29 +1061,27 @@ lambda中的return会从lambda返回。而proc中的return会从定义proc时的
 
 
 Methods Revisited
+
+通过Object#method( )可以得到方法对应的Method对象。
 object = MyClass.new(1)
 m = object.method :my_method
 m.call # => 1
-By calling Object#method( ), you get the method itself as a Method object,
-which you can later execute with Method#call( ).
-通过Object#method( )可以得到方法对应的Method对象。
 
-A Method object is similar
-to a lambda, with an important difference: a lambda is evaluated in
+
+Method对象类似于lambda对象，但是和lambda对象有一点大的区别：a lambda is evaluated in
 the scope it’s defined in (it’s a closure, remember?), while a Method is
 evaluated in the scope of its object
 
-You can detach a method from its object with Method#unbind( ), which
-returns an UnboundMethod object. You can’t execute an UnboundMethod,
-but you can turn it back into a Method by binding it to an object.
+
+Method对象可以通过Method#unbind( )和关联的对象解绑。Method#unbind( )返回一个
+UnboundMethod对象，它不能直接执行。UnboundMethod对象也可以重现变成Method对象。
 unbound = m.unbind
 another_object = MyClass.new(2)
 m = unbound.bind(another_object)
 m.call
 
-Finally, you can convert a Method object to a Proc object by calling
-Method#to_proc, and you can convert a block to a method with define_
-method( ).
+Method#to_proc可以把一个Method对象转换成Proc对象。
+define_method( )可以把一个block转换成一个方法。
 
 Callable Objects Wrap-Up
 Blocks (they aren’t really “objects,” but they are still “callable”):
