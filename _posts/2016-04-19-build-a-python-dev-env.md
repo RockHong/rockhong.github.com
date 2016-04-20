@@ -67,11 +67,11 @@ pip可以把当前安装的package的版本信息“快照”下来；也就是�
 
 实际上，`requirements.txt`有点像Ruby世界里的`Gemfile.lock`文件。
 
+<br>
+<br>
 
-<p>
 注： 上面的文字在某种程度上把`module`，`package`和`依赖`混着用。
 由于本身不是专业的Python开发者，如果任何错误，恳请指正。
-</p>
 
 [1]: https://docs.python.org/2/tutorial/modules.html "module"
 [2]: https://docs.python.org/2/tutorial/modules.html#the-module-search-path "module search"
