@@ -13,7 +13,7 @@ image:
 image_desc: 
 ---
 
-xxx
+Python开发环境的简单介绍。
 
 ## 依赖
 
