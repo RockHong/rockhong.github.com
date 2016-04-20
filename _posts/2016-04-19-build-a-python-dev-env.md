@@ -1,14 +1,14 @@
 ---
 # MUST HAVE BEG
 layout: post
-disqus_identifier: 20160420-build-a-python-dev-env # DO NOT CHANGE THE VALUE ONCE SET
+disqus_identifier: 20160419-build-a-python-dev-env # DO NOT CHANGE THE VALUE ONCE SET
 title: Python开发环境简介
 # MUST HAVE END
 
 is_short: true
 tags: 
 - python
-date: 2016-04-20 20:36:00
+date: 2016-04-19 20:36:00
 image: 
 image_desc: 
 ---
