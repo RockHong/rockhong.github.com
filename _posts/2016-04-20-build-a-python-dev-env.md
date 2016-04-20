@@ -2,7 +2,7 @@
 # MUST HAVE BEG
 layout: post
 disqus_identifier: 20160420-build-a-python-dev-env # DO NOT CHANGE THE VALUE ONCE SET
-title: Python开发环境简介 
+title: xxx
 # MUST HAVE END
 
 is_short: true
