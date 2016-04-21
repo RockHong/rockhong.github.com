@@ -1,0 +1,320 @@
+---
+# MUST HAVE BEG
+layout: post
+disqus_identifier: 20160421-vim-as-an-ide # DO NOT CHANGE THE VALUE ONCE SET
+title: Vim as an IDE
+# MUST HAVE END
+
+is_short: false # <!--more-->
+subtitle:
+tags: 
+- vim
+date: 2016-04-21 12:36:00
+image: 
+image_desc: 
+---
+
+Working in process.
+
+Vim的命令需要经常使用才不会忘记。把Vim打造成适合日常开发的主力IDE可以帮助自己熟悉和记忆Vim命令。
+
+## TODOs
+- 加一些截图，gif
+- 附上git仓库链接
+
+
+
+
+<!-- 
+## 搜索文件内容
+啥是ack， windows上的安装
+啥是ack.vim
+啥是ag
+
+if has('win32')
+  " ack can be installed on windows
+  let g:ackprg = 'ack.cmd '
+endif
+
+给ack 命令配一些默认参数
+        let g:ackprg =
+              \ "ack -H --nocolor --nogroup --column --smart-case --follow"
+
+
+[1]: https://github.com/mileszs/ack.vim "ack.vim"
+[2]: http://beyondgrep.com/ "ack"
+
+
+### ack, exclude some dir, lik 'build', 'env'
+  .ackrc file
+  http://beyondgrep.com/documentation/
+  -A NUM, --after-context=NUM
+  -B NUM, --before-context=NUM
+  -C [NUM], --context[=NUM]
+  --[no]ignore-dir=name
+  --type=X 
+  --type=noX        See "ack --help-types" for supported filetypes
+  -n, --no-recurse
+  --[no]java 
+  --[no]html
+  --[no]xml 
+  --[no]ruby
+  --[no]python 
+  
+  linux和windows
+
+## ack
+默认是搜当前目录
+也可以制定目录，Usage: ack [OPTION]... PATTERN [FILES OR DIRECTORIES]
+
+
+
+
+
+
+
+
+## 快速打开文件
+sth. lik ctrl-shift-R in eclipse?
+ctrl-p
+
+##ctrlp, ignore file and dir
+
+ctrl-d  按file搜还是按path搜
+ctrl-r  要不要正则来搜
+
+Enable/Disable per-session caching: >
+  let g:ctrlp_use_caching = 1
+按F5刷新
+Set this to 0 to enable cross-session caching by not deleting the cache files
+upon exiting Vim: >
+  let g:ctrlp_clear_cache_on_exit = 1
+<
+
+                                                          *'g:ctrlp_cache_dir'*
+Set the directory to store the cache files: >
+  let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+<
+
+Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs: >
+  let g:ctrlp_show_hidden = 0
+
+Use a version control listing command when inside a repository, this is faster
+when scanning large projects: >
+  " Single VCS, listing command does not list untracked files:
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']      这样更快
+  let g:ctrlp_user_command = ['.hg', 'hg --cwd %s locate -I .']
+
+  
+  还有mru模式
+  
+命令  ，  给下面的命令都设置一下快捷键
+：CtrlP
+：CtrlPBuffer
+：CtrlPMRU
+
+ctrlp的一些基本操作，在help ctrlp里搜索下面的东西
+moving
+editing
+history
+
+
+
+
+
+  
+  
+
+# 给插件的命令配上快捷键
+以逗号开头？
+
+## 格式化粘贴
+
+## 跳转
+how to go back to previous place?
+
+
+## 注释  
+trigger comment on a code block
+  virtual select a block, then I, then input "#", "//", then esc
+  
+## nerdtree， 文件系统导航
+### close a buffer in panel in nerdtree; but not close a panel
+
+###nerd tree, ignore .pyc  , /target NERDTreeIgnore
+
+show file in navigation panel
+:NERDTreeFind
+
+change vim cwd
+cd change cwd to select
+CD change tree root to cwd
+
+
+##   鼠标 enable mouse, drag panel size
+
+
+## 多文件编辑
+
+
+  
+## 保存macro
+某个宏可以方便地生产java的getter setter
+
+
+##For coding
+###%    '===' 
+(not need to put cursor exactly on the 'item')   see :help %
+Find the next item in this line after or under the
+cursor and jump to its match. inclusive motion.
+Items can be:
+([{}])          parenthesis or (curly/square) brackets
+                (this can be changed with the
+                'matchpairs' option)
+/* */           start or end of C-style comment
+#if, #ifdef, #else, #elif, #endif
+                C preprocessor conditionals (when the
+                cursor is on the # or no ([{
+                following)
+...
+
+###>> and << 
+shift code. :help >>    '==='
+
+###gd 
+Goto local Declaration. When the cursor is on a local variable.
+
+###K 
+Run a program to lookup the keyword under the cursor. default is to launch 'man'.
+can use '2K' to look for the specified section of man.
+
+###]p
+like p, but consider code indent   '==='
+
+
+###Edit multiple files
+http://stackoverflow.com/questions/53664/how-to-effectively-work-with-multiple-files-in-vim
+
+#### Using Tabs (introduced in Vim 7)
+':tabe <filepath>' add a new tab
+'gvim -p main.pl maintenance.pl' will open these two files in tabs.
+':q' or ':wq' you close a tab. 'ZZ' also can be used instead of :wq
+switch between tabs with ':tabn' and ':tabp'        
+'gt' goes to the next tab, and 'gT' goes to the previous tab      
+jump to any tab by using 'ngt', where n is the index of the tab (beginning with one).
+if you already have existing buffers, you can ':tabnew', and in the new tab enter ':b2'
+
+If you map :tabn and :tabp to your F7/F8 keys you can easily switch between files.
+
+#### Not Using tabs
+':ls'  see a list of current buffers    
+':e ../myFile.pl'  open a new file
+you can also use ':find' which will search a set of paths for you, but you need to customize those paths first.
+use ':b myfile' with enhanced tab completion (still set wild menu) to switch between all open files 
+':b' with tab-key providing auto-completion (awesome !!)
+':b#' choses the last visited file, so you can use it to switch quickly between two files.
+':bp' previous buffer
+':bn' next buffer
+':bn' (n a number) move to nth buffer
+':bw' (buffer wipe, remove a buffer)
+'sb' split your screen, enter a number to specify the buffer to split 
+'arga[dd]' to add multiple files from within vim
+    ':arga foo.txt bar.txt',  ':arga /foo/bar/*.txt',   ':argadd /foo/bar/*'
+
+#### split windows
+Starting vim with a '-o' or '-O' flag opens each file in its own split.
+
+'Ctrl-W w' to switch between open windows
+'Ctrl-W h' (or j or k or l) to navigate through open windows.
+'Ctrl-W c' to close the current window
+'Ctrl-W o' to close all windows except the current one.
+
+':split filename'  , split window to open a file
+':vsplit filename' , vertical split
+':sview filename'  , read-only
+'ctrl-w-'          , decrease size by one line 
+'ctrl-w+'          , increase size
+'10ctrl-w+'        , increase 10 lines
+'ctrl-w_'          , maximize current window
+':hide'            , close current window, but buffer is not deleted
+':only'            , keep only current window open, others close
+
+
+###mark, move using mark, jump using mark '==='
+http://reefpoints.dockyard.com/2014/04/10/vim-on-your-mark.html    
+':help mark-motions'       
+
+lowercase marks
+    marks in single files. when buffer closes, they will lost. 
+    if delete the lines containing marks, they lost.
+    they can restore using undo and redo
+    they can combine with operators. for example 'd`a' will delete till the postion of mark a. '==='
+
+uppercase marks
+    you can use them to jump from file to file.
+    they can only combine with operators when they are in current buffer.
+    remains even if the lines containing the marks are deleted.
+
+numbered marks
+    set automatically. "'0" is the location of the cursor when you last exit vim.
+
+you can check document using ':help mark-motions', and scroll down the help document a little bit.
+
+'m{a-zA-Z}'                  Set mark {a-zA-Z} at cursor position
+"'{a-z}  `{a-z}"             Jump to the mark {a-z} in the current buffer, 
+                         "'" will go to the first non-blank position of the line,
+                         "`" will go to the exact position when you do marking
+"'{A-Z0-9}  `{A-Z0-9} "      To the mark {A-Z0-9} in the file where it was set
+"g'{mark} g`{mark} "         jump, but not change the jumplist
+':marks'                     list marks
+':marks aB'                  list marks between a and B
+" '0  "                      will cause Vim to jump to the 0 mark, which is a "special mark" that 
+                             represents the last file edited when Vim was exited.
+':delm a'  ':delm aB'  'delm p-z'
+" '.  `.  "                  To the position where the last change was made.    '==='
+" '<  `<  "                  To the first line or character of the last selected visual area
+" '>  `>  "                  To the last line or character of the last selected visual area
+" ''  ``  "                  To the position before the latest jump, or where the
+                             last "m'" or "m`" command was given.
+
+###jump
+http://vimcasts.org/episodes/using-the-changelist-and-jumplist/
+http://usevim.com/2013/02/15/vim-101-jumps/
+
+go to file under cursor, seems useful for coding
+    1)':gf' open in the same window
+    2)':<c-w>f' open in a new window
+    3)':<c-w>gf' open in a new tab
+
+When writing a program, it is helpful to set the 'path' option to list the directories with your include files. 
+If there are several files in your 'path' that match the name under the cursor, 'gf' opens the first, while '2gf' opens the second
+Names containing spaces, you can visually select the name (including the spaces), then type gf
+
+go back to previous file
+1) use ':ctrl-6', it toggles between two files. same as ":e #"
+2) navigate in jump list, use ':ctrl-o' (can add [count]) for backward, use '<tab>' or 'ctrl-i'(can add [count]) for forward
+
+':jumps'
+show jump list. the one begin with '>' is current pos. the number can be used in '[count]ctrl-o/i'
+'what will add into jump list', http://usevim.com/2013/02/15/vim-101-jumps/
+1) Freely jumping around a file. Example: G
+2) Jumping based on the window size. Example: M
+3) Text block jumps. Examples: (, ), {, }
+and, Searching (/ and ?) and (n, N)
+
+-->
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
