@@ -5,7 +5,7 @@ disqus_identifier: 20160421-vim-as-an-ide # DO NOT CHANGE THE VALUE ONCE SET
 title: Vim as an IDE
 # MUST HAVE END
 
-is_short: false # <!--more-->
+is_short: false # 
 subtitle:
 tags: 
 - vim
@@ -14,64 +14,72 @@ image:
 image_desc: 
 ---
 
-Working in process.
+*Working in process*
 
 Vim的命令需要经常使用才不会忘记。把Vim打造成适合日常开发的主力IDE可以帮助自己熟悉和记忆Vim命令。
 
+## 一些基本的Vim配置
+
+	let mapleader = ','  " 设置快捷键
+	
+## 搜索文件内容
+
+	nmap <leader>a :Ack!   " 设置快捷键
+
+借助[ack.vim][1]插件，按快捷键`,a`可以进行文件内容搜索，效果见下面的截图。
+
+TODO 截图
+
+ack.vim插件借助第三方的程序来进行搜索，并把搜索结果展示在Vim里。
+默认情况下，ack.vim使用[ack][2]来进行搜索。ack比grep[更快、更好用][5]。
+ack在Linux下和Windows下都可以安装。
+[The Silver Searcher][3]（ag）是一个类似ack的搜索工具，号称比ack更快。
+ag在Windows下可以通过Cygwin等方式来安装，详见官方的[Wiki][6]。
+
+	let g:ackprg = 'ag --nogroup --column'  " 让ack.vim使用ag作为搜索工具
+
+### 更快地搜索
+基本上，ag能接受的参数和ack类似。
+
+默认情况下，ack和ag会搜索当前工作目录。可以通过限制搜索目录来提高搜索速度，比如，
+
+	:Ack! text-to-search some_dir
+	
+限制搜索的文件类型，比如
+
+	:Ack! --java text-to-search 
+
+可以忽略某些目录。ack默认会忽略.git目录。也可以使用`--ignore-dir=name`选项来指定要忽略的目录。
+对于ag，默认会忽略.gitignore中指定的文件。
+也可以在[.agignore文件]里加上想忽略的文件。比如，忽略maven工程下的`target`目录。
+.agignore的语法和.gitignore类似。
+
+ack的更多选项见其[官方文档][9]。
+如果某个工程需要经常使用某些选项，可以把这些选项放到工程目录下的.ackrc文件中。
+
+### Ack.vim插件的一些有用的命令
+
+	:AckFile         " 可以用Ack.vim来搜索文件
+	
+更多命令见`:help Ack`。
+
+<!--more-->
+
 ## TODOs
+
 - 加一些截图，gif
 - 附上git仓库链接
 
-
+[1]: https://github.com/mileszs/ack.vim "ack.vim"
+[2]: http://beyondgrep.com/ "ack"
+[3]: https://github.com/ggreer/the_silver_searcher "The Silver Searcher"
+[5]: http://beyondgrep.com/why-ack/ "why ack"
+[6]: https://github.com/ggreer/the_silver_searcher/wiki/Windows "ag windows"
+[8]: https://github.com/ggreer/the_silver_searcher/wiki/Advanced-Usage "agignore"
+[9]: http://beyondgrep.com/documentation/ "ack document"
 
 
 <!-- 
-## 搜索文件内容
-啥是ack， windows上的安装
-啥是ack.vim
-啥是ag
-
-if has('win32')
-  " ack can be installed on windows
-  let g:ackprg = 'ack.cmd '
-endif
-
-给ack 命令配一些默认参数
-        let g:ackprg =
-              \ "ack -H --nocolor --nogroup --column --smart-case --follow"
-
-
-[1]: https://github.com/mileszs/ack.vim "ack.vim"
-[2]: http://beyondgrep.com/ "ack"
-
-
-### ack, exclude some dir, lik 'build', 'env'
-  .ackrc file
-  http://beyondgrep.com/documentation/
-  -A NUM, --after-context=NUM
-  -B NUM, --before-context=NUM
-  -C [NUM], --context[=NUM]
-  --[no]ignore-dir=name
-  --type=X 
-  --type=noX        See "ack --help-types" for supported filetypes
-  -n, --no-recurse
-  --[no]java 
-  --[no]html
-  --[no]xml 
-  --[no]ruby
-  --[no]python 
-  
-  linux和windows
-
-## ack
-默认是搜当前目录
-也可以制定目录，Usage: ack [OPTION]... PATTERN [FILES OR DIRECTORIES]
-
-
-
-
-
-
 
 
 ## 快速打开文件
