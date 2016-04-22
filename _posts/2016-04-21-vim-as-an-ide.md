@@ -82,6 +82,10 @@ ack的更多选项见其[官方文档][9]。
 <!-- 
 
 
+关闭某个panel对应的buffer，但是不关闭这个panel
+
+
+
 ## 快速打开文件
 sth. lik ctrl-shift-R in eclipse?
 ctrl-p
