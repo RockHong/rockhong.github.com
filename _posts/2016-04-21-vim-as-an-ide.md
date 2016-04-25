@@ -24,7 +24,8 @@ Vim的命令需要经常使用才不会忘记。把Vim打造成适合日常开�
 	
 ## 搜索文件内容
 
-	nmap <leader>a :Ack!   " 设置快捷键
+	" .vimrc
+	nmap <leader>a :Ack!  
 
 借助[ack.vim][1]插件，按快捷键`,a`可以进行文件内容搜索，效果见下面的截图。
 
@@ -36,6 +37,7 @@ ack在Linux下和Windows下都可以安装。
 [The Silver Searcher][3]（ag）是一个类似ack的搜索工具，号称比ack更快。
 ag在Windows下可以通过Cygwin等方式来安装，详见官方的[Wiki][6]。
 
+	" .vimrc
 	let g:ackprg = 'ag --nogroup --column'  " 让ack.vim使用ag作为搜索工具
 
 ### 更快地搜索
@@ -51,17 +53,47 @@ ag在Windows下可以通过Cygwin等方式来安装，详见官方的[Wiki][6]�
 
 可以忽略某些目录。ack默认会忽略.git目录。也可以使用`--ignore-dir=name`选项来指定要忽略的目录。
 对于ag，默认会忽略.gitignore中指定的文件。
-也可以在[.agignore文件]里加上想忽略的文件。比如，忽略maven工程下的`target`目录。
+也可以在[.agignore文件][8]里加上想忽略的文件。比如，忽略maven工程下的`target`目录。
 .agignore的语法和.gitignore类似。
 
 ack的更多选项见其[官方文档][9]。
 如果某个工程需要经常使用某些选项，可以把这些选项放到工程目录下的.ackrc文件中。
 
-### Ack.vim插件的一些有用的命令
+### ack.vim插件的一些有用的命令
 
 	:AckFile         " 可以用Ack.vim来搜索文件
 	
 更多命令见`:help Ack`。
+
+## 文件系统导航
+
+	" .vimrc
+	nmap <leader>d :NERDTreeToggle<CR>
+	
+文件系统的导航可以借助[NERDTree][10]插件来实现。按下快捷键`,d`，效果见如下截图，
+
+TODO 截图
+
+在NERDTree窗口按`?`键可以显示帮助信息。
+
+### 一些有用的命令
+
+	:NERDTreeFind      " 在NERDTree窗口中显示文件的位置，类似于Eclipse的"Link with Editor"
+
+## 快速打开文件
+
+	nmap <leader>p :CtrlP<CR>
+
+借助[CtrlP][11]插件可以实现文件的快速打开。按下快捷键`,p`，其效果如下图所示，
+
+TODO  截图
+
+搜索是fuzzy的，不用输入完整的文件名。
+
+在CtrlP窗口输入`?`可以显示帮助文档。也可以查看CtrlP的[README文档][11]。
+
+
+
 
 <!--more-->
 
@@ -69,6 +101,7 @@ ack的更多选项见其[官方文档][9]。
 
 - 加一些截图，gif
 - 附上git仓库链接
+- 升级所有的插件，ctrlp见[11][11]
 
 [1]: https://github.com/mileszs/ack.vim "ack.vim"
 [2]: http://beyondgrep.com/ "ack"
@@ -77,70 +110,53 @@ ack的更多选项见其[官方文档][9]。
 [6]: https://github.com/ggreer/the_silver_searcher/wiki/Windows "ag windows"
 [8]: https://github.com/ggreer/the_silver_searcher/wiki/Advanced-Usage "agignore"
 [9]: http://beyondgrep.com/documentation/ "ack document"
-
+[10]: https://github.com/scrooloose/nerdtree "NERD Tree"
+[11]: https://github.com/ctrlpvim/ctrlp.vim "ctrlp.vim"
 
 <!-- 
 
+## done
+## 显示换行符
+:set list! to toggle the option on, so that you can later press : followed by the up arrow to repeat the previous command, to toggle 'list' off.
+set list listchars=tab:»·,trail:·,eol:¶
 
-关闭某个panel对应的buffer，但是不关闭这个panel
+##   鼠标 enable mouse, drag panel size
+set mouse=a                         " Enable basic mouse behavior such as resizing buffers.
+
+
+##关闭某个panel对应的buffer，但是不关闭这个panel
+http://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window
+bp|bd #
+nnoremap <C-c> :bp\|bd #<CR>
+
+## todo
 
 
 
-## 快速打开文件
-sth. lik ctrl-shift-R in eclipse?
-ctrl-p
 
-##ctrlp, ignore file and dir
-
-ctrl-d  按file搜还是按path搜
-ctrl-r  要不要正则来搜
-
-Enable/Disable per-session caching: >
-  let g:ctrlp_use_caching = 1
-按F5刷新
-Set this to 0 to enable cross-session caching by not deleting the cache files
-upon exiting Vim: >
-  let g:ctrlp_clear_cache_on_exit = 1
-<
-
-                                                          *'g:ctrlp_cache_dir'*
-Set the directory to store the cache files: >
-  let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
-<
-
-Set this to 1 if you want CtrlP to scan for dotfiles and dotdirs: >
-  let g:ctrlp_show_hidden = 0
-
-Use a version control listing command when inside a repository, this is faster
-when scanning large projects: >
-  " Single VCS, listing command does not list untracked files:
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']      这样更快
-  let g:ctrlp_user_command = ['.hg', 'hg --cwd %s locate -I .']
-
-  
-  还有mru模式
-  
-命令  ，  给下面的命令都设置一下快捷键
-：CtrlP
-：CtrlPBuffer
-：CtrlPMRU
-
-ctrlp的一些基本操作，在help ctrlp里搜索下面的东西
-moving
-editing
-history
+怎么列出所有的快捷键的mapping？？？
 
 
 
 
 
-  
+
+
+
+
+## 各个语言相关的
+java开发相关的
+http://stackoverflow.com/questions/12550848/vim-java-open-class-under-cursor-and-go-to-method
+
+ctags 可以通过cygwin安装  
   
 
 # 给插件的命令配上快捷键
 以逗号开头？
 
 ## 格式化粘贴
+
+
 
 ## 跳转
 how to go back to previous place?
@@ -150,20 +166,6 @@ how to go back to previous place?
 trigger comment on a code block
   virtual select a block, then I, then input "#", "//", then esc
   
-## nerdtree， 文件系统导航
-### close a buffer in panel in nerdtree; but not close a panel
-
-###nerd tree, ignore .pyc  , /target NERDTreeIgnore
-
-show file in navigation panel
-:NERDTreeFind
-
-change vim cwd
-cd change cwd to select
-CD change tree root to cwd
-
-
-##   鼠标 enable mouse, drag panel size
 
 
 ## 多文件编辑
