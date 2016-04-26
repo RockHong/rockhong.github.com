@@ -15,7 +15,7 @@ div.post-preview {
     overflow: hidden;     /* works like clear */
 }
 
-div.pp-timedate {
+/*div.pp-timedate {
     position: relative;
     float: left;
     width: 55px;
@@ -23,16 +23,16 @@ div.pp-timedate {
     margin:0;
     background: url(../images/date-icon.png);
     background-size: 55px 55px;
-}
+}*/
 
-div.pp-timedate p {
+/*div.pp-timedate p {
     color: #888;
     position: absolute;
     top: 10px;
     left: 10px;
     font-size:9px;
     text-align: center;
-} /* TODO: test in firefox, safari, chrome */
+}*/ /* TODO: test in firefox, safari, chrome */
 
 div.pp-main, div.pp-main-short {
     float: right;
@@ -54,6 +54,7 @@ div.pp-main-wrapper {
 }
 
 .pp-title {
+    text-align: center;
     line-height: 19px
     font-size: 14px;
     margin: 0 0 16px;
@@ -62,6 +63,12 @@ div.pp-main-wrapper {
 .pp-title  a{
     color: #888;
     text-decoration: none;
+}
+
+.pp-timedate {
+  text-align: center;
+  color: #888;
+  font-size: 12px;
 }
 
 .pp-content a, .pp-content-short a {
@@ -94,26 +101,26 @@ div.pp-bottom-bar {
     font-size: 11px;
 }
 
-div.pp-tags {
+/*div.pp-tags {
     float: left;
     height: 19px;
-    background: url(../images/tag-icon.png) no-repeat;
-    background-size: auto 19px;
-}
+    /*background: url(../images/tag-icon.png) no-repeat;* /
+    /*background-size: auto 19px;* /
+}*/
 
 div.pp-tags a, .short-blog-tag {
     color: #aaa;
     text-decoration: none;
-    margin-left: 28px;   
+    /*margin-left: 28px;   */
 }   
 
 .short-blog-tag {
     background: #FFD2BF;
 }
 
-div.pp-comments {
+/*div.pp-comments {
     float:right;        
-}
+}*/
 
 div.pp-comments a{
     display: block;  /* if not display as block, setting height doesn't work. */
@@ -123,8 +130,8 @@ div.pp-comments a{
     text-align: right;
     color: #aaa;
     margin-right: 24px;
-    background: url(../images/comment-icon.png) no-repeat;
-    background-size: auto 19px;
+    /*background: url(../images/comment-icon.png) no-repeat;*/
+    /*background-size: auto 19px;*/
 }
 
 div#right-col {
