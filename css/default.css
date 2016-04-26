@@ -9,7 +9,7 @@ html {
 
 body {
     background: url(../images/bg.png) repeat-x;
-    background-color: #dedddf;
+    background-color: white; /*#dedddf;*/
     text-align: center;
     color: #444;
     font-family: Helvetica, arial, freesans, clean, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
