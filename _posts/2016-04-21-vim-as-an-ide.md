@@ -137,9 +137,16 @@ nnoremap <C-c> :bp\|bd #<CR>
 怎么列出所有的快捷键的mapping？？？
 
 
+## code complete
+supertab  大部分够用； 看看supertab的文档，它是不是只知道对vim buffer里的东西
+但是有些时候不够强大，是不是onmicompelete好，比如对于写java，可以利用tag
 
 
+## 符号跳转
 
+http://andrewradev.com/2011/06/08/vim-and-ctags/
+
+http://blog.vinceliu.com/2007/08/vim-tips-for-java-2-using-exuberant.html
 
 
 
