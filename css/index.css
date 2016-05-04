@@ -108,10 +108,16 @@ div.pp-bottom-bar {
     /*background-size: auto 19px;* /
 }*/
 
+div.pp-tags {
+  display: inline-block;
+  float: left;
+  margin-left: 10px;
+}
+
 div.pp-tags a, .short-blog-tag {
     color: #aaa;
     text-decoration: none;
-    /*margin-left: 28px;   */
+    margin-left: 10px;
 }   
 
 .short-blog-tag {
@@ -122,8 +128,14 @@ div.pp-tags a, .short-blog-tag {
     float:right;        
 }*/
 
+div.pp-comments {
+  display: inline-block;
+  float: right;
+  margin-right: 10px;
+}
+
 div.pp-comments a{
-    display: block;  /* if not display as block, setting height doesn't work. */
+    /*display: block;  / * if not display as block, setting height doesn't work. */
     height: 19px;
     width: 38px;
     text-decoration: none;
@@ -180,11 +192,16 @@ div#self-intro p#mail {
     font-style: italic;
 }
 
-
-div.pagination .previous{
-    float: left;
+div.paging a {
+  color: #515151;
 }
 
-div.pagination .next{
+div.paging .previous-page{
+    float: left;
+    margin-left: 30px;
+}
+
+div.paging .next-page{
     float: right;
+    margin-right: 30px;
 }
