@@ -67,15 +67,15 @@ title: Home Page
 
 <!-- refer:http://jekyllrb.com/docs/pagination/ -->
 {% if paginator.total_pages > 1 %}
-<div class="pagination">
+<div class="paging">
 {% if paginator.previous_page %}
-    <a class="previous" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">
+    <a class="previous-page" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">
     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Prev
     </a>
   {% endif %}
   
   {% if paginator.next_page %}
-    <a class="next" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">
+    <a class="next-page" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">
     Next <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     </a>
   {% endif %}
