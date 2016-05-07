@@ -21,7 +21,7 @@ and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
   <a href="/slides/raspberry-pi/raspberry-pi-intro.html">
-  <img src="/images/blog/raspberry.png" alt="raspberry pi" style="width:600px;">
+  <img src="/images/blog/raspberry.png" alt="raspberry pi" >
   </a>
 </div>
 

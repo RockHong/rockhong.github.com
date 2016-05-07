@@ -31,6 +31,6 @@ cygwin的默认终端使用起来有一些不顺手。之前用的puttycgy（[�
 如果使用mintty时，提示找不到“ls”，“pwd”等命令，可以将cygwin的bin路径加入到Windows的PATH环境变量中。      
 关于mintty的使用说明，可以直接在mintty中查看手册`man mintty`，也可以查看文档（项目网站和下载的安装包中都有）。
 
-<img src="../images/blog/mintty_logo.png" alt="Mintty logo" title="mintty logo" style="    width: 60px; display: block; margin-left: auto; margin-right: auto;">
+<img src="../images/blog/mintty_logo.png" alt="Mintty logo" title="mintty logo" style="width: 60px; display: block; margin-left: auto; margin-right: auto;">
 
 HAVE FUN.

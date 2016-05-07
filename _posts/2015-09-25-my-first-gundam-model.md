@@ -21,21 +21,21 @@ I bought my first [Gundam model][1] last week and assembled it
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/gaoda-1.jpg" alt="Gundam" style="width:640px;">
+  <img src="/images/blog/gaoda-1.jpg" alt="Gundam">
 </div>
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/gaoda-2.jpg" alt="Gundam" style="width:640px;">
+  <img src="/images/blog/gaoda-2.jpg" alt="Gundam">
 </div>
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/gaoda-3.jpg" alt="Gundam" style="width:640px;">
+  <img src="/images/blog/gaoda-3.jpg" alt="Gundam">
 </div>
 
 

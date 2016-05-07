@@ -3,114 +3,97 @@ layout: default
 title: Home Page
 ---
 
-<div id="main-content">
-<div id="left-col">
+<div id="css-namespace-index">
 
-{% for post in paginator.posts %}
-    <div class="post-preview">
-        {%if post.is_short %}
-        <div class="pp-main-short">
-        {% else %}
-        <div class="pp-main">
-        {% endif %}
-        <div class="pp-main-wrapper">
-            <div class="pp-title">
-                <a href="{{ post.url }}">{{ post.title }}</a>
-            </div>
-        <div class="pp-timedate">
-            <p>{{ post.date | date: "%a, %b %d, %Y"}}</p>
-        </div>
-            {% if post.is_short %}
-            <div class="pp-content-short">
-                {% comment %}
-                <!-- <p> {{ post.content | strip_html }}</p> -->
-                {% endcomment %}
-                <p> {{ post.content }}</p>
-            </div> 
-           {% else %}
-            <div class="pp-content">
-                {% if post.excerpt contains '<img' %}
-                {% else %}
-                  {% if post.image %}
-                  <div class="pp-image">
-                      <a href="/"> <!--TODO lofter image click effect -->
-                        <img src="../images/blog/{{ post.image }}" alt="{{ post.image-desc}}">
-                      </a>
-                  </div>
-                  {% endif %}
-                {% endif %}
-                <!-- <p> {{ post.content | strip_html | truncatewords: 18 }}</p> -->
-                {{ post.excerpt }}
-                <a href="{{ post.url }}">阅读更多…</a>
-            </div> 
-           {% endif %}
-
-            <div class="pp-bottom-bar">
-                <div class="pp-tags">
-                    <!-- {% if post.is_short %}
-                        <span class="short-blog-tag">short blog</span>
-                        {% endif %} -->
-                    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
-                    {% for tag in post.tags %}
-                    <a title="{{ tag }}" href="/tags/post-tags.html#{{ tag }}">{{ tag }}</a>
-                    {% endfor %}
-                </div>
-                <div class="pp-comments">
-                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                    <a href="{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.disqus_identifier }}">...</a>
-                </div> 
-            </div>
-        </div> 
-        </div> 
-    </div> <!-- post-preview -->
-{% endfor %}
-
-<!-- refer:http://jekyllrb.com/docs/pagination/ -->
-{% if paginator.total_pages > 1 %}
-<div class="paging">
-{% if paginator.previous_page %}
-    <a class="previous-page" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Prev
-    </a>
-  {% endif %}
-  
-  {% if paginator.next_page %}
-    <a class="next-page" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">
-    Next <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    </a>
-  {% endif %}
-</div>
-{% endif %}  
-
-
-</div> <!-- left-col -->
-
-<div id="right-col">
+  <div id="right-col">
     <div id="self-intro">
-    <!--img src="../images/avatar.png" alt="protrait"-->
-    <p id="words"> Learn by Making Notes. <br> Share by Posting Notes.</p>
+      <p id="words"> Learn by Making Notes. <br> Share by Posting Notes.</p>
     </div>
-    
+    <div class="spacing"> </div>
     <div id="db-fm">
-    <script src="http://img3.douban.com/f/shire/9b6158f3d4ef80b33bc0f9fb8bfb1781609ba441/js/radiowidget_plain.js?doubanid=2555816&maxresults=5&color=0"></script>
+      <script src="http://img3.douban.com/f/shire/9b6158f3d4ef80b33bc0f9fb8bfb1781609ba441/js/radiowidget_plain.js?doubanid=2555816&maxresults=5&color=0"></script>
     </div>
-    
+    <div class="spacing"> </div>
     <div id="db-collect">
-    <script type="text/javascript" src="http://www.douban.com/service/badge/HongTheGreat/?selection=random&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=6&amp;hidelogo=on&amp;cat=movie%7Cbook&amp;columns=3"></script>
+      <script type="text/javascript" src="http://www.douban.com/service/badge/HongTheGreat/?selection=random&amp;picsize=small&amp;hideself=on&amp;show=collection&amp;n=6&amp;hidelogo=on&amp;cat=movie%7Cbook&amp;columns=3"></script>
     </div>
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- blog-ad-1 -->
     <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-8182266446134074"
-        data-ad-slot="2366507542"
-        data-ad-format="auto"></ins>
+         style="display:block"
+         data-ad-client="ca-pub-8182266446134074"
+         data-ad-slot="2366507542"
+         data-ad-format="auto"></ins>
     <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
+      (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-</div>
+  </div> <!-- right-col -->
 
+  <div id="left-col">
+    {% for post in paginator.posts %}
+      <div class="post-preview">
+        <div class="pp-title">
+          <a href="{{ post.url }}">{{ post.title }}</a>
+        </div>
+        <div class="pp-timedate">
+          <p>{{ post.date | date: "%a, %b %d, %Y"}}</p>
+        </div>
+        <div class="pp-content">
+          {% if post.is_short %}
+            <div> {{ post.content }}</div>
+          {% else %}
+            {% if post.excerpt contains '<img' %}
+            {% else %}
+              {% if post.image %}
+                <div class="pp-image">
+                  <a href="/"> <!--TODO lofter image click effect -->
+                    <img src="../images/blog/{{ post.image }}" alt="{{ post.image-desc}}">
+                  </a>
+                </div>
+              {% endif %}
+            {% endif %}
+            {{ post.excerpt }}
+            <a href="{{ post.url }}">阅读更多…</a>
+          {% endif %}
+        </div> 
+  
+        <div class="pp-bottom-bar">
+          <div class="pp-tags">
+            <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+            {% for tag in post.tags %}
+              <a title="{{ tag }}" href="/tags/post-tags.html#{{ tag }}">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          <div class="pp-comments">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+            <a href="{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.disqus_identifier }}">...</a>
+          </div> 
+        </div>
+      </div> <!-- post-preview -->
+    {% endfor %}
+  
+    <!-- refer:http://jekyllrb.com/docs/pagination/ -->
+    {% if paginator.total_pages > 1 %}
+      <div class="paging">
+        {% if paginator.previous_page %}
+          <a class="previous-page" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Prev
+          </a>
+        {% endif %}
+        
+        <span class= "next-page">
+          {% if paginator.next_page %}
+            <a class="next-page" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">
+              Next <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </a>
+          {% else %}
+            END
+          {% endif %}
+        </span>
+      </div>
+    {% endif %}  
 
+  </div> <!-- left-col -->
 </div> <!-- main-content -->
 

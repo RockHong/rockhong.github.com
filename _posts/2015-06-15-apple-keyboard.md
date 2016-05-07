@@ -35,7 +35,7 @@ image_desc:
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/apple-keyboard-full.jpg" alt="apple keyboard" style="width:90%;">
+  <img src="/images/blog/apple-keyboard-full.jpg" alt="apple keyboard">
 </div>
 
 它满足上面的所有要求，同时简洁、美观。
@@ -48,7 +48,7 @@ but you can use <span>, <cite>, <del> freely -->
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/apple-numpad.jpg" alt="apple keyboard" style="width:55%;">
+  <img src="/images/blog/apple-numpad.jpg" alt="apple keyboard">
 </div>
 
 ##### insert键
@@ -62,7 +62,7 @@ but you can use <span>, <cite>, <del> freely -->
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/keyboard-insert.jpg" alt="apple keyboard" style="width:55%;">
+  <img src="/images/blog/keyboard-insert.jpg" alt="apple keyboard">
 </div>
 
 

@@ -1,68 +1,36 @@
 
-div#main-content {
-    width: 1070px;
-    text-align: left;
-    margin: 0 auto;
+div#css-namespace-index {
+  text-align: left;
+  margin: 0 auto;
+}
+
+/* by default, not show 'right-col'. only show it on large screen*/
+div#right-col {
+  display: none;
 }
 
 div#left-col {
-    float: left;
-    width: 816px;
 }
 
 div.post-preview {
-    margin: 0 0 16px;
-    overflow: hidden;     /* works like clear */
+  margin: 0 0 30px;
+  padding: 8px 28px 28px 16px;
 }
 
-/*div.pp-timedate {
-    position: relative;
-    float: left;
-    width: 55px;
-    height: 55px;
-    margin:0;
-    background: url(../images/date-icon.png);
-    background-size: 55px 55px;
-}*/
-
-/*div.pp-timedate p {
-    color: #888;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size:9px;
-    text-align: center;
-}*/ /* TODO: test in firefox, safari, chrome */
-
-div.pp-main, div.pp-main-short {
-    float: right;
-    width: 750px;
-    background: #fff;
-    -moz-border-radius: 9px 9px 9px 9px;
-    -webkit-border-radius: 9px 9px 9px 9px;
-    border-radius: 9px 9px 9px 9px; 
-}
-
-/*
-div.pp-main-short {
-    border-bottom: 2px solid #FFD2BF;
-    border-right: 3px solid #FFD2BF;
-}*/
-
-div.pp-main-wrapper {
-    padding: 8px 28px 28px 16px;
+.post-preview img {
+  width: 80%;
 }
 
 .pp-title {
-    text-align: center;
-    line-height: 19px
-    font-size: 14px;
-    margin: 0 0 16px;
+  text-align: center;
+  line-height: 19px;
+  font-size: 18px;
+  margin: 0 0 16px;
 }
 
 .pp-title  a{
-    color: #888;
-    text-decoration: none;
+  color: #666;
+  text-decoration: none;
 }
 
 .pp-timedate {
@@ -71,42 +39,30 @@ div.pp-main-wrapper {
   font-size: 12px;
 }
 
-.pp-content a, .pp-content-short a {
-    color: rgb(249, 38, 114);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.pp-content, .pp-content-short  {
-    width: 100%;
+.pp-content  {
     line-height: normal;
     font-size: 13px;
-    overflow: hidden;     /* works like clear */
+}
+
+.pp-content a {
+  color: rgb(249, 38, 114);
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .pp-content .pp-image {
-    float: left;
-    width: 164px;
-    margin: 0 25px 5px 0;
 }
 
 .pp-content .pp-image img {
-    width: 164px;
 }
 
 div.pp-bottom-bar {
-    height: 19px;      
-    margin: 11px 0 0;
-    line-height: 19px;
-    font-size: 11px;
+  height: 19px;      
+  margin: 11px 0 0;
+  line-height: 19px;
+  font-size: 11px;
 }
 
-/*div.pp-tags {
-    float: left;
-    height: 19px;
-    /*background: url(../images/tag-icon.png) no-repeat;* /
-    /*background-size: auto 19px;* /
-}*/
 
 div.pp-tags {
   display: inline-block;
@@ -114,19 +70,11 @@ div.pp-tags {
   margin-left: 10px;
 }
 
-div.pp-tags a, .short-blog-tag {
-    color: #aaa;
-    text-decoration: none;
-    margin-left: 10px;
+div.pp-tags a {
+  color: #aaa;
+  text-decoration: none;
+  margin-left: 10px;
 }   
-
-.short-blog-tag {
-    background: #FFD2BF;
-}
-
-/*div.pp-comments {
-    float:right;        
-}*/
 
 div.pp-comments {
   display: inline-block;
@@ -135,32 +83,22 @@ div.pp-comments {
 }
 
 div.pp-comments a{
-    /*display: block;  / * if not display as block, setting height doesn't work. */
-    height: 19px;
-    width: 38px;
-    text-decoration: none;
-    text-align: right;
-    color: #aaa;
-    margin-right: 24px;
-    /*background: url(../images/comment-icon.png) no-repeat;*/
-    /*background-size: auto 19px;*/
+  height: 19px;
+  text-decoration: none;
+  color: #aaa;
 }
 
 div#right-col {
-    float: right;
-    width: 230px;
+  float: right;
+  width: 230px;
 }
 
 #right-col div {
-  background: rgb(241, 241, 241);
+  background: #f5f5f5;
   -moz-border-radius: 9px 9px 9px 9px;
   -webkit-border-radius: 9px 9px 9px 9px;
   border-radius: 9px 9px 9px 9px;
   margin-bottom: 8px;
-}
-
-div#self-intro {
-    padding: 8px 8px 8px 8px;
 }
 
 div#db-fm img{
@@ -172,36 +110,48 @@ div#db-collect table {
   margin-left: auto;
 }
 
-div#self-intro img{
-    float: left;
-    width: 68px;
+div#self-intro {
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 div#self-intro p {
-    color: rgb(68, 68, 68);
-    text-align: center;
+  color: rgb(68, 68, 68);
+  text-align: center;
 }
 
 div#self-intro p#words {
-    font-size: 12px;
-    font-weight: 800;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 div#self-intro p#mail {
-    font-size: 11px;
-    font-style: italic;
+  font-size: 11px;
+  font-style: italic;
 }
 
 div.paging a {
   color: #515151;
+  text-decoration: none;
 }
 
 div.paging .previous-page{
-    float: left;
-    margin-left: 30px;
+  float: left;
+  margin-left: 30px;
 }
 
 div.paging .next-page{
-    float: right;
-    margin-right: 30px;
+  float: right;
+  margin-right: 30px;
+}
+
+
+
+@media only screen and (min-width: 1300px) {
+  div#right-col {
+    display: block;
+  }
+  div#left-col {
+    overflow: hidden;
+  }
 }

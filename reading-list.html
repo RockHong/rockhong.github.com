@@ -3,41 +3,40 @@ layout: default
 title: Reading List
 ---
 
-<div id="main-content">
-<div id="left-col">
-{% for page in site.pages %}
-    {% if page.page_type != "reading-list" %}
-        {% continue %}
-    {% endif %}
-    <div class="readling-list">
-        <div class="rl-main">
-        <div class="rl-main-wrapper">
-            <div class="rl-title">
-                <a href="{{ page.source }}" target="_blank">{{ page.title }}</a>
-            </div>
-            <div class="rl-bottom-bar">
-                <div class="rl-tags">
-                    {% for tag in page.tags %}
-                    <a title="{{ tag }}" href="/tags/reading-list-tags.html#{{ tag }}">{{ tag }}</a>
-                    {% endfor %}
-                </div>
-            </div>
-            {% if page.has_self_comment %}
-            <div class="rl-self-comment" style="display: none;">
-                <p>{{ page.content }}</p>
-            </div>
-            {% endif %}
-        </div> 
-        </div> 
-    </div> <!-- readling-list -->
-{% endfor %}
-</div> <!-- left-col -->
+<div id="css-namespace-reading-list">
 
-<div id="right-col">
+  <div id="right-col">
     <div id="self-intro">
-    <p id="words"> Learn by Making Notes. <br> Share by Posting Notes.</p>
-    <p id="mail">hongs.blog.contact<br>{AT}gmail.com</p> 
+      <p id="words"> Learn by Making Notes. <br> Share by Posting Notes.</p>
+      <p id="mail">hongs.blog.contact<br>{AT}gmail.com</p> 
     </div>
-</div>
+  </div>
+
+  <div id="left-col">
+    {% for page in site.pages %}
+      {% if page.page_type != "reading-list" %}
+        {% continue %}
+      {% endif %}
+      <div class="readling-list">
+        <div class="rl-title">
+          <a href="{{ page.source }}" target="_blank">{{ page.title }}</a>
+        </div>
+        <div class="rl-bottom-bar">
+          <div class="rl-tags">
+            <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+            {% for tag in page.tags %}
+              <a title="{{ tag }}" href="/tags/reading-list-tags.html#{{ tag }}">{{ tag }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        {% if page.has_self_comment %}
+          <div class="rl-self-comment" style="display: none;">
+            <p>{{ page.content }}</p>
+          </div>
+        {% endif %}
+      </div> <!-- readling-list -->
+    {% endfor %}
+  </div> <!-- left-col -->
+
 </div> <!-- main-content -->
 

@@ -66,7 +66,7 @@ image_desc:
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/buf-overflow-poc.png" alt="gdb tui snapshot" style="width:620px;">
+  <img src="/images/blog/buf-overflow-poc.png" alt="gdb tui snapshot" >
 </div>
 
 	(gdb) set disassembly-flavor intel  # 让gdb在显示汇编时使用intel风格

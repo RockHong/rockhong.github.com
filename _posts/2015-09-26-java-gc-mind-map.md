@@ -24,7 +24,7 @@ and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
   <a href="/downloads/Java_GC.png">
-  <img src="/images/blog/Java_GC-small.png" alt="java gc" style="width:600px;">
+  <img src="/images/blog/Java_GC-small.png" alt="java gc">
   </a>
 </div>
 

@@ -112,7 +112,7 @@ Kata海滩上有一次性纹身的。如果要纹，选黑色的颜料就好了�
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/phuket.jpg" alt="竹子岛" style="width:600px;">
+  <img src="/images/blog/phuket.jpg" alt="竹子岛" >
 </div>
 
 

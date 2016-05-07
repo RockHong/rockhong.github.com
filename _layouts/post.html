@@ -3,57 +3,50 @@ layout: default
 ---
 
 <div id="css-namespace-post">
-<div id="dummy-left-col">
-    <div id="dummy-left-col-placeholder"> </div>
-    <div id="post-comment-wrapper">
-    
-        <div id="post">
-            <div id="title">
-                <h1> {{ page.title }} </h1>
-                {% if page.subtitle %}
-                <h2> - {{ page.subtitle }} </h2>
-                {% endif %}
-            </div>
-            <div id="content">
-            {{ content }}
-            </div>
-            <div id="pub-date">
-            <span>{{ page.date | date: "%F" }}</span>
-            <span>{{ page.date | date: "%R" }}</span>
-            </div>
-            <div class="wb-sharing">
-                <wb:share-button appkey="2926740460" addition="simple" type="button" pic="http%3A%2F%2Frockhong.github.io%2Ffavicon.ico">
-            </div>
-            <a class="db-sharing" href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()">
-              <img id="db-sharing" src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" />
-            </a>
-            <div class="pay-weixin">
-              <p>如果你觉得这篇文章对你有用，可以微信扫一扫表示🙏 / If you find this post is useful to you, buy me 🍶 via Wechat</p>
-              <img src="/images/weixin.png"/>
-            </div>
-        </div>
-                
-        <!-- Comment BEG -->
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'hongsblog'; 
-            var disqus_identifier = '{{ page.disqus_identifier }}';
-            var disqus_title = '{{ page.title }}';
-            var disqus_url = 'http://rockhong.github.com{{ page.url }}';
-
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-        <!-- Comment END -->
-                
-        
+  <div id="post">
+    <div id="title">
+        <h1> {{ page.title }} </h1>
+        {% if page.subtitle %}
+        <h2> - {{ page.subtitle }} </h2>
+        {% endif %}
     </div>
-</div>
+    <div id="content">
+      {{ content }}
+    </div>
+    <div id="pub-date">
+      <span>{{ page.date | date: "%F" }}</span>
+      <span>{{ page.date | date: "%R" }}</span>
+    </div>
+    <div class="wb-sharing">
+      <wb:share-button appkey="2926740460" addition="simple" type="button" pic="http%3A%2F%2Frockhong.github.io%2Ffavicon.ico">
+    </div>
+    <a class="db-sharing" href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&title='+e(d.title)+'&sel='+e(s)+'&v=1',w=450,h=330,x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width='+w+',height='+h+',left='+(screen.width-w)/2+',top='+(screen.height-h)/2))location.href=r+'&r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()">
+      <img id="db-sharing" src="http://img2.douban.com/pics/fw2douban1.png" alt="推荐到豆瓣" />
+    </a>
+    <div class="pay-weixin">
+      <p>如果你觉得这篇文章对你有用，可以微信扫一扫表示🙏 / If you find this post is useful to you, buy me 🍶 via Wechat</p>
+      <img src="/images/weixin.png"/>
+    </div>
+  </div>
+          
+  <!-- Comment BEG -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'hongsblog'; 
+    var disqus_identifier = '{{ page.disqus_identifier }}';
+    var disqus_title = '{{ page.title }}';
+    var disqus_url = 'http://rockhong.github.com{{ page.url }}';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  <!-- Comment END -->
+  
 </div>

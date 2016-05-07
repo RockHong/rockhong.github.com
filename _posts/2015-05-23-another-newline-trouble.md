@@ -38,7 +38,7 @@ Google了一下发现，这[又是][1]Windows和Unix换行符不同产生的问�
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/notepad_show_newline.png" alt="nodepad++ snapshot">
+  <img src="/images/blog/notepad_show_newline.png" alt="nodepad++ snapshot" style="width: 250px;">
 </div>
 
 用Notepad++查看`.tmux.conf`文件后，发现它的换行符是`CRLF`。而cygwin下的tmux认为自己处于“unix世界”里，
@@ -73,8 +73,8 @@ vim提供了另一个选项`fileformats`（`ffs`），它是一个全局的配�
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
-<div style="text-align: center;">
-  <img src="/images/blog/unix-vim-written.png" alt="vim snapshot">
+<div style="text-align: center">
+  <img src="/images/blog/unix-vim-written.png" alt="vim snapshot" style="width: 350px;">
 </div>
 
 ### 总结

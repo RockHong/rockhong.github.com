@@ -2,7 +2,7 @@
 # MUST HAVE BEG
 layout: post
 disqus_identifier: 20150318-hello-emoji # DO NOT CHANGE THE VALUE ONCE SET
-title: Hello Emoji, 😊😊😊
+title: Hello Emoji, 😊
 # MUST HAVE END
 
 is_short: true

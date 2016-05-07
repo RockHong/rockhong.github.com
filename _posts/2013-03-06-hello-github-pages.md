@@ -21,7 +21,7 @@ image_desc:
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/baracktocat.jpg" alt="github artwork" style="width:360px;">
+  <img src="/images/blog/baracktocat.jpg" alt="github artwork">
 </div>
 
 Jekyll+Github（Github Pages）的优点，一言以蔽之，就是简单（*Simple*）。我们不必为搭建一个站点去学习一门语言（比如PHP或者Python），去学习数据库知识，去寻找合适的主机。在搭建好站点后（搭建的过程不会很复杂），我们只需要专注于写作就可以。

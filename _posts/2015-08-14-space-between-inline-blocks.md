@@ -22,7 +22,7 @@ the top part of below snapshot.
 and one blank after </div>.
 but you can use <span>, <cite>, <del> freely -->
 <div style="text-align: center;">
-  <img src="/images/blog/space-btw-inline-block.png" alt="space between" style="width:545px;">
+  <img src="/images/blog/space-btw-inline-block.png" alt="space between">
 </div>
 
 And below is corresponding code snippet,
