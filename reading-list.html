@@ -13,7 +13,7 @@ title: Reading List
   </div>
 
   <div id="left-col">
-    {% for page in site.pages %}
+    {% for page in site.pages reversed %}
       {% if page.page_type != "reading-list" %}
         {% continue %}
       {% endif %}
@@ -28,15 +28,29 @@ title: Reading List
               <a title="{{ tag }}" href="/tags/reading-list-tags.html#{{ tag }}">{{ tag }}</a>
             {% endfor %}
           </div>
+          {% if page.has_self_comment %}
+          <span class="caret"></span>
+          {% endif %}
         </div>
         {% if page.has_self_comment %}
           <div class="rl-self-comment" style="display: none;">
             <p>{{ page.content }}</p>
           </div>
         {% endif %}
+        <div class="padding"></div>
       </div> <!-- readling-list -->
     {% endfor %}
   </div> <!-- left-col -->
 
 </div> <!-- main-content -->
+
+<script>
+$(".readling-list").hover(
+  function() {
+    $(this).find('.rl-self-comment').fadeIn( 500 );
+  }, function() {
+    $(this).find('.rl-self-comment').fadeOut(500);
+  }
+);
+</script>
 

@@ -105,8 +105,7 @@ blockquote {
 
 /* for reading list */
 div.readling-list {
-  margin-bottom: 8px;
-  padding: 8px 16px 8px 16px;
+  padding: 0px 16px 0px 16px;
 }
 
 .rl-title {
@@ -132,6 +131,7 @@ div.rl-bottom-bar {
 }
 
 div.rl-tags {
+  display: inline-block;
 }
 
 div.rl-tags a {
@@ -148,6 +148,18 @@ div.rl-self-comment {
 div.rl-self-comment a{
   color: rgb(249, 38, 114);
   text-decoration: none;
+}
+
+div.readling-list span.caret {
+  margin-left: 50px;
+  color: red;
+}
+
+div.readling-list .padding {
+    border-bottom: 1px solid #eee;
+    min-height: 20px;
+    margin-left: 0;
+    margin-bottom: 20px;
 }
 
 
