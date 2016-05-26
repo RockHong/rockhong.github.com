@@ -20,13 +20,13 @@ Emoji是unicode的一部分，UTF-8编码也是可以表示Emoji的。
 比如😁对应的unicode是`U+1F601`，对应的UTF-8编码是`\xF0\x9F\x98\x81`。所以我们可以在UTF-8编码存储的
 文本中（比如HTML文件）保存Emoji表情。
 
-###显示文本中的emoji
+### 显示文本中的emoji
 我们需要一种字体来显示以UTF-8编码的Emoji表情。通常，一种字体不能显示所有的UTF-8编码。不能显示时，通常
 会显示成一个“小方块”。在较新的OS X系统上，`Apple Color Emoji`字体可以显示Emoji表情。在较新的Windows上
 （比如Windows 7/8），`Segoe UI Symbol`字体可以显示黑白的Emoji表情。Windows 8上可以用
 `Segoe UI Emoji`字体来显示彩色的表情。
 
-###显示网页上的emoji
+### 显示网页上的emoji
 对于网页元素，我们可以通过CSS属性`font-family`来指定（一系列）字体。比如，
 
     font-family: Gill Sans Extrabold, sans-serif;
