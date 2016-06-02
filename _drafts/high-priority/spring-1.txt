@@ -1,0 +1,336 @@
+2.2.1 Core Container
+provide the fundamental parts of the framework, including the IoC and Dependency Injection features
+
+BeanFactory is a sophisticated implementation of the factory pattern. It removes the need for programmatic singletons and allows you to decouple the configuration and specification of dependencies from your actual program logic.
+
+The Context module inherits its features from the Beans module and adds support for internationalization (using, for example, resource bundles), event propagation, resource loading, and the transparent creation of contexts by, for example, a Servlet container.
+The ApplicationContext interface is the focal point of the Context module.
+spring-context-support provides support for integrating common third-party libraries into a Spring application context for caching (EhCache, Guava, JCache), mailing (JavaMail), scheduling (CommonJ, Quartz) and template engines (FreeMarker, JasperReports, Velocity).
+
+The spring-expression module provides a powerful Expression Language for querying and manipulating an object graph at runtime.
+
+
+
+2.2.2 AOP and Instrumentation
+
+The spring-instrument module provides class instrumentation support and classloader implementations to be used in certain application servers. The spring-instrument-tomcat module contains Spring’s instrumentation agent for Tomcat.
+
+
+2.2.3 Messaging
+
+spring-jdbc module provides a JDBC-abstraction layer that removes the need to do tedious JDBC coding and parsing of database-vendor specific error codes.
+
+spring-tx module supports programmatic and declarative transaction management for classes that implement special interfaces and for all your POJOs (Plain Old Java Objects).
+
+The spring-orm module provides integration layers for popular object-relational mapping APIs, including JPA, JDO, and Hibernate.
+
+The spring-oxm module provides an abstraction layer that supports Object/XML mapping implementations such as JAXB, Castor, XMLBeans, JiBX and XStream.
+
+spring-jms module (Java Messaging Service) contains features for producing and consuming messages.
+
+
+2.2.5 Web
+
+spring-web module provides basic web-oriented integration features such as multipart file upload functionality and the initialization of the IoC container using Servlet listeners and a web-oriented application context. It also contains an HTTP client and the web-related parts of Spring’s remoting support.
+
+spring-webmvc module (also known as the Web-Servlet module) contains Spring’s model-view-controller (MVC) and REST Web Services implementation for web applications.
+
+
+6. The IoC container
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html
+
+6. The IoC container
+6.1. Introduction to the Spring IoC container and beans
+whereby objects define their dependencies only through constructor arguments, arguments to a factory method, or properties that are set on the object instance after it is constructed or returned from a factory method.
+The container then injects those dependencies when it creates the bean.
+
+The BeanFactory interface provides an advanced configuration mechanism capable of managing any type of object. 
+ApplicationContext is a sub-interface of BeanFactory. It adds easier integration with Spring’s AOP features; message resource handling (for use in internationalization), event publication; and application-layer specific contexts such as the WebApplicationContext for use in web applications.
+In short, the BeanFactory provides the configuration framework and basic functionality, and the ApplicationContext adds more enterprise-specific functionality.
+The ApplicationContext is a complete superset of the BeanFactory, and is used exclusively in this chapter in descriptions of Spring’s IoC container.
+
+
+
+
+
+6.2. Container overview
+The container gets its instructions on what objects to instantiate, configure, and assemble by reading configuration metadata.
+configuration metadata is represented in XML, Java annotations, or Java code
+
+Several implementations of the ApplicationContext interface are supplied out-of-the-box with Spring
+In standalone applications it is common to create an instance of ClassPathXmlApplicationContext or FileSystemXmlApplicationContext
+
+
+6.2.1. Configuration metadata
+XML 
+Annotation-based configuration
+Java-based configuration see the @Configuration, @Bean, @Import and @DependsOn annotations
+
+configuration consists of at least one and typically more than one bean definition
+XML-based configuration metadata shows these beans configured as <bean/> elements inside a top-level <beans/> element. 
+Java configuration typically uses @Bean annotated methods within a @Configuration class.
+
+6.2.2. Instantiating a container
+ApplicationContext context =
+    new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"}); bean定义可以放在不同的文件里，bean之间可以相互引用
+	
+Composing XML-based configuration metadata
+<beans>
+    <import resource="services.xml"/>
+    <import resource="resources/messageSource.xml"/>
+	
+	
+6.2.3. Using the container
+Using the method T getBean(String name, Class<T> requiredType) you can retrieve instances of your beans
+
+The ApplicationContext interface has a few other methods for retrieving beans, but ideally your application code should never use them. Indeed, your application code should have no calls to the getBean() method at all, and thus no dependency on Spring APIs at all.
+
+ 
+6.3. Bean overview
+Within the container itself, these bean definitions are represented as BeanDefinition objects
+
+
+6.3.1. Naming beans
+in XML-based configuration metadata, you use the id and/or name attributes to specify the bean identifier(s).
+id attribute allows you to specify exactly one id
+If you want to introduce other aliases to the bean, you can also specify them in the name attribute, separated by a comma (,), semicolon (;), or white space.
+If no name or id is supplied explicitly, the container generates a unique name for that bean.
+
+
+Aliasing a bean outside the bean definition
+<alias name="fromName" alias="toName"/>
+
+6.3.2. Instantiating beans
+Instantiation with a constructor
+<bean id="exampleBean" class="examples.ExampleBean"/>
+
+Instantiation with a static factory method
+<bean id="clientService" class="examples.ClientService" factory-method="createInstance"/>
+
+Instantiation using an instance factory method
+<!-- the factory bean, which contains a method called createInstance() -->
+<bean id="serviceLocator" class="examples.DefaultServiceLocator">
+    <!-- inject any dependencies required by this locator bean -->
+</bean>
+
+<!-- the bean to be created via the factory bean -->
+<bean id="clientService"
+    factory-bean="serviceLocator"
+    factory-method="createClientServiceInstance"/>
+	
+6.4. Dependencies
+6.4.1. Dependency Injection
+Constructor-based dependency injection
+<beans>
+    <bean id="foo" class="x.y.Foo">
+        <constructor-arg ref="bar"/>
+        <constructor-arg ref="baz"/>
+    </bean>
+
+    <bean id="bar" class="x.y.Bar"/>
+
+    <bean id="baz" class="x.y.Baz"/>
+</beans>
+
+<bean id="exampleBean" class="examples.ExampleBean">
+    <constructor-arg type="int" value="7500000"/>
+    <constructor-arg type="java.lang.String" value="42"/>
+</bean>
+
+<bean id="exampleBean" class="examples.ExampleBean">
+    <constructor-arg index="0" value="7500000"/>
+    <constructor-arg index="1" value="42"/>
+</bean>
+
+
+Setter-based dependency injection
+Setter-based DI is accomplished by the container calling setter methods on your beans after invoking a no-argument constructor or no-argument static factory method to instantiate your bean.
+
+The Spring team generally advocates constructor injection as it enables one to implement application components as immutable objects and to ensure that required dependencies are not null
+
+Dependency resolution process
+Examples of dependency injection
+The following example uses XML-based configuration metadata for setter-based DI.
+<bean id="exampleBean" class="examples.ExampleBean">
+    <!-- setter injection using the nested ref element -->
+    <property name="beanOne">
+        <ref bean="anotherExampleBean"/>
+    </property>
+
+    <!-- setter injection using the neater ref attribute -->
+    <property name="beanTwo" ref="yetAnotherBean"/>
+    <property name="integerProperty" value="1"/>
+</bean>
+
+<bean id="anotherExampleBean" class="examples.AnotherBean"/>
+<bean id="yetAnotherBean" class="examples.YetAnotherBean"/>
+
+public class ExampleBean {
+
+    private AnotherBean beanOne;
+    private YetAnotherBean beanTwo;
+    private int i;
+
+    public void setBeanOne(AnotherBean beanOne) {
+        this.beanOne = beanOne;
+    }
+
+    public void setBeanTwo(YetAnotherBean beanTwo) {
+        this.beanTwo = beanTwo;
+    }
+
+    public void setIntegerProperty(int i) {
+        this.i = i;
+    }
+
+}
+
+6.4.2. Dependencies and configuration in detail
+Straight values (primitives, Strings, and so on)
+References to other beans (collaborators)
+Inner beans
+Collections
+Null and empty string values
+XML shortcut with the p-namespace
+The p-namespace enables you to use the bean element’s attributes, instead of nested <property/> elements, to describe your property values and/or collaborating beans.
+
+XML shortcut with the c-namespace
+the c-namespace, newly introduced in Spring 3.1, allows usage of inlined attributes for configuring the constructor arguments rather then nested constructor-arg elements
+
+Compound property names
+6.4.3. Using depends-on
+6.4.4. Lazy-initialized beans
+By default, ApplicationContext implementations eagerly create and configure all singleton beans as part of the initialization process.
+
+<bean id="lazy" class="com.foo.ExpensiveToCreateBean" lazy-init="true"/>
+
+
+6.4.5. Autowiring collaborators
+The Spring container can autowire relationships between collaborating beans. 
+
+Autowiring has the following advantages:
+Autowiring can significantly reduce the need to specify properties or constructor arguments.
+Autowiring can update a configuration as your objects evolve. 
+
+Autowiring modes
+no (Default) No autowiring.
+byName
+byType
+constructor Analogous to byType, but applies to constructor arguments.
+
+
+Limitations and disadvantages of autowiring
+
+
+Excluding a bean from autowiring
+6.4.6. Method injection
+看一看
+
+Lookup method injection
+The Spring Framework implements this method injection by using bytecode generation from the CGLIB library to generate dynamically a subclass that overrides the method.
+
+Arbitrary method replacement
+6.5. Bean scopes
+singleton (Default) 
+6.5.1. The singleton scope
+6.5.2. The prototype scope
+6.5.3. Singleton beans with prototype-bean dependencies
+6.5.4. Request, session, and global session scopes
+Initial web configuration
+Request scope
+Session scope
+Global session scope
+Application scope
+Scoped beans as dependencies
+If you want to inject (for example) an HTTP request scoped bean into another bean of a longer-lived scope, you may choose to inject an AOP proxy in place of the scoped bean.
+
+6.5.5. Custom scopes
+Creating a custom scope
+Using a custom scope
+6.6. Customizing the nature of a bean
+6.6.1. Lifecycle callbacks
+Initialization callbacks
+Destruction callbacks
+Default initialization and destroy methods
+Combining lifecycle mechanisms
+Startup and shutdown callbacks
+Shutting down the Spring IoC container gracefully in non-web applications
+6.6.2. ApplicationContextAware and BeanNameAware
+6.6.3. Other Aware interfaces
+6.7. Bean definition inheritance
+6.8. Container Extension Points
+6.8.1. Customizing beans using a BeanPostProcessor
+Example: Hello World, BeanPostProcessor-style
+Example: The RequiredAnnotationBeanPostProcessor
+6.8.2. Customizing configuration metadata with a BeanFactoryPostProcessor
+Example: the Class name substitution PropertyPlaceholderConfigurer
+Example: the PropertyOverrideConfigurer
+6.8.3. Customizing instantiation logic with a FactoryBean
+6.9. Annotation-based container configuration
+6.9.1. @Required
+6.9.2. @Autowired
+6.9.3. Fine-tuning annotation-based autowiring with @Primary
+6.9.4. Fine-tuning annotation-based autowiring with qualifiers
+6.9.5. Using generics as autowiring qualifiers
+6.9.6. CustomAutowireConfigurer
+6.9.7. @Resource
+6.9.8. @PostConstruct and @PreDestroy
+6.10. Classpath scanning and managed components
+6.10.1. @Component and further stereotype annotations
+6.10.2. Meta-annotations
+6.10.3. Automatically detecting classes and registering bean definitions
+6.10.4. Using filters to customize scanning
+6.10.5. Defining bean metadata within components
+6.10.6. Naming autodetected components
+6.10.7. Providing a scope for autodetected components
+6.10.8. Providing qualifier metadata with annotations
+6.11. Using JSR 330 Standard Annotations
+6.11.1. Dependency Injection with @Inject and @Named
+6.11.2. @Named: a standard equivalent to the @Component annotation
+6.11.3. Limitations of the standard approach
+6.12. Java-based container configuration
+6.12.1. Basic concepts: @Bean and @Configuration
+6.12.2. Instantiating the Spring container using AnnotationConfigApplicationContext
+Simple construction
+Building the container programmatically using register(Class<?>…​)
+Enabling component scanning with scan(String…​)
+Support for web applications with AnnotationConfigWebApplicationContext
+6.12.3. Using the @Bean annotation
+Declaring a bean
+Bean dependencies
+Receiving lifecycle callbacks
+Specifying bean scope
+Customizing bean naming
+Bean aliasing
+Bean description
+6.12.4. Using the @Configuration annotation
+Injecting inter-bean dependencies
+Lookup method injection
+Further information about how Java-based configuration works internally
+6.12.5. Composing Java-based configurations
+Using the @Import annotation
+Conditionally include @Configuration classes or @Bean methods
+Combining Java and XML configuration
+6.13. Environment abstraction
+6.13.1. Bean definition profiles
+@Profile
+6.13.2. XML bean definition profiles
+Activating a profile
+Default profile
+6.13.3. PropertySource abstraction
+6.13.4. @PropertySource
+6.13.5. Placeholder resolution in statements
+6.14. Registering a LoadTimeWeaver
+6.15. Additional Capabilities of the ApplicationContext
+6.15.1. Internationalization using MessageSource
+6.15.2. Standard and Custom Events
+Annotation-based Event Listeners
+Generic Events
+6.15.3. Convenient access to low-level resources
+6.15.4. Convenient ApplicationContext instantiation for web applications
+6.15.5. Deploying a Spring ApplicationContext as a Java EE RAR file
+6.16. The BeanFactory
+6.16.1. BeanFactory or ApplicationContext?
+6.16.2. Glue code and the evil singleton
+
+
