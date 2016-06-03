@@ -1,0 +1,283 @@
+public synchronized int getNext() {
+	return value++;
+}
+
+safety 
+means “nothing bad ever happens”
+
+liveness
+liveness concerns the complementary goal that “something good eventually happens”
+
+
+===
+Thread Safety
+
+Don’t share the state variable across threads;
+• Make the state variable immutable; or
+• Use synchronization whenever accessing the state variable
+
+encapsulation, immutability, and clear specification of invariants—are your best friends.
+
+
+A class is thread-safe if it behaves correctly when accessed from multiple threads, and with no additional synchronization or other coordination on the part of the calling code.
+
+Thread-safe classes encapsulate any needed synchronization so that clients need not provide their own
+
+Stateless objects are always thread-safe
+
+
+Intrinsic locks
+Intrinsic locks in Java act as mutexes (or mutual exclusion locks),
+
+synchronized (lock) {
+// Access or modify shared state guarded by lock
+}
+
+intrinsic locks are reentrant
+
+For every invariant that involves more than one variable, all the variables involved in that invariant must be guarded by the same lock.
+
+
+
+===
+Sharing Objects
+
+Visibility
+
+Stale data
+
+out-of-thin-air safety
+it may see a stale value, but at least it sees a value that was actually placed there by some thread rather than some random value.
+
+Out-of-thin-air safety applies to all variables, with one exception: 64-bit numeric variables (double and long) that are not declared volatile
+
+Locking is not just about mutual exclusion; it is also about memory visibility. To ensure that all threads see the most up-to-date values of shared mutable variables, the reading and writing threads must synchronize on a common lock.
+
+Volatile variables
+When thread A writes to a volatile variable and subsequently
+thread B reads that same variable, the values of all variables that were
+visible to A prior to writing to the volatile variable become visible to B after
+reading the volatile variable
+
+Locking can guarantee both visibility and atomicity; volatile variables can
+only guarantee visibility
+
+Publication and escape
+
+Do not allow the this reference to escape during construction
+
+Thread confinement
+When an object is confined to a thread,
+such usage is automatically thread-safe even if the confined object itself is not
+
+Stack confinement
+Stack confinement is a special case of thread confinement in which an object can
+only be reached through local variables.
+
+ThreadLocal
+allows you to associate a per-thread value with a value-holding object
+
+Immutability
+Immutable objects are always thread-safe.
+An object is immutable if:
+。。。
+
+Final fields
+It is the use of final fields
+that makes possible the guarantee of initialization safety (see Section 3.5.2) that lets
+immutable objects be freely accessed and shared without synchronization.
+
+it is a good practice to make all fields final
+unless they need to be mutable.
+
+
+Immutable objects and initialization safety
+Immutable objects can be used safely by any thread without additional
+synchronization, even when synchronization is not used to publish them
+
+all of the requirements for immutability must be met: unmodifiable
+state, all fields are final, and proper construction
+
+Safe publication idioms
+To publish an object safely, both the reference to the object and the object’s
+state must be made visible to other threads at the same time.
+A
+properly constructed object can be safely published by:
+• Initializing an object reference from a static initializer;
+• Storing a reference to it into a volatile field or AtomicReference;
+• Storing a reference to it into a final field of a properly constructed
+object; or
+• Storing a reference to it into a field that is properly guarded by a
+lock.
+
+
+
+===
+Composing Objects
+
+
+===
+Building Blocks
+
+Synchronized collections
+The synchronized collection classes include Vector and Hashtable, part of the original
+JDK, as well as their cousins added in JDK 1.2, the synchronized wrapper
+classes created by the Collections.synchronizedXxx factory methods.
+
+Problems with synchronized collections
+but you may sometimes need to use
+additional client-side locking to guard compound actions
+
+Iterators and ConcurrentModificationException
+fail-fast
+The iterators returned by the synchronized collections are not designed to deal
+with concurrent modification, and they are fail-fast—meaning that if they detect
+that the collection has changed since iteration began, they throw the unchecked
+ConcurrentModificationException.
+
+These fail-fast iterators are not designed to be foolproof—they are designed
+to catch concurrency errors on a “good-faith-effort” basis and thus act only as
+early-warning indicators for concurrency problems.
+
+They are implemented by
+associating a modification count with the collection
+
+
+Concurrent collections
+Java 5.0 improves on the synchronized collections by providing several concurrent
+collection classes.
+are designed for concurrent access
+from multiple threads.
+ConcurrentHashMap,
+CopyOnWriteArrayList,
+
+Replacing synchronized collections with concurrent collections can offer
+dramatic scalability improvements with little risk.
+Queue
+BlockingQueue.
+
+The iterators returned by ConcurrentHashMap are
+weakly consistent instead of fail-fast. A weakly consistent iterator can tolerate concurrent
+modification, traverses elements as they existed when the iterator was
+constructed, and may (but is not guaranteed to) reflect modifications to the collection
+after the construction of the iterator.
+
+there are still a few tradeoffs
+result of size could be out of date by the time it is computed
+
+
+5.5 Synchronizers
+
+5.5.3 Semaphores
+Counting semaphores are used to control the number of activities that can access a
+certain resource or perform a given action at the same time
+
+5.5.4 Barriers
+
+
+===
+Task Execution
+
+Runnable task = new Runnable() {
+  public void run() {
+	handleRequest(connection);
+  }
+};
+new Thread(task).start();
+
+
+the thread-per-task approach has some practical
+drawbacks, especially when a large number of threads may be created
+Thread lifecycle overhead.
+Resource consumption.
+Stability.
+
+6.2 The Executor framework
+java.util.concurrent provides a flexible thread pool
+implementation as part of the Executor framework
+
+public interface Executor {
+  void execute(Runnable command);
+}
+
+Executor is based on the producer-consumer pattern, where activities that
+submit tasks are the producers (producing units of work to be done) and the
+threads that execute tasks are the consumers (consuming those units of work).
+
+private static final int NTHREADS = 100;
+private static final Executor exec
+= Executors.newFixedThreadPool(NTHREADS);
+public static void main(String[] args) throws IOException {
+ServerSocket socket = new ServerSocket(80);
+while (true) {
+final Socket connection = socket.accept();
+Runnable task = new Runnable() {
+public void run() {
+handleRequest(connection);
+}
+};
+exec.execute(task);
+}
+}
+
+Whenever you see code of the form:
+new Thread(runnable).start()
+and you think you might at some point want a more flexible execution
+policy, seriously consider replacing it with the use of an Executor.
+
+6.2.3 Thread pools
+newFixedThreadPool.
+newCachedThreadPool.   flexibility to reap idle   and to add new threads
+newSingleThreadExecutor.
+newScheduledThreadPool.
+
+
+6.3.2 Result-bearing tasks: Callable and Future
+
+
+
+===
+相关的java api；这些东西都是分别为了解决什么问题
+
+synchronized
+
+volatile
+
+final
+
+static
+
+ThreadLocal
+Class ThreadLocal<T>
+
+     private static final ThreadLocal<Integer> threadId =
+         new ThreadLocal<Integer>() {
+             @Override protected Integer initialValue() {
+                 return nextId.getAndIncrement();
+         }
+     };
+	 
+protected T initialValue()
+public T get()
+public void set(T value)
+public void remove()
+
+
+Thread 类 Class Thread
+
+Interface Runnable
+
+Object 类
+
+Synchronized collections
+Concurrent collections  better
+ConcurrentHashMap
+Retrievals reflect the results of the most recently completed update operations holding upon their onset. 
+
+http://crunchify.com/hashmap-vs-concurrenthashmap-vs-synchronizedmap-how-a-hashmap-can-be-synchronized-in-java/
+
+
+Executor  interface Executor
+Executors.newFixedThreadPool(NTHREADS);
+
+
