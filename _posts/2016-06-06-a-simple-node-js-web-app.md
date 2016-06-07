@@ -7,7 +7,7 @@ title: 使用Node.js搭建一个简单的静态文件server。
 
 is_short: true
 tags: 
-- python
+- node.js
 date: 2016-06-06 12:36:00
 image: 
 image_desc: 
@@ -100,6 +100,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/static', express.static(__dirname + '/public'));
 {% endhighlight %}
 
+现在可以通过`http://localhost:3000/static/index.html`来访问文件。
 
 
 
