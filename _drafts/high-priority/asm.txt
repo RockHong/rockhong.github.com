@@ -1,0 +1,71 @@
+Jumps， These instructions jump to an arbitrary instruction if some condition is true, or unconditionally
+	IFEQ label pops an int value from the stack, and jumps to the instruction designed by label if this value is 0
+	IFNE or IFGE
+	TABLESWITCH and LOOKUPSWITCH correspond to the switch Java instruction.
+Return， xRETURN and RETURN instructions are used to terminate the execution of a method and to return its result to the caller
+	RETURN is used for methods that return void
+	xRETURN for the other methods
+	
+例子
+public int getF() {
+    return this.f;
+}
+ALOAD 0      
+    把第0个local var （就是this）读出来，然后把它push到operand stack上
+GETFIELD pkg/Bean f I
+    pop operand stack，在把 f push进去
+IRETURN
+    把operand stack里的f pop出去
+
+
+public void setF(int f) {
+    this.f = f;
+}
+ALOAD 0
+  把第0个local var读出来，push 到 operand stack上
+ILOAD 1
+  吧第一个local var（就是参数f）读出来，push到 operand stack上
+PUTFIELD pkg/Bean f I
+  The third instruction pops these two values and stores the int value in the f field of the referenced object, i.e. in this.f.
+RETURN
+  destroys the current execution frame and returns to the caller
+ 
+
+默认构造函数 
+Bean() { 
+  super(); 
+}
+ALOAD 0
+  pushes this on the operand stack
+INVOKESPECIAL java/lang/Object <init> ()V
+  pops this value from the stack, and calls the <init> method defined in the Object class
+RETURN
+
+
+public void checkAndSetF(int f) {
+  if (f >= 0) {
+    this.f = f;
+  } else {
+    throw new IllegalArgumentException();
+  }
+}
+ILOAD 1
+  把第一个local var push到stack
+IFLT label
+  从stack中pop出来，如果比0大，jump到label处；否则执行下一个语句
+ALOAD 0
+ILOAD 1
+PUTFIELD pkg/Bean f I GOTO end
+  这三句和setF（）一样
+label:
+NEW java/lang/IllegalArgumentException
+  new一个对象，把它push到stack上
+DUP
+  copy一下刚刚new出来的那个对象
+INVOKESPECIAL java/lang/IllegalArgumentException <init> ()V
+  pop一个出来，调用构造函数
+ATHROW
+  pop一个出来，throw一下
+end:
+RETURN
+
