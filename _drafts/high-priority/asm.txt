@@ -69,3 +69,146 @@ ATHROW
 end:
 RETURN
 
+＃＃　ｂｙｔｅｃｏｄｅ
+
+javac Employee.java
+javap -c Employee 
+
+
+https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html
+ｒｅｆｅｒｒｅｎｃｅ
+
+http://stackoverflow.com/questions/25109942/is-there-a-better-explanation-of-stack-map-frames
+explanation of stack map frames
+
+
+＃＃＃　ａｓｍ－ｇｕｉｄｅ
+2.1.1. Overview
+constant pool
+This pool is an array containing all the numeric, string　and type constants that appear in the class
+
+Java type 　Type descriptor
+boolean 　　　Z
+char 　　　　　　C
+byte 　　　　　　B
+short 　　　　　　S
+int 　　　　　　　I
+float 　　　　　F
+long 　　　　　　J
+double 　　　　　D
+Object 　　　　Ljava/lang/Object;
+int[] 　　　　　[I
+Object[][] 　[[Ljava/lang/Object;
+
+2.1.4. Method descriptors
+Method declaration in source file 　　　　　Method descriptor
+void m(int i, float f)　　　　　　　　　　　　　　 (IF)V
+int m(Object o) 　　　　　　　　　　　　　　　　(Ljava/lang/Object;)I
+int[] m(int i, String s) 　　　　　　　　　　　　(ILjava/lang/String;)[I
+Object m(int[] i)　　　　　　　　　　　　　　　　　 ([I)Ljava/lang/Object;
+
+
+3.1.1. Execution model
+Each frame represents a method invocation：each time a method is invoked,　a new frame is pushed on the current thread’s execution stack.
+
+Each frame contains two parts: a local variables part and an operand stack　part.
+The local variables part contains variables that can be accessed by their　index, in random order.
+The operand stack part, as its name implies, is a stack　of values that are used as operands by bytecode instructions.
+
+名词：
+thread’s execution stack；　　　ｓｔａｃｋ由ｆｒａｍｅ组成
+ｆｒａｍｅ
+ｆｒａｍｅ有两个部分：
+	１）　local variables
+	２）　operand stack 
+	这两个部分的ｓｉｚｅ　computed at compile time
+	同一个方法的每次调用对应的ｆｒａｍｅ的ｓｉｚｅ都是一样的
+	
+
+ｆｒａｍｅ被创建时，operand stack 是空的；ｌｏｃａｌ　variable里则有ｔｈｉｓ（如果方法不是ｓｔａｔｉｃ的话）和方法的参数
+
+ｆｒａｍｅ里的ｓｌｏｔ能ｈｏｌｄ一个ｊａｖａ　ｖａｌｕｅ，除了ｌｏｎｇ和ｄｏｕｂｌｅ（它们需要两个ｓｌｏｔ）
+
+A bytecode instruction is made of an opcode that identifies this instruction,　and of a fixed number of arguments
+	ｂｙｔｅｃｏｄｅ　＝　ｏｐｃｏｄｅ　＋　arguments
+	Instruction arguments　must not be confused with instruction operands　　　　ａｒｇｕｍｅｎｔ和ｏｐｅｒａｎｄ是不同　的
+	argument values　are statically known and are stored in the compiled code, 
+	while operand　values come from the operand stack and are known only at runtime.
+	
+bytecode　分为两类
+	１）　transfer values from the local variables to the operand　stack, and vice versa
+	２）　the other instructions only act on the operand stack：　they pop some values from the stack, compute a result based on these values,　and push it back on the stack.
+	
+	ILOAD　（ｂｏｏｌｅａｎ，　byte, char, short, or int）, LLOAD　　（ｌｏｎｇ）　, FLOAD　（ｆｌｏａｔ）　, DLOAD　（ｄｏｕｂｌｅ）　, and ALOAD　（any non primitive　value, i.e. object and array	references）
+	对应的　ｘＳｔｏｒｅ
+	
+	it is illegal to store a value in a local　variable and then to load it with a different type
+	ISTORE　1 ALOAD 1 sequence is illegal　　　不能“类型转换”；存的时候是什么类型，取的时候也要是这个类型
+	
+	第“２）”类的ｂｙｔｅｃｏｄｅ可以进一步分类为：
+	Stack，　操作ｓｔａｃｋ的；
+		POP
+		DUP pushes a copy of the top stack　value
+		SWAP pops two values and pushes them in the reverse order
+	Constants，　push a constant value on the operand stack
+		ACONST_NULL pushes null
+		ICONST_0 pushes the int value 0
+		BIPUSH b pushes the byte value b
+		SIPUSH s pushes the short value s
+		LDC cst pushes the arbitrary int,　float, long, double, String, or class1 constant cst
+	Arithmetic and logic，　这些指令　pop numeric values from the operand　stack combine them and push the result on the stack；　不需要参数
+		xADD, xSUB, xMUL, xDIV and xREM correspond to the +,　-, *, / and % operations
+		还有一些指令对应于　“＜＜”，　“＞＞”　这些位操作
+	Casts，　pop a value from the stack, convert it to another　type, and push the result back
+		I2F, F2D, L2D, etc
+		CHECKCAST t converts a reference value to the type t
+	Objects，　These instructions are used to create objects, lock them, test their　type, etc.
+		NEW type instruction pushes a new object of　type type on the stack (where type is an internal name).
+	Fields，　These instructions read or write the value of a field.
+		GETFIELD owner　name desc pops an object reference, and pushes the value of its name　field.
+		PUTFIELD owner name desc pops a value and an object reference,　and stores this value in its name field.
+			In both cases the object must　be of type owner, and its field must be of type desc
+		GETSTATIC and　PUTSTATIC are similar instructions, but for static fields.
+	Methods，　用来　invoke a method or a constructor。pop as　many values as there are method arguments, plus one value for the target　object, and push the result of the method invocation
+		INVOKEVIRTUAL　owner name desc invokes the name method defined in class owner,　and whose method descriptor is desc.
+		INVOKESTATIC is used for static　methods
+		INVOKESPECIAL for private methods and constructors
+		INVOKEINTERFACE for methods defined in interfaces
+		INVOKEDYNAMIC is used for the new dynamic method invocation　mechanism.
+	Arrays，　These instructions are used to read and write values in arrays
+		xALOAD instructions pop an index and an array, and push the value of　the array element at this index
+		xASTORE instructions pop a value,　an index and an array, and store this value at that index in the array
+		Here x can be I, L, F, D or A, but also B, C or S
+	
+	
+	
+	＝＝＝
+	＝＝＝
+	
+public static void sleep(long d) {
+try {
+Thread.sleep(d);
+} catch (InterruptedException e) {
+e.printStackTrace();
+}
+}
+TRYCATCHBLOCK try catch catch java/lang/InterruptedException
+　　说明TRYCATCHBLOCK的作用范围是ｔｒｙ和ｃａｔｃｈ这两个ｌａｂｅｌ之间；并且它会处理（ｃａｔｃｈ）java/lang/InterruptedException类型的异常
+try:
+LLOAD 0
+INVOKESTATIC java/lang/Thread sleep (J)V
+RETURN
+catch:
+INVOKEVIRTUAL java/lang/InterruptedException printStackTrace ()V
+RETURN
+ｔｒｙ和ｃａｔｃｈ这两个ｌａｂｅｌ之间对应于ｊａｖａ代码里的ｔｒｙ　ｂｌｏｃｋ
+ｃａｔｃｈ　ｌａｂｅｌ之后对应的是代码里的ｃａｔｃｈ　ｂｌｏｃｋ
+
+		
+	
+3.1.5. Frames
+a set of stack map frames that are used to speed up the class　verification process inside the Java Virtual Machine
+More precisely it gives the type of the values that are contained in each　local variable slot and in each operand stack slot just before some specific　bytecode instruction is executed.
+	stack map frames里面存着ｌｏｃａｌ　variable和ｏｐｅｒａｎｄ　ｓｔａｃｋ里的每个ｓｌｏｔ的类型信息
+	
+
