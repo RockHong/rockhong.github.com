@@ -130,7 +130,12 @@ bp|bd #
 nnoremap <C-c> :bp\|bd #<CR>
 
 ## todo
+vim and git
+格式化代码
 
+tab and workspace
+  different tab share the same CWD
+  but different tab can have different nerdtree
 
 
 
@@ -152,10 +157,15 @@ http://blog.vinceliu.com/2007/08/vim-tips-for-java-2-using-exuberant.html
 
 
 ## 各个语言相关的
+### 符号的跳转
 java开发相关的
 http://stackoverflow.com/questions/12550848/vim-java-open-class-under-cursor-and-go-to-method
 
-ctags 可以通过cygwin安装  
+ctags 可以通过cygwin安装
+
+ruby
+
+python  
   
 
 # 给插件的命令配上快捷键

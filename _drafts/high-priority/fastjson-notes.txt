@@ -1,0 +1,75 @@
+## 
+http://www.voidcn.com/blog/xxssyyyyssxx/article/p-5983706.html   
+	为什么快
+	
+http://wenshao.iteye.com/blog/1142031
+	作者写的
+
+	
+http://zyjustin9.iteye.com/blog/2020533
+	用法
+	
+
+
+## keyword   transient
+protected transient Object relatedArray;
+
+marks a member variable not to be serialized when it is persisted to streams of bytes.
+
+## serialize 
+https://docs.oracle.com/javase/tutorial/jndi/objects/serial.html
+convert its state to a byte stream so that the byte stream can be reverted back into a copy of the object
+存文件或者通过网络发送 要 serialize
+
+
+http://stackoverflow.com/questions/447898/what-is-object-serialization
+
+
+
+https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html
+非常详细
+A no-arg constructor must be accessible to the subclass that is serializable.
+
+
+http://www.javapractices.com/topic/TopicAction.do?Id=45
+
+http://www.javaworld.com/article/2072752/the-java-serialization-algorithm-revealed.html
+
+
+## Type
+java.lang.reflect.Type
+
+getClass().getGenericSuperclass();
+((ParameterizedType) superClass).getActualTypeArguments()
+java.lang.reflect.ParameterizedType.getRawType()
+java.lang.reflect.ParameterizedType.getActualTypeArguments()
+java.lang.reflect.TypeVariable
+
+
+Type is the common superinterface for all types in the Java programming language. These include raw types, parameterized types, array types, type variables and primitive types.
+
+
+## RuntimeException
+RuntimeException and its subclasses are unchecked exceptions. Unchecked exceptions do not need to be declared in a method or constructor's throws clause 
+
+
+## 接口java.lang.reflect.InvocationHandler
+fastjson用到了 dynamic proxy？
+
+
+
+## IdentityHashMap
+
+
+## 接口  java.io.Closeable
+
+## java delegate constructor
+    public JSONReader(Reader reader){
+        this(reader, new Feature[0]);
+    }
+	
+
+## 接口  java.lang.Appendable
+
+##　接口　　java.io.Flushable
+

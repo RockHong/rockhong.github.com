@@ -135,7 +135,7 @@ Composing Objects
 
 
 ===
-Building Blocks
+chapter 5 Building Blocks
 
 Synchronized collections
 The synchronized collection classes include Vector and Hashtable, part of the original
@@ -282,6 +282,9 @@ public void remove()
 
 
 Thread 类 Class Thread
+
+Runnable task = new Runnable() {}
+new Thread(task).start();
 
 Interface Runnable
 
