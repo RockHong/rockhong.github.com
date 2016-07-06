@@ -37,7 +37,7 @@ JVM加载class文件时会做字节码校验（bytecode verification）。这篇
 `-noverify`选项可以关闭bytecode verification。
 
 [有的观点][6]认为某些bytecode verification除了给动态生成bytecode增加麻烦之外，并没有什么大用。
-但是这篇[文章]强烈建议不要关闭bytecode verification，特别是在生产环境里。
+但是这篇[文章][8]强烈建议不要关闭bytecode verification，特别是在生产环境里。
 因为bytecode verification可以检测到恶意代码或者代码中的bug。
 特别是代码中的bug，因为没有人可以保证（动态产生的）字节码是百分百bug free的。
 
@@ -66,7 +66,7 @@ JVM加载class文件时会做字节码校验（bytecode verification）。这篇
 [3]: http://stackoverflow.com/a/16467026/1080041 "-XX:-UseSplitVerifier"
 [5]: http://www.oracle.com/technetwork/java/javase/compatibility-417013.html "Java SE 7 and JDK 7 Compatibility"
 [6]: http://chrononsystems.com/blog/java-7-design-flaw-leads-to-huge-backward-step-for-the-jvm "Java 7 Bytecode Verifier: Huge backward step for the JVM"
-[7]: https://blogs.oracle.com/buck/entry/never_disable_bytecode_verification_in "Never Disable Bytecode Verification in a Production System"
+[8]: https://blogs.oracle.com/buck/entry/never_disable_bytecode_verification_in "Never Disable Bytecode Verification in a Production System"
 
 <!-- 
 http://stackoverflow.com/questions/13489388/how-does-junit-rule-work
