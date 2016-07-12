@@ -22,17 +22,18 @@ Vim的命令需要经常使用才不会忘记。
 ## 一些基本的Vim配置
 
 ### 设置mapleader
-在`.vimrc`文件里加上下面的配置，
+先在`.vimrc`文件里设置一下mapleader，
 
 {% highlight vim %}
 let mapleader = ',' 
 {% endhighlight %}
 
+然后就可以用快捷键`,`+`a`来快速地输入命令`:Ack!`。
+
 {% highlight vim %}
 nmap <leader>a :Ack! 
 {% endhighlight %}
 
-现在就可以用快捷键`,`+`a`来快速地输入命令`:Ack!`。
 
 ### 安装一个插件管理系统
 装一个插件管理系统可以更好地管理Vim的插件。我选了[pathogen.vim][12]作为Vim的插件管理。
@@ -45,7 +46,7 @@ nmap <leader>a :Ack!
 nmap <leader>a :Ack!  
 {% endhighlight %}
 
-按快捷键`,a`就可以进行文件内容搜索了，效果见下面的截图。
+按快捷键`,a`就可以进行文件内容搜索了。比如输入“sku”就会列出所有含“sku”的文件，效果见下面的截图。
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
 and one blank after </div>.
@@ -65,7 +66,7 @@ brew install ag
 {% endhighlight %}
 
 ack和ag也可以在Windows下安装。
-ag在Windows下可通过Cygwin*等*方式来安装，详见ag的官方[Wiki][6]。
+ag在Windows下可通过Cygwin**等**方式来安装，详见ag的官方[Wiki][6]。
 
 让ag成为ack.vim的搜索工具，
 
@@ -140,7 +141,7 @@ but you can use <span>, <cite>, <del> freely -->
 
 搜索是fuzzy的，不用输入完整的文件名，只要输入文件路径和文件名中的某些字母就可以。
 
-command-t需要对Ruby和C编译器有依赖，详见其[文档][15]。另一个类似的插件[CtrlP][11]是纯VimScript实现的。
+command-t对Ruby和C编译器有依赖，详见其[文档][15]。另一个类似的插件[CtrlP][11]是纯VimScript实现的。
 但是在使用中发现CtrlP有时候不能找到指定的文件，所以还是选择了command-t。
 
 另外`:CommandTBuffer`命令可以用来快速打开已经打开的文件。
@@ -157,8 +158,8 @@ but you can use <span>, <cite>, <del> freely -->
 </div>
 
 ## 执行外部程序
-总是时不时地需要执行一些外部命令。比如代码写好后，用git命令来提交一下。
-可以借助[tmux][18]来执行外部命令。tmux可以开多个pane，进行文字编辑时可以输入`C-b`+`z`进入“全屏模式”；
+总是时不时地需要执行一些外部命令。比如代码写好后，用git命令来提交代码。
+可以借助[tmux][18]来执行外部命令。tmux可以开多个pane，进行文字编辑时可以输入`C-b`+`z`进入“全屏模式”。
 需要执行外部命令时，再`C-b`+`z`退回多pane模式。
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
@@ -169,7 +170,7 @@ but you can use <span>, <cite>, <del> freely -->
 </div>
 
 
-最好附上[我的Vim配置][19]作为参考。
+最后附上[我的Vim配置][19]作为参考。
 
 
 [1]: https://github.com/mileszs/ack.vim "ack.vim"
