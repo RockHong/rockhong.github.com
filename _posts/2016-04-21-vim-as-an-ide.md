@@ -16,42 +16,76 @@ image_desc:
 
 *Working in process*
 
-Vim的命令需要经常使用才不会忘记。把Vim打造成适合日常开发的主力IDE可以帮助自己熟悉和记忆Vim命令。
+Vim的命令需要经常使用才不会忘记。
+把Vim打造成适合日常工作的“轻量级IDE”可以有助于熟悉和记忆Vim命令。
 
 ## 一些基本的Vim配置
 
-	let mapleader = ','  " 设置快捷键
-	
+### 设置mapleader
+在`.vimrc`文件里加上下面的配置，
+
+{% highlight vim %}
+let mapleader = ',' 
+{% endhighlight %}
+
+{% highlight vim %}
+nmap <leader>a :Ack! 
+{% endhighlight %}
+
+现在就可以用快捷键`,`+`a`来快速地输入命令`:Ack!`。
+
+### 安装一个插件管理系统
+装一个插件管理系统可以更好地管理Vim的插件。我选了[pathogen.vim][12]作为Vim的插件管理。
+
+
 ## 搜索文件内容
+[ack.vim][1]插件可以用来搜索文件内容。
 
-	" .vimrc
-	nmap <leader>a :Ack!  
+{% highlight vim %}
+nmap <leader>a :Ack!  
+{% endhighlight %}
 
-借助[ack.vim][1]插件，按快捷键`,a`可以进行文件内容搜索，效果见下面的截图。
+按快捷键`,a`就可以进行文件内容搜索了，效果见下面的截图。
 
-TODO 截图
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/vim-ack.png" alt="diff-highlight" style="max-width:610px;">
+</div>
 
-ack.vim插件借助第三方的程序来进行搜索，并把搜索结果展示在Vim里。
-默认情况下，ack.vim使用[ack][2]来进行搜索。ack比grep[更快、更好用][5]。
-ack在Linux下和Windows下都可以安装。
-[The Silver Searcher][3]（ag）是一个类似ack的搜索工具，号称比ack更快。
-ag在Windows下可以通过Cygwin等方式来安装，详见官方的[Wiki][6]。
+ack.vim插件是借助第三方的程序来进行搜索的，然后把搜索结果展示在Vim里。
+默认情况下，ack.vim使用[ack][2]来进行搜索。ack相比grep要[更快、更好用][5]。
+[The Silver Searcher][3]（ag）是一个类似ack的搜索工具，号称比ack还要快。
+OS X下可以用homebrew方便地安装它们，
 
-	" .vimrc
-	let g:ackprg = 'ag --nogroup --column'  " 让ack.vim使用ag作为搜索工具
+{% highlight bash %}
+brew install ack
+brew install ag
+{% endhighlight %}
+
+ack和ag也可以在Windows下安装。
+ag在Windows下可通过Cygwin*等*方式来安装，详见ag的官方[Wiki][6]。
+
+让ag成为ack.vim的搜索工具，
+
+{% highlight vim %}
+let g:ackprg = 'ag --nogroup --column'  " 让ack.vim使用ag作为搜索工具
+{% endhighlight %}
+	
 
 ### 更快地搜索
-基本上，ag能接受的参数和ack类似。
+基本上，ag和ack能接受的参数是类似的。
 
 默认情况下，ack和ag会搜索当前工作目录。可以通过限制搜索目录来提高搜索速度，比如，
 
 	:Ack! text-to-search some_dir
 	
-限制搜索的文件类型，比如
+也可以限制搜索的文件类型，比如
 
 	:Ack! --java text-to-search 
 
-可以忽略某些目录。ack默认会忽略.git目录。也可以使用`--ignore-dir=name`选项来指定要忽略的目录。
+ack默认会忽略.git目录。也可以使用`--ignore-dir=name`选项来指定要忽略的目录。
 对于ag，默认会忽略.gitignore中指定的文件。
 也可以在[.agignore文件][8]里加上想忽略的文件。比如，忽略maven工程下的`target`目录。
 .agignore的语法和.gitignore类似。
@@ -59,49 +93,84 @@ ag在Windows下可以通过Cygwin等方式来安装，详见官方的[Wiki][6]�
 ack的更多选项见其[官方文档][9]。
 如果某个工程需要经常使用某些选项，可以把这些选项放到工程目录下的.ackrc文件中。
 
-### ack.vim插件的一些有用的命令
-
-	:AckFile         " 可以用Ack.vim来搜索文件
-	
-更多命令见`:help Ack`。
 
 ## 文件系统导航
+文件系统的导航可以借助[NERDTree][10]插件来实现。
 
-	" .vimrc
-	nmap <leader>d :NERDTreeToggle<CR>
+{% highlight vim %}
+nmap <leader>d :NERDTreeToggle<CR>
+{% endhighlight %}
 	
-文件系统的导航可以借助[NERDTree][10]插件来实现。按下快捷键`,d`，效果见如下截图，
+按下快捷键`,d`，效果见如下截图，
 
-TODO 截图
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/vim-nerdtree.png" alt="diff-highlight" style="max-width:610px;">
+</div>
 
 在NERDTree窗口按`?`键可以显示帮助信息。
 
-### 一些有用的命令
+`:NERDTreeFind`命令可以在NERDTree窗口中显示当前文件的位置，类似于Eclipse的"Link with Editor"功能。
 
-	:NERDTreeFind      " 在NERDTree窗口中显示文件的位置，类似于Eclipse的"Link with Editor"
+{% highlight vim %}
+nmap <leader>df :NERDTreeFind<CR>
+{% endhighlight %}
+
+现在输入快捷键`,df`就可以在NERDTree窗口中显示当前文件。
+
 
 ## 快速打开文件
-
-	nmap <leader>p :CtrlP<CR>
-
-借助[CtrlP][11]插件可以实现文件的快速打开。按下快捷键`,p`，其效果如下图所示，
-
-TODO  截图
-
-搜索是fuzzy的，不用输入完整的文件名。
-
-在CtrlP窗口输入`?`可以显示帮助文档。也可以查看CtrlP的[README文档][11]。
-
-
-
-
+借助[command-t][11]插件可以实现文件的快速打开。
 <!--more-->
 
-## TODOs
+{% highlight vim %}
+nmap <leader>t :CommandT<CR>
+{% endhighlight %}
 
-- 加一些截图，gif
-- 附上git仓库链接
-- 升级所有的插件，ctrlp见[11][11]
+按下快捷键`,t`，其效果如下图所示，
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/vim-commandt.png" alt="diff-highlight" style="max-width:610px;">
+</div>
+
+搜索是fuzzy的，不用输入完整的文件名，只要输入文件路径和文件名中的某些字母就可以。
+
+command-t需要对Ruby和C编译器有依赖，详见其[文档][15]。另一个类似的插件[CtrlP][11]是纯VimScript实现的。
+但是在使用中发现CtrlP有时候不能找到指定的文件，所以还是选择了command-t。
+
+另外`:CommandTBuffer`命令可以用来快速打开已经打开的文件。
+而`:CommandTJump`命令可用了在jumplist里快速定位。
+
+## 自动补全
+[supertab][16]插件可以用作轻量级的自动补全工具。输入文字，然后按`tab`键进行补全，如下图所示，
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/vim-supertab.png" alt="diff-highlight" style="max-width:610px;">
+</div>
+
+## 执行外部程序
+总是时不时地需要执行一些外部命令。比如代码写好后，用git命令来提交一下。
+可以借助[tmux][18]来执行外部命令。tmux可以开多个pane，进行文字编辑时可以输入`C-b`+`z`进入“全屏模式”；
+需要执行外部命令时，再`C-b`+`z`退回多pane模式。
+
+<!-- at least one blank line before <div>, <p>, <pre> or <table>,
+and one blank after </div>.
+but you can use <span>, <cite>, <del> freely -->
+<div style="text-align: center;">
+  <img src="/images/blog/vim-tmux.png" alt="diff-highlight" style="max-width:610px;">
+</div>
+
+
+最好附上[我的Vim配置][19]作为参考。
+
 
 [1]: https://github.com/mileszs/ack.vim "ack.vim"
 [2]: http://beyondgrep.com/ "ack"
@@ -112,6 +181,15 @@ TODO  截图
 [9]: http://beyondgrep.com/documentation/ "ack document"
 [10]: https://github.com/scrooloose/nerdtree "NERD Tree"
 [11]: https://github.com/ctrlpvim/ctrlp.vim "ctrlp.vim"
+[12]: https://github.com/tpope/vim-pathogen "pathogen"
+[13]: https://github.com/wincent/command-t "command-t"
+[15]: https://github.com/wincent/command-t/blob/master/doc/command-t.txt "command-t doc"
+[16]: https://github.com/ervandew/supertab "supertab"
+[18]: http://rockhong.github.io/tmux-info.html "tmux"
+[19]: https://github.com/RockHong/vim-env "my vim cfg"
+
+
+
 
 <!-- 
 
@@ -145,6 +223,9 @@ tab and workspace
 ## code complete
 supertab  大部分够用； 看看supertab的文档，它是不是只知道对vim buffer里的东西
 但是有些时候不够强大，是不是onmicompelete好，比如对于写java，可以利用tag
+
+https://www.reddit.com/r/vim/comments/3hl0ec/youcompleteme_neocomplete_or_supertab/
+youcompleteme, neocomplete or supertab
 
 
 ## 符号跳转
@@ -191,6 +272,9 @@ trigger comment on a code block
   
 ## 保存macro
 某个宏可以方便地生产java的getter setter
+
+
+* how to match ', " ? how to find unmatched (, {, [, ', " ?
 
 
 ##For coding
@@ -333,6 +417,17 @@ show jump list. the one begin with '>' is current pos. the number can be used in
 3) Text block jumps. Examples: (, ), {, }
 and, Searching (/ and ?) and (n, N)
 
+
+- 升级所有的插件，ctrlp见[11][11]
+
+
+### ack.vim插件的一些有用的命令
+
+	:AckFile         " 可以用Ack.vim来搜索文件
+	
+更多命令见`:help Ack`。    这个用command-t等“专业”的插件来做吧。。。
+
+在CtrlP窗口输入`?`可以显示帮助文档。也可以查看CtrlP的[README文档][11]。
 -->
 
 
