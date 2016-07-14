@@ -1,0 +1,32 @@
+## home and end keys
+http://www.mac-forums.com/switcher-hangout/196267-wired-keyboard-home-keys.html
+command + left/right arrow
+
+http://www.apple.com/shop/question/answers/product/H7332LL/A/are-the-home-and-end-keys-supported/QTT979KFX9YX2C7J4
+option + up/down arrow
+
+http://apple.stackexchange.com/questions/18016/can-i-change-the-behavior-of-the-home-and-end-keys-on-an-apple-keyboard-with-num
+more advanced way...
+
+
+## virtualbox 
+resize guest os windows size
+  install guest addition
+https://www.virtualbox.org/manual/ch04.html#idm1967
+
+
+## 关闭  自动纠正拼写
+
+
+
+ctrl a
+
+
+神奇效果
+
+手势
+
+
+finder   enable tab
+
+三个手指
