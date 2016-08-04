@@ -81,6 +81,25 @@ img#db-sharing {
 }
 
 .pay-weixin img{
-    width: 120px;
-    margin: 0 !important;
+  width: 120px;
+  margin: 0 !important;
+}
+
+.post-right-col {
+  width: 230px;
+  /*height: 200px;*/
+  /*border: 1px solid red;*/
+  float: right;
+  display: block;
+  margin-left: 8px;
+}
+
+.post-comment {
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 500px) {
+  .post-right-col {
+    display: none;
+  }
 }

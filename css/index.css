@@ -147,7 +147,7 @@ div.paging .next-page{
 
 
 
-@media only screen and (min-width: 1300px) {
+@media only screen and (min-width: 768px) {
   div#right-col {
     display: block;
   }
