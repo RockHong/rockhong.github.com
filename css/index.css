@@ -146,6 +146,9 @@ div.paging .next-page{
 }
 
 
+div.google-adsense-bottom {
+  display: block;
+}
 
 @media only screen and (min-width: 768px) {
   div#right-col {
@@ -153,5 +156,8 @@ div.paging .next-page{
   }
   div#left-col {
     overflow: hidden;
+  }
+  div.google-adsense-bottom {
+    display: none;
   }
 }
