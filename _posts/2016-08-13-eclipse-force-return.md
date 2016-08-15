@@ -5,7 +5,7 @@ disqus_identifier: 20160813-eclipse-force-return # DO NOT CHANGE THE VALUE ONCE 
 title: Eclipse中的Force Return
 # MUST HAVE END
 
-is_short: false      # <!--more-->
+is_short: true      # <!--more-->
 subtitle:
 tags: 
 - eclipse
@@ -37,7 +37,7 @@ but you can use <span>, <cite>, <del> freely -->
 </div>
 
 
-另外，在debug web程序时，某些时候可能想要中止当前正在debugging的request，这时可以直接通过“Display View”抛出
+另外，在debug web程序时，某些时候可能想要中止当前正在debugging的request，这时可以通过在“Display View”中抛出
 一个异常来中止当前request。通过这种方式，可以避免继续执行当前request给server带来的副作用。
 
 <!-- at least one blank line before <div>, <p>, <pre> or <table>,
