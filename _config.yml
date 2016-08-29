@@ -1,5 +1,5 @@
 permalink: /:title.html
 paginate: 8
 paginate_path: "page:num"
-markdown: kramdown
+# markdown: kramdown # GitHub Pages only supports kramdown as a Markdown processor. https://help.github.com/articles/updating-your-markdown-processor-to-kramdown/
 excerpt_separator: <!--more-->
