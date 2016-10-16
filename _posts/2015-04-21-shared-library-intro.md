@@ -109,10 +109,11 @@ number）”。也可以不加“发布版本号”。
 `-Wl,-soname,libmystuff.so.1`，`-Wl`指明后面跟着的选项`-soname`是传给linker的。注意是用逗号来分隔，而不是空格；如果有空格，
 记得要转义。`-soname`选项后跟的共享库的soname。如果使用了这个选项，那么在创建共享库时，给定的soname会写到库文件中（ELF的
 `DT_SONAME`字段）。如果一个可执行文件链接到设置了`DT_SONAME`字段共享库，会（详见`man ld`），
->When an executable is linked with a shared object which has a DT_SONAME field, then when the executable 
->is run the dynamic linker（注：就是`ld-linux-x86-64.so.2`） will attempt to load the shared object specified 
->by the DT_SONAME field rather than the using the file name given to the linker（注：应该是指通过`-lmystuff`传给
->linker的文件名，也就是`libmystuff.so`）.
+
+> When an executable is linked with a shared object which has a DT_SONAME field, then when the executable 
+> is run the dynamic linker（注：就是`ld-linux-x86-64.so.2`） will attempt to load the shared object specified 
+> by the DT_SONAME field rather than the using the file name given to the linker（注：应该是指通过`-lmystuff`传给
+> linker的文件名，也就是`libmystuff.so`）.
 
 `-o libmystuff.so.1.0.1`指定了共享库的`real name`，包含详细的版本信息。
 
