@@ -59,10 +59,11 @@ number）”。也可以不加“发布版本号”。
 
 `ld-linux-x86-64.so.2`是如何找到一个可执行文件需要的其它共享库的呢？在它的man page（`man ld-linux`或者`man ld-so`）里大概
 是这么说的，
->先看`rpath`指定的目录里有没有要找的共享库     
->再看`LD_LIBRARY_PATH`指定的目录    
->再看`/etc/ld.so.cache`文件里缓存的共享库信息里有没有     
->如果还没找到，最后去默认的系统路径，`/lib`和`/usr/lib`，里去搜索，
+
+> 先看`rpath`指定的目录里有没有要找的共享库     
+> 再看`LD_LIBRARY_PATH`指定的目录    
+> 再看`/etc/ld.so.cache`文件里缓存的共享库信息里有没有     
+> 如果还没找到，最后去默认的系统路径，`/lib`和`/usr/lib`，里去搜索，
 
 这里，暂时先不去关心`rpath`和`LD_LIBRARY_PATH`。缓存文件`/etc/ld.so.cache`是被`ldconfig`程序管理的。系统配置文件`/etc/ld.so.conf`
 里记录着共享库的搜索目录，比如`/usr/local/lib`等。一个可执行文件里只记录着共享库的soname，并没有完整的路径，比如
