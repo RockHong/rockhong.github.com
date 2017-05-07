@@ -1,0 +1,7 @@
+for uniqueness,
+
+1) select top 1 id from xxx where yyy = 'zzz'     if better than
+
+2) select count(id) from xxx where yyy = 'zzz'
+
+because 1) return soon after db finds the first record   ??

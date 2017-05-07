@@ -1,0 +1,13 @@
+https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+
+http://nginx.org/en/docs/http/ngx_http_core_module.html
+ngx_http_core_module defines many variables like document_root, and etc
+
+
+
+https://www.nginx.com/blog/creating-nginx-rewrite-rules/
+Comparing the return, rewrite, and try_files Directives
+
+
+http://nginx.org/en/docs/varindex.html
+all var

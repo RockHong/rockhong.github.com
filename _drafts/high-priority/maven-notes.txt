@@ -1,0 +1,12 @@
+maven
+
+Maven: what is pluginManagement?
+
+
+skip test
+http://maven.apache.org/surefire/maven-surefire-plugin/examples/skipping-test.html
+
+
+
+profile
+http://maven.apache.org/guides/introduction/introduction-to-profiles.html

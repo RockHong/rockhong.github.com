@@ -18,8 +18,8 @@ image_desc:
 
 
 
-[1]: https://discussions.apple.com/thread/4006028?tstart=0 "iTunes won't open on my Windows 7 PC."
-
+https://www.sitepoint.com/10-killer-tmux-tips/
+看看这里的ruby 部分
 
 
 

@@ -1,0 +1,4 @@
+source study,
+
+how will_pagenate implement
+https://github.com/mislav/will_paginate
