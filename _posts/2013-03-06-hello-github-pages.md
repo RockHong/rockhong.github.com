@@ -37,7 +37,7 @@ Jekyll和Github用到了下面所列的技术：
   
         ---
         layout: post
-        title: stashing your changes
+        title: stashing your changes   
         category: beginner
         ---
   
