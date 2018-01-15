@@ -38,7 +38,7 @@ Jekyll和Github用到了下面所列的技术：
         ---
         layout: post
         title: stashing your changes   
-        category: beginner   
+        category: beginner      
         ---
   
   Jekyll在解析这个文件后，会知道这个文件分类（category）是“beginner”；这些信息后续可以给Liquid使用。
