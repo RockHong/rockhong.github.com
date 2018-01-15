@@ -36,7 +36,7 @@ Jekyll和Github用到了下面所列的技术：
 <!--more-->
   
         ---
-        layout: post
+        layout: post   
         title: stashing your changes   
         category: beginner      
         ---
